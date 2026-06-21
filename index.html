@@ -206,12 +206,105 @@
   .toast.err{border-color:var(--red-500); color:var(--red-800)}
   .toast.ok{border-color:#2e7d32; color:#1b5e20}
 
-  .quick{display:flex; gap:8px; flex-wrap:wrap; margin-top:10px}
+  .quick{display:flex; gap:8px; flex-wrap:wrap; margin-top:10px; align-items:center}
   .chip{
     background:#fff; border:1px solid var(--line); color:var(--red-700);
     padding:5px 10px; border-radius:999px; font-size:.82rem; cursor:pointer;
   }
   .chip:hover{background:var(--red-50)}
+  .pill-count{
+    background:var(--red-50); color:var(--red-700); margin-left:auto;
+    padding:5px 12px; border-radius:999px; font-size:.82rem; font-weight:600;
+  }
+
+  /* Tabs */
+  .tabs{display:flex; gap:8px; margin-bottom:14px; flex-wrap:wrap}
+  .tab{
+    background:#fff; border:1px solid var(--line); color:var(--muted);
+    padding:10px 18px; border-radius:12px; font-weight:600; font-family:inherit;
+    cursor:pointer; transition:all .15s; font-size:.95rem;
+  }
+  .tab:hover{color:var(--red-700)}
+  .tab.active{
+    background:linear-gradient(135deg,var(--red-700),var(--red-500));
+    color:#fff; border-color:transparent;
+    box-shadow:0 6px 16px rgba(211,47,47,.28);
+  }
+
+  /* Steps */
+  .step{display:flex; gap:16px; margin-bottom:22px}
+  .step-no{
+    width:36px;height:36px;border-radius:50%; flex-shrink:0;
+    background:linear-gradient(135deg,var(--red-700),var(--red-500));
+    color:#fff; display:grid; place-items:center; font-weight:700;
+    box-shadow:0 4px 10px rgba(211,47,47,.3);
+  }
+  .step-body{flex:1; min-width:0}
+  .step-body h3{margin:6px 0 12px; font-size:1.05rem}
+  .drop-inner{display:flex; flex-direction:column; gap:6px; align-items:center}
+  .drop-icon{font-size:38px; line-height:1}
+  .sel-files{display:flex; flex-direction:column; gap:6px; margin-top:10px}
+  .sel-files .item{
+    display:flex; align-items:center; gap:8px;
+    background:var(--red-50); padding:8px 12px; border-radius:10px;
+    font-size:.9rem;
+  }
+  .sel-files .item .name{flex:1; min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap}
+  .sel-files .item .x{
+    background:transparent; border:0; color:var(--red-700); font-size:18px;
+    cursor:pointer; padding:0 6px;
+  }
+  .row-actions{
+    display:flex; gap:10px; justify-content:flex-end; flex-wrap:wrap;
+    padding-top:16px; border-top:1px solid var(--line); margin-top:8px;
+  }
+  .btn.ghost.dark{color:var(--red-700);border-color:var(--line)}
+
+  /* Modal */
+  .modal{
+    position:fixed; inset:0; z-index:100;
+    display:grid; place-items:center; padding:16px;
+  }
+  .modal-bg{
+    position:absolute; inset:0;
+    background:rgba(20,5,7,.55); backdrop-filter:blur(4px);
+  }
+  .modal-card{
+    position:relative; background:#fff; border-radius:16px;
+    width:100%; max-width:960px; max-height:92vh;
+    display:flex; flex-direction:column; overflow:hidden;
+    box-shadow:0 30px 80px rgba(0,0,0,.4);
+    animation:pop .15s ease;
+  }
+  @keyframes pop{from{transform:scale(.96); opacity:0}to{transform:none; opacity:1}}
+  .modal-head{
+    display:flex; align-items:center; gap:10px; padding:14px 18px;
+    background:linear-gradient(135deg,var(--red-800),var(--red-600)); color:#fff;
+  }
+  .modal-head .t{flex:1; font-weight:600; word-break:break-word; min-width:0}
+  .modal-x{
+    background:rgba(255,255,255,.18); color:#fff; border:0;
+    width:34px; height:34px; border-radius:50%; font-size:22px; line-height:1;
+    display:grid; place-items:center; cursor:pointer; flex-shrink:0;
+  }
+  .modal-x:hover{background:rgba(255,255,255,.3)}
+  .modal-body{flex:1; min-height:280px; background:#f4f4f4; overflow:auto}
+  .modal-body iframe, .modal-body img{width:100%; height:70vh; border:0; display:block; object-fit:contain; background:#fff}
+  .modal-body .preview-msg{padding:50px 20px; text-align:center; color:var(--muted)}
+  .modal-foot{
+    padding:12px 18px; display:flex; justify-content:flex-end; gap:10px;
+    border-top:1px solid var(--line); background:#fff; flex-wrap:wrap;
+  }
+
+  .icon-btn{
+    background:#fff; border:1px solid var(--line); color:var(--red-700);
+    padding:8px 12px; border-radius:10px; font-weight:600; font-family:inherit;
+    cursor:pointer; transition:all .12s;
+  }
+  .icon-btn:hover{background:var(--red-50); transform:translateY(-1px)}
+  .icon-btn.danger{color:#b71c1c}
+  .icon-btn.danger:hover{background:#ffeaea; border-color:#ffbcbc}
+
   footer{
     text-align:center; color:var(--muted); padding:30px 20px; font-size:.85rem;
   }
@@ -271,34 +364,62 @@
 
     <!-- Admin view -->
     <div id="view-admin" class="hidden">
-      <div class="card">
-        <h2>อัปโหลดไฟล์</h2>
-        <p class="muted">เลือกไฟล์และสาขาที่ต้องการส่งให้</p>
+      <div class="tabs">
+        <button class="tab active" data-tab="upload">⬆ อัปโหลดไฟล์ใหม่</button>
+        <button class="tab" data-tab="browse">📂 ดูไฟล์รายสาขา</button>
+      </div>
 
-        <div class="row" style="margin-top:14px">
-          <div>
-            <label class="muted" style="font-size:.9rem">เลือกไฟล์</label>
+      <!-- TAB: UPLOAD -->
+      <div class="card" id="tab-upload">
+        <div class="step">
+          <div class="step-no">1</div>
+          <div class="step-body">
+            <h3>เลือกไฟล์</h3>
             <label class="drop" id="dropZone">
               <input type="file" id="fileInput" />
-              <div>📁 <span class="file-pick">คลิกเพื่อเลือกไฟล์</span> หรือ ลากมาวางที่นี่</div>
-              <div id="selFile" class="selected-file hidden"></div>
+              <div class="drop-inner">
+                <div class="drop-icon">📁</div>
+                <div><span class="file-pick">คลิกเพื่อเลือกไฟล์</span> หรือลากมาวางที่นี่</div>
+                <div class="muted" style="font-size:.82rem">ขนาดไม่เกิน 50 MB ต่อไฟล์</div>
+              </div>
             </label>
+            <div id="selFiles" class="sel-files"></div>
           </div>
-          <div>
-            <label class="muted" style="font-size:.9rem">เลือกสาขา</label>
+        </div>
+
+        <div class="step">
+          <div class="step-no">2</div>
+          <div class="step-body">
+            <h3>เลือกสาขาที่จะส่งไฟล์</h3>
             <div class="quick">
-              <span class="chip" id="selAll">เลือกทั้งหมด</span>
-              <span class="chip" id="selNone">ล้างทั้งหมด</span>
+              <span class="chip" id="selAll">✓ เลือกทั้งหมด</span>
+              <span class="chip" id="selNone">✕ ล้างทั้งหมด</span>
+              <span class="pill-count" id="selCount">เลือกแล้ว 0 / 13</span>
             </div>
-            <div class="stores" id="storeList" style="margin-top:8px"></div>
+            <div class="stores" id="storeList" style="margin-top:10px"></div>
           </div>
         </div>
 
         <div class="progress hidden" id="progWrap"><div id="progBar"></div></div>
-        <div style="margin-top:18px; display:flex; gap:10px; justify-content:flex-end; flex-wrap:wrap">
-          <button class="btn ghost" id="resetUpload" style="color:var(--red-700);border-color:var(--line)">รีเซ็ต</button>
+        <div class="row-actions">
+          <button class="btn ghost dark" id="resetUpload">รีเซ็ต</button>
           <button class="btn primary" id="uploadBtn">⬆ อัปโหลด</button>
         </div>
+      </div>
+
+      <!-- TAB: BROWSE -->
+      <div class="card hidden" id="tab-browse">
+        <h2 style="margin-bottom:14px">ดูไฟล์รายสาขา</h2>
+        <div class="toolbar">
+          <select id="branchSelect" class="input" style="max-width:380px">
+            <option value="">— เลือกสาขา —</option>
+          </select>
+          <button class="btn ghost dark" id="adminRefresh" title="รีเฟรช">⟳</button>
+          <div class="spacer" style="flex:1"></div>
+          <input id="adminSearch" class="input search" placeholder="ค้นหาไฟล์..." />
+        </div>
+        <div id="adminFiles" class="grid"></div>
+        <div id="adminEmpty" class="empty hidden">เลือกสาขาเพื่อดูไฟล์</div>
       </div>
     </div>
 
@@ -306,6 +427,22 @@
 
   <footer>© Drive Store · พัฒนาเพื่อจัดส่งไฟล์ภายในองค์กร</footer>
 </section>
+
+<!-- ============== PREVIEW MODAL ============== -->
+<div id="modal" class="modal hidden">
+  <div class="modal-bg" data-close></div>
+  <div class="modal-card">
+    <div class="modal-head">
+      <div class="t" id="modalTitle">Preview</div>
+      <button class="modal-x" data-close>×</button>
+    </div>
+    <div class="modal-body" id="modalBody"></div>
+    <div class="modal-foot">
+      <button class="btn ghost dark" data-close>ปิด</button>
+      <a id="modalDl" class="btn primary" target="_blank" rel="noopener">⬇ ดาวน์โหลด</a>
+    </div>
+  </div>
+</div>
 
 <div id="toast" class="toast"></div>
 
@@ -336,7 +473,7 @@ const STORES = [
    =========================== */
 const $ = (id) => document.getElementById(id);
 let session = JSON.parse(localStorage.getItem('ds.session') || 'null');
-let cache = { files: [] };
+let cache = { files: [], adminFiles: [], adminBranch: '' };
 let pendingFile = null;
 
 /* ===========================
@@ -433,6 +570,8 @@ function enterApp() {
     $('view-admin').classList.remove('hidden');
     $('view-branch').classList.add('hidden');
     renderStoreList();
+    renderBranchSelect();
+    updateSelCount();
   } else {
     $('view-branch').classList.remove('hidden');
     $('view-admin').classList.add('hidden');
@@ -444,6 +583,19 @@ function enterApp() {
 
 $('refreshBtn').addEventListener('click', () => {
   if (session?.role === 'branch') loadFiles();
+  else if (cache.adminBranch) loadAdminFiles();
+});
+
+/* ===========================
+   TABS (admin)
+   =========================== */
+document.querySelectorAll('.tab').forEach(t => {
+  t.addEventListener('click', () => {
+    document.querySelectorAll('.tab').forEach(x => x.classList.toggle('active', x === t));
+    const id = t.dataset.tab;
+    $('tab-upload').classList.toggle('hidden', id !== 'upload');
+    $('tab-browse').classList.toggle('hidden', id !== 'browse');
+  });
 });
 
 /* ===========================
@@ -468,30 +620,52 @@ function renderFiles() {
   const el = $('fileList');
   $('fileEmpty').classList.toggle('hidden', list.length > 0);
   el.innerHTML = '';
-  list.forEach(f => {
-    const card = document.createElement('div');
-    card.className = 'file' + (f.downloaded ? ' dimmed' : '');
-    card.innerHTML = `
-      ${f.downloaded ? '' : '<span class="badge-new">NEW</span>'}
-      <div class="top">
-        <div class="ficon">${iconFor(f.mimeType, f.name)}</div>
-        <div style="flex:1; min-width:0">
-          <div class="fname">${escapeHtml(f.name)}</div>
-          <div class="meta">
-            <span>${fmtSize(f.size)}</span>
-            <span>· ${fmtDate(f.uploadedAt)}</span>
-          </div>
+  list.forEach(f => el.appendChild(fileCard(f, { mode: 'branch' })));
+  bindCardActions(el);
+}
+
+function fileCard(f, opts) {
+  const card = document.createElement('div');
+  card.className = 'file' + (f.downloaded ? ' dimmed' : '');
+  const showNew = opts.mode === 'branch' && !f.downloaded;
+  const adminActions = opts.mode === 'admin'
+    ? `<button class="icon-btn danger" data-action="del" data-id="${f.id}" title="ลบไฟล์">🗑</button>` : '';
+  card.innerHTML = `
+    ${showNew ? '<span class="badge-new">NEW</span>' : ''}
+    <div class="top">
+      <div class="ficon">${iconFor(f.mimeType, f.name)}</div>
+      <div style="flex:1; min-width:0">
+        <div class="fname">${escapeHtml(f.name)}</div>
+        <div class="meta">
+          <span>${fmtSize(f.size)}</span>
+          <span>· ${fmtDate(f.uploadedAt)}</span>
+          ${opts.mode === 'admin' && f.downloaded ? '<span>· ✓ ดาวน์โหลดแล้ว</span>' : ''}
         </div>
       </div>
-      <div class="actions">
-        <a class="btn primary" href="${f.downloadUrl}" target="_blank"
-           rel="noopener" data-id="${f.id}" data-action="dl">⬇ ดาวน์โหลด</a>
-      </div>
-    `;
-    el.appendChild(card);
+    </div>
+    <div class="actions">
+      <button class="icon-btn" data-action="preview"
+              data-id="${f.id}" data-name="${escapeHtml(f.name)}"
+              data-mime="${escapeHtml(f.mimeType || '')}">👁 พรีวิว</button>
+      <a class="btn primary" href="${f.downloadUrl}" target="_blank" rel="noopener"
+         style="margin-left:auto" data-id="${f.id}" data-action="dl">⬇</a>
+      ${adminActions}
+    </div>
+  `;
+  return card;
+}
+
+function bindCardActions(scope) {
+  scope.querySelectorAll('[data-action="dl"]').forEach(a => {
+    a.addEventListener('click', () => {
+      if (session?.role === 'branch') markDownloaded(a.dataset.id);
+    });
   });
-  el.querySelectorAll('[data-action="dl"]').forEach(a => {
-    a.addEventListener('click', () => markDownloaded(a.dataset.id));
+  scope.querySelectorAll('[data-action="preview"]').forEach(b => {
+    b.addEventListener('click', () => openPreview(b.dataset.id, b.dataset.name, b.dataset.mime));
+  });
+  scope.querySelectorAll('[data-action="del"]').forEach(b => {
+    b.addEventListener('click', () => deleteFile(b.dataset.id));
   });
 }
 
@@ -521,13 +695,95 @@ function renderStoreList() {
       <span class="nm">${escapeHtml(name)}</span>
     </label>
   `).join('');
+  el.querySelectorAll('input').forEach(i => i.addEventListener('change', updateSelCount));
 }
+
+function updateSelCount() {
+  const n = document.querySelectorAll('#storeList input:checked').length;
+  const el = $('selCount');
+  if (el) el.textContent = `เลือกแล้ว ${n} / ${STORES.length}`;
+}
+
+function renderBranchSelect() {
+  const el = $('branchSelect');
+  if (!el) return;
+  el.innerHTML = '<option value="">— เลือกสาขา —</option>' +
+    STORES.map(([code, name]) => `<option value="${code}">${code} · ${escapeHtml(name)}</option>`).join('');
+  el.addEventListener('change', () => {
+    cache.adminBranch = el.value;
+    if (el.value) loadAdminFiles();
+    else { $('adminFiles').innerHTML = ''; $('adminEmpty').classList.remove('hidden'); }
+  });
+  $('adminRefresh').addEventListener('click', () => { if (cache.adminBranch) loadAdminFiles(); });
+  $('adminSearch').addEventListener('input', renderAdminFiles);
+}
+
+async function loadAdminFiles() {
+  $('adminFiles').innerHTML = '<div class="muted">กำลังโหลด...</div>';
+  $('adminEmpty').classList.add('hidden');
+  try {
+    const r = await apiGet({ action: 'list', code: cache.adminBranch });
+    if (!r.ok) throw new Error(r.error);
+    cache.adminFiles = r.files || [];
+    renderAdminFiles();
+  } catch (err) {
+    $('adminFiles').innerHTML = '';
+    toast(err.message, 'err');
+  }
+}
+
+function renderAdminFiles() {
+  const q = ($('adminSearch').value || '').trim().toLowerCase();
+  const list = cache.adminFiles.filter(f => !q || f.name.toLowerCase().includes(q));
+  const el = $('adminFiles');
+  $('adminEmpty').classList.toggle('hidden', list.length > 0);
+  if (!list.length && !cache.adminBranch) $('adminEmpty').textContent = 'เลือกสาขาเพื่อดูไฟล์';
+  else if (!list.length) $('adminEmpty').textContent = 'ไม่มีไฟล์ในสาขานี้';
+  el.innerHTML = '';
+  list.forEach(f => el.appendChild(fileCard(f, { mode: 'admin' })));
+  bindCardActions(el);
+}
+
+async function deleteFile(fileId) {
+  if (!confirm('ต้องการลบไฟล์นี้ใช่หรือไม่?')) return;
+  try {
+    const r = await apiPost({ action: 'delete', adminCode: session.code, fileId });
+    if (!r.ok) throw new Error(r.error || 'ลบไฟล์ไม่สำเร็จ');
+    cache.adminFiles = cache.adminFiles.filter(f => f.id !== fileId);
+    renderAdminFiles();
+    toast('ลบไฟล์เรียบร้อย ✓', 'ok');
+  } catch (err) { toast(err.message, 'err'); }
+}
+
+/* ===========================
+   PREVIEW MODAL
+   =========================== */
+function openPreview(fileId, name, mime) {
+  $('modalTitle').textContent = name;
+  $('modalDl').href = `https://drive.google.com/uc?export=download&id=${fileId}`;
+  const body = $('modalBody');
+  const m = (mime || '').toLowerCase();
+  if (m.startsWith('image/')) {
+    body.innerHTML = `<img src="https://drive.google.com/thumbnail?id=${fileId}&sz=w1600" alt="">`;
+  } else {
+    body.innerHTML = `<iframe src="https://drive.google.com/file/d/${fileId}/preview" allow="autoplay" allowfullscreen></iframe>`;
+  }
+  $('modal').classList.remove('hidden');
+}
+function closePreview() {
+  $('modal').classList.add('hidden');
+  $('modalBody').innerHTML = '';
+}
+document.querySelectorAll('#modal [data-close]').forEach(el => el.addEventListener('click', closePreview));
+document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closePreview(); });
 
 $('selAll').addEventListener('click', () => {
   document.querySelectorAll('#storeList input').forEach(i => i.checked = true);
+  updateSelCount();
 });
 $('selNone').addEventListener('click', () => {
   document.querySelectorAll('#storeList input').forEach(i => i.checked = false);
+  updateSelCount();
 });
 
 const drop = $('dropZone');
@@ -548,17 +804,25 @@ fileInput.addEventListener('change', e => {
 });
 function setPendingFile(f) {
   pendingFile = f;
-  const el = $('selFile');
-  el.classList.remove('hidden');
-  el.textContent = `📎 ${f.name} (${fmtSize(f.size)})`;
+  $('selFiles').innerHTML = `
+    <div class="item">
+      <span>📎</span>
+      <span class="name">${escapeHtml(f.name)} <span class="muted">(${fmtSize(f.size)})</span></span>
+      <button class="x" id="clearFile" title="ลบ">✕</button>
+    </div>`;
+  $('clearFile').addEventListener('click', () => {
+    pendingFile = null;
+    fileInput.value = '';
+    $('selFiles').innerHTML = '';
+  });
 }
 
 $('resetUpload').addEventListener('click', () => {
   pendingFile = null;
   fileInput.value = '';
-  $('selFile').classList.add('hidden');
-  $('selFile').textContent = '';
+  $('selFiles').innerHTML = '';
   document.querySelectorAll('#storeList input').forEach(i => i.checked = false);
+  updateSelCount();
   $('progWrap').classList.add('hidden');
   $('progBar').style.width = '0%';
 });

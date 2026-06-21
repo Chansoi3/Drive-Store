@@ -74,6 +74,8 @@ function route_(e) {
       case 'markDownloaded': data = apiMark_(params.code || body.code,
                                              params.fileId || body.fileId);    break;
       case 'upload':         data = apiUpload_(body);                           break;
+      case 'delete':         data = apiDelete_(body.adminCode || params.adminCode,
+                                               body.fileId || params.fileId);  break;
       default:               data = { ok: false, error: 'Unknown action' };
     }
     return json_(data);
@@ -153,9 +155,21 @@ function apiUpload_(body) {
     if (!STORES[code]) continue;
     var folder = getOrCreateBranchFolder_(code);
     var f = folder.createFile(blob);
+    try { f.setSharing(DriveApp.Access.ANYONE_WITH_LINK, DriveApp.Permission.VIEW); } catch (e) {}
     created.push({ branch: code, fileId: f.getId(), name: f.getName() });
   }
   return { ok: true, created: created };
+}
+
+function apiDelete_(adminCode, fileId) {
+  if (adminCode !== ADMIN_CODE) return { ok: false, error: 'Unauthorized' };
+  if (!fileId) return { ok: false, error: 'Missing fileId' };
+  try {
+    DriveApp.getFileById(fileId).setTrashed(true);
+    return { ok: true };
+  } catch (e) {
+    return { ok: false, error: String(e.message || e) };
+  }
 }
 
 /* ---------- Drive helpers ---------- */
