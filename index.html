@@ -143,11 +143,11 @@
   /* Topster mascot (image logo) */
   .topster{display:flex; justify-content:center; margin-bottom:8px}
   .topster-logo{
-    width:180px; height:180px; object-fit:contain;
+    width:360px; height:360px; object-fit:contain;
     border-radius:50%;
-    background:var(--surface);
-    box-shadow:var(--shadow);
+    background:var(--bg);
     animation:tsFloat 2s ease-in-out infinite;
+    max-width:100%;
   }
   @keyframes tsFloat{
     0%,100%{transform:translateY(0)}
