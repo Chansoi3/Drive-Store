@@ -135,8 +135,15 @@
   .error{color:var(--accent); font-size:.85rem; margin-top:10px; min-height:1em}
 
   /* Login */
-  .login-wrap{min-height:calc(100vh - 60px); display:grid; place-items:center; padding:24px}
-  .login{width:100%; max-width:380px}
+  .login-wrap{
+    min-height:100vh; display:flex; flex-direction:column;
+    align-items:center; padding:0 20px 20px;
+  }
+  .login-wrap .topster{margin:0; flex-shrink:0}
+  .login{
+    width:100%; max-width:380px;
+    flex:1; display:flex; flex-direction:column; justify-content:center;
+  }
   .login .header-area{text-align:center; margin-bottom:24px}
   .login h1{font-size:1.3rem}
 
@@ -148,7 +155,6 @@
     max-width:100%;
     mix-blend-mode:multiply;
   }
-  .login{max-width:720px}
   @keyframes tsFloat{
     0%,100%{transform:translateY(0)}
     50%{transform:translateY(-6px)}
@@ -480,11 +486,11 @@
 
 <!-- ============== LOGIN ============== -->
 <section id="page-login" class="login-wrap">
+  <div class="topster">
+    <img class="topster-logo" src="topster.png" alt="Topster" />
+  </div>
   <div class="login">
     <div class="header-area">
-      <div class="topster">
-        <img class="topster-logo" src="topster.png" alt="Topster" />
-      </div>
       <h1>AM404 Drive For Store</h1>
       <div class="muted">พื้นที่จัดเก็บไฟล์AM404</div>
     </div>
