@@ -138,12 +138,36 @@
   .login-wrap{min-height:calc(100vh - 60px); display:grid; place-items:center; padding:24px}
   .login{width:100%; max-width:380px}
   .login .header-area{text-align:center; margin-bottom:24px}
-  .login .logo{
-    width:48px; height:48px; margin:0 auto 14px; border-radius:10px;
-    background:var(--accent); color:#fff;
-    display:grid; place-items:center; font-weight:700; letter-spacing:.05em;
-  }
   .login h1{font-size:1.3rem}
+
+  /* Topster mascot */
+  .topster{display:flex; justify-content:center; margin-bottom:8px}
+  .topster-svg{width:170px; height:auto}
+  .ts-ball-wrap{animation:tsBall 1.2s ease-in-out infinite}
+  .ts-ball{animation:tsSpin 1.2s linear infinite}
+  .ts-leg{transform-origin:120px 155px; animation:tsLeg 1.2s ease-in-out infinite}
+  .ts-body{transform-origin:100px 100px; animation:tsBody 1.2s ease-in-out infinite}
+  .ts-shadow{transform-origin:100px 225px; animation:tsShadow 1.2s ease-in-out infinite}
+  @keyframes tsBall{
+    0%,100%{transform:translateY(-55px)}
+    50%{transform:translateY(0)}
+  }
+  @keyframes tsSpin{
+    from{transform:rotate(0deg)}
+    to{transform:rotate(360deg)}
+  }
+  @keyframes tsLeg{
+    0%,38%,62%,100%{transform:rotate(0deg)}
+    50%{transform:rotate(-22deg)}
+  }
+  @keyframes tsBody{
+    0%,100%{transform:translateY(0)}
+    50%{transform:translateY(-2px)}
+  }
+  @keyframes tsShadow{
+    0%,100%{transform:scaleX(.7); opacity:.18}
+    50%{transform:scaleX(1); opacity:.28}
+  }
 
   /* Tabs */
   .tabs{
@@ -473,6 +497,49 @@
 <section id="page-login" class="login-wrap">
   <div class="login">
     <div class="header-area">
+      <div class="topster">
+        <svg class="topster-svg" viewBox="0 0 200 240" xmlns="http://www.w3.org/2000/svg">
+          <ellipse class="ts-shadow" cx="100" cy="225" rx="55" ry="5" fill="#000"/>
+          <g class="ts-body">
+            <path d="M 95 50 Q 100 35 105 50 Q 110 36 115 52 Q 100 62 95 50" fill="#5b8a4f"/>
+            <path d="M 100 38 Q 102 30 106 33" stroke="#5b8a4f" stroke-width="3" fill="none" stroke-linecap="round"/>
+            <circle cx="100" cy="105" r="55" fill="#c84a4a"/>
+            <ellipse cx="84" cy="85" rx="14" ry="10" fill="#fff" opacity=".22"/>
+            <circle cx="83" cy="100" r="10" fill="#fff"/>
+            <circle cx="117" cy="100" r="10" fill="#fff"/>
+            <circle cx="85" cy="102" r="4.5" fill="#1a1a1f"/>
+            <circle cx="119" cy="102" r="4.5" fill="#1a1a1f"/>
+            <circle cx="86" cy="100" r="1.5" fill="#fff"/>
+            <circle cx="120" cy="100" r="1.5" fill="#fff"/>
+            <ellipse cx="68" cy="120" rx="7" ry="4" fill="#e07878" opacity=".5"/>
+            <ellipse cx="132" cy="120" rx="7" ry="4" fill="#e07878" opacity=".5"/>
+            <path d="M 88 125 Q 100 138 112 125" stroke="#1a1a1f" stroke-width="3" fill="none" stroke-linecap="round"/>
+            <line x1="55" y1="105" x2="35" y2="125" stroke="#c84a4a" stroke-width="10" stroke-linecap="round"/>
+            <line x1="145" y1="105" x2="165" y2="125" stroke="#c84a4a" stroke-width="10" stroke-linecap="round"/>
+            <circle cx="35" cy="125" r="6" fill="#c84a4a"/>
+            <circle cx="165" cy="125" r="6" fill="#c84a4a"/>
+            <line x1="80" y1="155" x2="78" y2="215" stroke="#1a1a1f" stroke-width="6" stroke-linecap="round"/>
+            <ellipse cx="76" cy="218" rx="10" ry="4" fill="#1a1a1f"/>
+          </g>
+          <g class="ts-leg">
+            <line x1="120" y1="155" x2="122" y2="215" stroke="#1a1a1f" stroke-width="6" stroke-linecap="round"/>
+            <ellipse cx="124" cy="218" rx="10" ry="4" fill="#1a1a1f"/>
+          </g>
+          <g transform="translate(125, 180)">
+            <g class="ts-ball-wrap">
+              <g class="ts-ball">
+                <circle r="13" fill="#fff" stroke="#1a1a1f" stroke-width="1.5"/>
+                <polygon points="0,-7 6.6,-2.2 4.1,5.7 -4.1,5.7 -6.6,-2.2" fill="#1a1a1f"/>
+                <line x1="0" y1="-13" x2="0" y2="-7" stroke="#1a1a1f" stroke-width="1.5"/>
+                <line x1="6.6" y1="-2.2" x2="12.4" y2="-4" stroke="#1a1a1f" stroke-width="1.5"/>
+                <line x1="-6.6" y1="-2.2" x2="-12.4" y2="-4" stroke="#1a1a1f" stroke-width="1.5"/>
+                <line x1="4.1" y1="5.7" x2="7.6" y2="10.5" stroke="#1a1a1f" stroke-width="1.5"/>
+                <line x1="-4.1" y1="5.7" x2="-7.6" y2="10.5" stroke="#1a1a1f" stroke-width="1.5"/>
+              </g>
+            </g>
+          </g>
+        </svg>
+      </div>
       <h1>AM404 Drive For Store</h1>
       <div class="muted">พื้นที่จัดเก็บไฟล์AM404</div>
     </div>
@@ -798,7 +865,8 @@ $('loginForm').addEventListener('submit', async (e) => {
 });
 
 $('logoutBtn').addEventListener('click', () => {
-  localStorage.removeItem('ds.session'); session = null;
+  localStorage.removeItem('ds.session');
+  session = null;
   $('page-app').classList.add('hidden');
   $('page-login').classList.remove('hidden');
   $('codeInput').value = '';
@@ -858,12 +926,27 @@ document.querySelectorAll('.tab').forEach(t => {
 });
 
 /* BRANCH VIEW */
+function localDownloadedKey() { return 'ds.dl.' + (session?.code || ''); }
+function getLocalDownloaded() {
+  try { return new Set(JSON.parse(localStorage.getItem(localDownloadedKey()) || '[]')); }
+  catch (e) { return new Set(); }
+}
+function addLocalDownloaded(fileId) {
+  const s = getLocalDownloaded(); s.add(fileId);
+  localStorage.setItem(localDownloadedKey(), JSON.stringify(Array.from(s)));
+}
+
 async function loadFiles() {
   $('fileList').innerHTML = '<div class="muted">กำลังโหลด...</div>';
   try {
     const r = await apiGet({ action: 'list', code: session.code });
     if (!r.ok) throw new Error(r.error);
-    cache.files = r.files || [];
+    const localDl = getLocalDownloaded();
+    cache.files = (r.files || []).map(f => ({ ...f, downloaded: f.downloaded || localDl.has(f.id) }));
+    // try to sync any local-only marks back to server
+    cache.files.forEach(f => {
+      if (localDl.has(f.id)) sendMarkDownloaded(f.id);
+    });
     renderCatFilter();
     renderFiles();
   } catch (err) {
@@ -1002,10 +1085,15 @@ function bindCardActions(scope) {
   });
 }
 
-async function markDownloaded(fileId) {
+function sendMarkDownloaded(fileId) {
+  const url = `${API_URL}?action=markDownloaded&code=${encodeURIComponent(session.code)}&fileId=${encodeURIComponent(fileId)}`;
+  try { fetch(url, { method: 'GET', keepalive: true }).catch(() => {}); } catch (e) {}
+}
+function markDownloaded(fileId) {
   const f = cache.files.find(x => x.id === fileId);
   if (f) { f.downloaded = true; renderFiles(); }
-  try { await apiGet({ action: 'markDownloaded', code: session.code, fileId }); } catch (e) {}
+  addLocalDownloaded(fileId);
+  sendMarkDownloaded(fileId);
 }
 
 /* MODAL */
