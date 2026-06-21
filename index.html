@@ -140,37 +140,27 @@
   .login .header-area{text-align:center; margin-bottom:24px}
   .login h1{font-size:1.3rem}
 
-  /* Topster mascot (pixel art) */
+  /* Topster mascot (cartoon) */
   .topster{display:flex; justify-content:center; margin-bottom:8px}
-  .topster-svg{
-    width:160px; height:auto;
-    image-rendering:pixelated;
-    image-rendering:crisp-edges;
-    shape-rendering:crispEdges;
-  }
-  .ts-ball-wrap{animation:tsBall 1.1s cubic-bezier(.5,0,.5,1) infinite}
-  .ts-ball{animation:tsSpin 1.1s linear infinite}
-  .ts-leg{transform-origin:63px 78px; animation:tsLeg 1.1s ease-in-out infinite}
-  .ts-body{transform-origin:50px 60px; animation:tsBody 1.1s ease-in-out infinite}
-  .ts-shadow{transform-origin:50px 94px; animation:tsShadow 1.1s ease-in-out infinite}
+  .topster-svg{width:170px; height:auto}
+  .ts-ball-wrap{animation:tsBall 1.2s cubic-bezier(.5,0,.5,1) infinite}
+  .ts-ball{animation:tsSpin 1.2s linear infinite}
+  .ts-body{transform-origin:50px 60px; animation:tsBody 1.2s ease-in-out infinite}
+  .ts-shadow{transform-origin:50px 116px; animation:tsShadow 1.2s ease-in-out infinite}
   @keyframes tsBall{
-    0%,100%{transform:translateY(-50px)}
+    0%,100%{transform:translateY(-40px)}
     50%{transform:translateY(0)}
   }
   @keyframes tsSpin{
     from{transform:rotate(0deg)}
     to{transform:rotate(360deg)}
   }
-  @keyframes tsLeg{
-    0%,38%,62%,100%{transform:rotate(0deg)}
-    50%{transform:rotate(-26deg)}
-  }
   @keyframes tsBody{
     0%,100%{transform:translateY(0) scaleY(1)}
-    50%{transform:translateY(-2px) scaleY(.98)}
+    50%{transform:translateY(-2.5px) scaleY(.98)}
   }
   @keyframes tsShadow{
-    0%,100%{transform:scaleX(.55); opacity:.18}
+    0%,100%{transform:scaleX(.6); opacity:.18}
     50%{transform:scaleX(1); opacity:.28}
   }
 
@@ -503,112 +493,80 @@
   <div class="login">
     <div class="header-area">
       <div class="topster">
-        <svg class="topster-svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" shape-rendering="crispEdges">
+        <svg class="topster-svg" viewBox="0 0 100 122" xmlns="http://www.w3.org/2000/svg">
           <!-- ground shadow -->
-          <g class="ts-shadow">
-            <rect x="22" y="92" width="56" height="3" fill="#1a1a1f"/>
-          </g>
+          <ellipse class="ts-shadow" cx="50" cy="116" rx="30" ry="3" fill="#1a1a1f"/>
 
           <!-- BODY -->
           <g class="ts-body">
-            <!-- silhouette (rounded pillow) -->
-            <g fill="#d54040">
-              <rect x="38" y="10" width="24" height="2"/>
-              <rect x="34" y="12" width="32" height="2"/>
-              <rect x="30" y="14" width="40" height="2"/>
-              <rect x="28" y="16" width="44" height="2"/>
-              <rect x="26" y="18" width="48" height="2"/>
-              <rect x="24" y="20" width="52" height="4"/>
-              <rect x="22" y="24" width="56" height="46"/>
-              <rect x="24" y="70" width="52" height="2"/>
-              <rect x="26" y="72" width="48" height="2"/>
-              <rect x="28" y="74" width="44" height="2"/>
-              <!-- arms by sides -->
-              <rect x="14" y="38" width="8" height="20"/>
-              <rect x="78" y="38" width="8" height="20"/>
-              <rect x="12" y="40" width="2" height="14"/>
-              <rect x="86" y="40" width="2" height="14"/>
-              <!-- left leg (static) -->
-              <rect x="32" y="76" width="10" height="14"/>
-              <rect x="30" y="88" width="14" height="3"/>
-            </g>
-            <!-- body shading -->
-            <g fill="#b53535">
-              <rect x="22" y="62" width="56" height="8" opacity=".55"/>
-              <rect x="24" y="70" width="52" height="2" opacity=".55"/>
-              <rect x="32" y="86" width="10" height="4" opacity=".55"/>
-            </g>
-            <!-- body highlight -->
-            <g fill="#ec8484" opacity=".55">
-              <rect x="28" y="22" width="18" height="4"/>
-              <rect x="30" y="26" width="14" height="2"/>
-              <rect x="32" y="28" width="8" height="2"/>
-            </g>
+            <!-- silhouette: peanut shape (head + body) -->
+            <path d="M 50 6
+                     C 73 6 78 19 78 30
+                     C 78 39 73 44 67 46
+                     C 76 49 84 56 84 73
+                     C 84 91 70 102 50 102
+                     C 30 102 16 91 16 73
+                     C 16 56 24 49 33 46
+                     C 27 44 22 39 22 30
+                     C 22 19 27 6 50 6 Z"
+                  fill="#d54040"/>
+            <!-- two feet (rounded blobs at bottom) -->
+            <rect x="30" y="96" width="16" height="16" rx="6" ry="6" fill="#d54040"/>
+            <rect x="54" y="96" width="16" height="16" rx="6" ry="6" fill="#d54040"/>
 
-            <!-- EYES (white sockets) -->
-            <g fill="#fff">
-              <rect x="30" y="32" width="14" height="2"/>
-              <rect x="28" y="34" width="18" height="12"/>
-              <rect x="30" y="46" width="14" height="2"/>
-              <rect x="56" y="32" width="14" height="2"/>
-              <rect x="54" y="34" width="18" height="12"/>
-              <rect x="56" y="46" width="14" height="2"/>
-            </g>
-            <!-- PUPILS -->
-            <g fill="#1a1a1f">
-              <rect x="32" y="36" width="10" height="8"/>
-              <rect x="58" y="36" width="10" height="8"/>
-            </g>
+            <!-- body shading bottom -->
+            <ellipse cx="50" cy="92" rx="32" ry="10" fill="#a83434" opacity=".25"/>
+            <!-- highlight upper-left -->
+            <ellipse cx="38" cy="18" rx="11" ry="6" fill="#ec8484" opacity=".5"/>
+            <ellipse cx="32" cy="64" rx="8" ry="16" fill="#ec8484" opacity=".22"/>
+
+            <!-- LEFT ARM raised -->
+            <path d="M 21 55 Q 24 42 30 36" stroke="#d54040"
+                  stroke-width="10" fill="none" stroke-linecap="round"/>
+            <!-- left hand (mitten + thumb) -->
+            <circle cx="32" cy="36" r="7" fill="#d54040"/>
+            <circle cx="29" cy="29" r="3.2" fill="#d54040"/>
+            <ellipse cx="30" cy="33" rx="2.5" ry="1.6" fill="#ec8484" opacity=".55"/>
+
+            <!-- RIGHT ARM raised -->
+            <path d="M 79 55 Q 76 42 70 36" stroke="#d54040"
+                  stroke-width="10" fill="none" stroke-linecap="round"/>
+            <circle cx="68" cy="36" r="7" fill="#d54040"/>
+            <circle cx="71" cy="29" r="3.2" fill="#d54040"/>
+            <ellipse cx="70" cy="33" rx="2.5" ry="1.6" fill="#ec8484" opacity=".55"/>
+
+            <!-- EYES (white) -->
+            <ellipse cx="42" cy="26" rx="7.2" ry="8" fill="#fff"/>
+            <ellipse cx="58" cy="26" rx="7.2" ry="8" fill="#fff"/>
+            <!-- subtle eye outline -->
+            <ellipse cx="42" cy="26" rx="7.2" ry="8" fill="none" stroke="#1a1a1f" stroke-width=".4" opacity=".4"/>
+            <ellipse cx="58" cy="26" rx="7.2" ry="8" fill="none" stroke="#1a1a1f" stroke-width=".4" opacity=".4"/>
+            <!-- pupils -->
+            <ellipse cx="42" cy="27" rx="4" ry="4.6" fill="#1a1a1f"/>
+            <ellipse cx="58" cy="27" rx="4" ry="4.6" fill="#1a1a1f"/>
             <!-- pupil highlights -->
-            <g fill="#fff">
-              <rect x="34" y="38" width="3" height="3"/>
-              <rect x="60" y="38" width="3" height="3"/>
-            </g>
+            <circle cx="43.8" cy="25" r="1.5" fill="#fff"/>
+            <circle cx="59.8" cy="25" r="1.5" fill="#fff"/>
+            <circle cx="40.5" cy="29" r=".7" fill="#fff" opacity=".7"/>
+            <circle cx="56.5" cy="29" r=".7" fill="#fff" opacity=".7"/>
 
-            <!-- cheek blush -->
-            <g fill="#ec8484" opacity=".7">
-              <rect x="22" y="52" width="6" height="4"/>
-              <rect x="72" y="52" width="6" height="4"/>
-            </g>
-
-            <!-- MOUTH (small smile) -->
-            <g fill="#1a1a1f">
-              <rect x="44" y="56" width="2" height="2"/>
-              <rect x="54" y="56" width="2" height="2"/>
-              <rect x="46" y="58" width="8" height="2"/>
-            </g>
+            <!-- MOUTH (small smile between hands) -->
+            <path d="M 46 43 Q 50 47.5 54 43" stroke="#1a1a1f"
+                  stroke-width="2" fill="none" stroke-linecap="round"/>
+            <path d="M 47 43.5 Q 50 46 53 43.5" fill="#7a2020"/>
           </g>
 
-          <!-- RIGHT LEG (animated kick) -->
-          <g class="ts-leg" fill="#1a1a1f">
-            <rect x="58" y="76" width="10" height="14" fill="#d54040"/>
-            <rect x="58" y="86" width="10" height="4" fill="#b53535" opacity=".55"/>
-            <rect x="56" y="88" width="14" height="3"/>
-          </g>
-
-          <!-- BALL (juggled on right foot) -->
-          <g transform="translate(63, 88)">
+          <!-- BALL (bouncing in front, between feet) -->
+          <g transform="translate(50, 110)">
             <g class="ts-ball-wrap">
               <g class="ts-ball">
-                <!-- white ball -->
-                <rect x="-4" y="-6" width="8" height="2" fill="#fff"/>
-                <rect x="-6" y="-4" width="12" height="8" fill="#fff"/>
-                <rect x="-4" y="4" width="8" height="2" fill="#fff"/>
-                <!-- outline -->
-                <rect x="-4" y="-7" width="8" height="1" fill="#1a1a1f"/>
-                <rect x="-6" y="-5" width="2" height="1" fill="#1a1a1f"/>
-                <rect x="4" y="-5" width="2" height="1" fill="#1a1a1f"/>
-                <rect x="-7" y="-4" width="1" height="8" fill="#1a1a1f"/>
-                <rect x="6" y="-4" width="1" height="8" fill="#1a1a1f"/>
-                <rect x="-6" y="4" width="2" height="1" fill="#1a1a1f"/>
-                <rect x="4" y="4" width="2" height="1" fill="#1a1a1f"/>
-                <rect x="-4" y="6" width="8" height="1" fill="#1a1a1f"/>
-                <!-- pentagons -->
-                <rect x="-1" y="-1" width="2" height="2" fill="#1a1a1f"/>
-                <rect x="-2" y="-3" width="1" height="1" fill="#1a1a1f"/>
-                <rect x="1" y="-3" width="1" height="1" fill="#1a1a1f"/>
-                <rect x="-3" y="2" width="1" height="1" fill="#1a1a1f"/>
-                <rect x="2" y="2" width="1" height="1" fill="#1a1a1f"/>
+                <circle r="6.5" fill="#fff" stroke="#1a1a1f" stroke-width="1"/>
+                <polygon points="0,-3.2 3.04,-0.99 1.88,2.6 -1.88,2.6 -3.04,-0.99" fill="#1a1a1f"/>
+                <line x1="0" y1="-6.5" x2="0" y2="-3.2" stroke="#1a1a1f" stroke-width=".8"/>
+                <line x1="3.04" y1="-0.99" x2="6.17" y2="-2" stroke="#1a1a1f" stroke-width=".8"/>
+                <line x1="-3.04" y1="-0.99" x2="-6.17" y2="-2" stroke="#1a1a1f" stroke-width=".8"/>
+                <line x1="1.88" y1="2.6" x2="3.81" y2="5.27" stroke="#1a1a1f" stroke-width=".8"/>
+                <line x1="-1.88" y1="2.6" x2="-3.81" y2="5.27" stroke="#1a1a1f" stroke-width=".8"/>
               </g>
             </g>
           </g>
