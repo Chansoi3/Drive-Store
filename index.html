@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Drive Store</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --red-900:#7a0d10;
+    --red-800:#9a1115;
+    --red-700:#b71c1c;
+    --red-600:#d32f2f;
+    --red-500:#e53935;
+    --red-50:#ffebee;
+    --ink:#1a0507;
+    --muted:#7a6b6d;
+    --line:#f1d7d8;
+    --bg:#fff7f7;
+    --card:#ffffff;
+    --shadow:0 10px 30px rgba(122,13,16,.10), 0 2px 6px rgba(122,13,16,.06);
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  body{
+    font-family:'Prompt', -apple-system, system-ui, sans-serif;
+    color:var(--ink);
+    background:
+      radial-gradient(1200px 600px at -10% -20%, #ffe2e2 0%, transparent 60%),
+      radial-gradient(900px 500px at 110% 0%, #ffd3d3 0%, transparent 55%),
+      var(--bg);
+    min-height:100vh;
+  }
+  a{color:var(--red-700);text-decoration:none}
+  button{font-family:inherit;cursor:pointer}
+  .hidden{display:none !important}
+
+  /* Header */
+  header{
+    position:sticky; top:0; z-index:50;
+    background:linear-gradient(135deg, var(--red-800), var(--red-600));
+    color:#fff;
+    box-shadow:0 4px 16px rgba(122,13,16,.25);
+  }
+  .nav{
+    max-width:1200px; margin:0 auto; padding:14px 20px;
+    display:flex; align-items:center; gap:14px; flex-wrap:wrap;
+  }
+  .brand{display:flex; align-items:center; gap:12px; font-weight:700; font-size:1.15rem; letter-spacing:.3px}
+  .brand .logo{
+    width:36px;height:36px;border-radius:10px;
+    background:rgba(255,255,255,.16);
+    display:grid;place-items:center;font-size:18px;
+    box-shadow:inset 0 0 0 1px rgba(255,255,255,.25);
+  }
+  .nav .spacer{flex:1}
+  .pill{
+    background:rgba(255,255,255,.16); color:#fff; padding:6px 12px;
+    border-radius:999px; font-size:.85rem; backdrop-filter:blur(4px);
+    border:1px solid rgba(255,255,255,.25);
+  }
+  .btn{
+    background:#fff; color:var(--red-700); border:0;
+    padding:9px 16px; border-radius:10px; font-weight:600;
+    transition:transform .08s ease, box-shadow .2s ease, background .2s;
+  }
+  .btn:hover{transform:translateY(-1px); box-shadow:0 6px 16px rgba(0,0,0,.12)}
+  .btn.ghost{background:transparent; color:#fff; border:1px solid rgba(255,255,255,.6)}
+  .btn.ghost:hover{background:rgba(255,255,255,.12)}
+  .btn.primary{
+    background:linear-gradient(135deg,var(--red-700),var(--red-500));
+    color:#fff; box-shadow:0 8px 22px rgba(211,47,47,.35);
+  }
+  .btn.primary:hover{filter:brightness(1.04)}
+  .btn.block{width:100%}
+  .btn[disabled]{opacity:.55; cursor:not-allowed; transform:none}
+
+  /* Layout */
+  main{max-width:1200px; margin:28px auto; padding:0 20px}
+  .card{
+    background:var(--card); border-radius:18px; padding:24px;
+    box-shadow:var(--shadow); border:1px solid var(--line);
+  }
+  h1,h2,h3{margin:0 0 8px}
+  h1{font-size:1.6rem}
+  h2{font-size:1.25rem}
+  .muted{color:var(--muted); font-size:.92rem}
+
+  /* Login */
+  .login-wrap{
+    min-height:calc(100vh - 80px);
+    display:grid; place-items:center; padding:24px;
+  }
+  .login{
+    width:100%; max-width:420px; text-align:center;
+  }
+  .login .logo-xl{
+    width:72px;height:72px;margin:0 auto 16px;border-radius:20px;
+    background:linear-gradient(135deg,var(--red-700),var(--red-500));
+    display:grid;place-items:center;color:#fff;font-size:32px;
+    box-shadow:0 14px 30px rgba(211,47,47,.35);
+  }
+  .field{margin:14px 0; text-align:left}
+  .field label{display:block; font-size:.9rem; color:var(--muted); margin-bottom:6px}
+  .input{
+    width:100%; padding:13px 14px; border:1.5px solid var(--line);
+    border-radius:12px; font-size:1rem; font-family:inherit;
+    transition:border .15s, box-shadow .15s; background:#fff;
+  }
+  .input:focus{outline:none; border-color:var(--red-500); box-shadow:0 0 0 4px rgba(229,57,53,.12)}
+  .error{color:var(--red-700); font-size:.9rem; margin-top:10px; min-height:1.2em}
+
+  /* Files */
+  .toolbar{
+    display:flex; gap:10px; align-items:center; flex-wrap:wrap;
+    margin-bottom:18px;
+  }
+  .search{flex:1; min-width:200px}
+  .grid{
+    display:grid; gap:14px;
+    grid-template-columns:repeat(auto-fill, minmax(280px, 1fr));
+  }
+  .file{
+    background:#fff; border:1px solid var(--line); border-radius:14px;
+    padding:16px; display:flex; flex-direction:column; gap:10px;
+    transition:transform .12s ease, box-shadow .2s ease;
+    position:relative; overflow:hidden;
+  }
+  .file:hover{transform:translateY(-2px); box-shadow:0 10px 24px rgba(122,13,16,.10)}
+  .file.dimmed{opacity:.62}
+  .file .top{display:flex; gap:10px; align-items:flex-start}
+  .ficon{
+    width:42px;height:42px;border-radius:10px; flex-shrink:0;
+    background:linear-gradient(135deg, #ffd9d9, #ffeaea);
+    color:var(--red-700); display:grid; place-items:center; font-size:18px;
+    border:1px solid var(--line);
+  }
+  .fname{font-weight:600; word-break:break-word; line-height:1.3}
+  .meta{font-size:.82rem; color:var(--muted); display:flex; gap:10px; flex-wrap:wrap}
+  .actions{display:flex; gap:8px; margin-top:auto}
+  .badge-new{
+    position:absolute; top:10px; right:10px;
+    background:linear-gradient(135deg,var(--red-600),var(--red-500));
+    color:#fff; font-size:.7rem; font-weight:700; letter-spacing:.5px;
+    padding:4px 10px; border-radius:999px;
+    box-shadow:0 4px 12px rgba(229,57,53,.4);
+    animation:blink 1.1s ease-in-out infinite;
+  }
+  @keyframes blink{
+    0%,100%{opacity:1; transform:scale(1)}
+    50%{opacity:.55; transform:scale(.94)}
+  }
+  .empty{
+    text-align:center; padding:50px 20px; color:var(--muted);
+    border:2px dashed var(--line); border-radius:14px;
+  }
+
+  /* Admin */
+  .row{display:grid; gap:14px; grid-template-columns:1fr; }
+  @media(min-width:860px){ .row{grid-template-columns:1fr 1fr} }
+  .stores{
+    display:grid; gap:8px;
+    grid-template-columns:repeat(auto-fill, minmax(260px,1fr));
+    max-height:380px; overflow:auto; padding:8px;
+    border:1px solid var(--line); border-radius:12px; background:#fff;
+  }
+  .store-check{
+    display:flex; gap:10px; align-items:center;
+    padding:8px 10px; border-radius:10px; cursor:pointer;
+    transition:background .15s;
+  }
+  .store-check:hover{background:var(--red-50)}
+  .store-check input{accent-color:var(--red-600); width:18px; height:18px}
+  .store-check .code{font-weight:700; color:var(--red-700); min-width:46px}
+  .store-check .nm{font-size:.92rem}
+  .drop{
+    border:2px dashed var(--line); border-radius:14px;
+    padding:30px; text-align:center; background:#fff;
+    transition:border-color .15s, background .15s;
+  }
+  .drop.drag{border-color:var(--red-500); background:var(--red-50)}
+  .drop input[type=file]{display:none}
+  .file-pick{font-weight:600; color:var(--red-700)}
+  .selected-file{
+    margin-top:10px; font-size:.9rem; color:var(--ink);
+    background:var(--red-50); padding:8px 12px; border-radius:8px; display:inline-block;
+  }
+  .progress{
+    height:6px; background:var(--line); border-radius:999px; overflow:hidden;
+    margin-top:8px;
+  }
+  .progress > div{
+    height:100%; width:0%;
+    background:linear-gradient(90deg, var(--red-600), var(--red-500));
+    transition:width .2s ease;
+  }
+  .toast{
+    position:fixed; bottom:24px; left:50%; transform:translateX(-50%);
+    background:#fff; color:var(--ink); padding:12px 18px; border-radius:12px;
+    box-shadow:0 10px 30px rgba(0,0,0,.18); border:1px solid var(--line);
+    z-index:99; opacity:0; pointer-events:none; transition:opacity .2s, transform .2s;
+  }
+  .toast.show{opacity:1; transform:translateX(-50%) translateY(-4px)}
+  .toast.err{border-color:var(--red-500); color:var(--red-800)}
+  .toast.ok{border-color:#2e7d32; color:#1b5e20}
+
+  .quick{display:flex; gap:8px; flex-wrap:wrap; margin-top:10px}
+  .chip{
+    background:#fff; border:1px solid var(--line); color:var(--red-700);
+    padding:5px 10px; border-radius:999px; font-size:.82rem; cursor:pointer;
+  }
+  .chip:hover{background:var(--red-50)}
+  footer{
+    text-align:center; color:var(--muted); padding:30px 20px; font-size:.85rem;
+  }
+</style>
+</head>
+<body>
+
+<!-- ============== LOGIN ============== -->
+<section id="page-login" class="login-wrap">
+  <div class="login card">
+    <div class="logo-xl">📦</div>
+    <h1>Drive Store</h1>
+    <p class="muted">ระบบดาวน์โหลดไฟล์สำหรับสาขา</p>
+    <form id="loginForm">
+      <div class="field">
+        <label for="codeInput">รหัสเข้าใช้งาน</label>
+        <input id="codeInput" class="input" type="password" inputmode="text"
+               autocomplete="off" placeholder="กรอกรหัสสาขา หรือรหัสแอดมิน" required />
+      </div>
+      <button type="submit" class="btn primary block" id="loginBtn">เข้าสู่ระบบ</button>
+      <div id="loginErr" class="error"></div>
+    </form>
+  </div>
+</section>
+
+<!-- ============== APP ============== -->
+<section id="page-app" class="hidden">
+  <header>
+    <div class="nav">
+      <div class="brand">
+        <span class="logo">📦</span>
+        <span>Drive Store</span>
+      </div>
+      <span class="pill" id="userPill"></span>
+      <div class="spacer"></div>
+      <button class="btn ghost" id="refreshBtn" title="รีเฟรช">⟳ รีเฟรช</button>
+      <button class="btn ghost" id="logoutBtn">ออกจากระบบ</button>
+    </div>
+  </header>
+
+  <main>
+    <!-- Branch view -->
+    <div id="view-branch" class="hidden">
+      <div class="card">
+        <div class="toolbar">
+          <div>
+            <h2 id="branchTitle"></h2>
+            <div class="muted" id="branchSub"></div>
+          </div>
+          <div class="spacer" style="flex:1"></div>
+          <input id="searchInput" class="input search" placeholder="ค้นหาไฟล์..." />
+        </div>
+        <div id="fileList" class="grid"></div>
+        <div id="fileEmpty" class="empty hidden">ยังไม่มีไฟล์สำหรับสาขานี้</div>
+      </div>
+    </div>
+
+    <!-- Admin view -->
+    <div id="view-admin" class="hidden">
+      <div class="card">
+        <h2>อัปโหลดไฟล์</h2>
+        <p class="muted">เลือกไฟล์และสาขาที่ต้องการส่งให้</p>
+
+        <div class="row" style="margin-top:14px">
+          <div>
+            <label class="muted" style="font-size:.9rem">เลือกไฟล์</label>
+            <label class="drop" id="dropZone">
+              <input type="file" id="fileInput" />
+              <div>📁 <span class="file-pick">คลิกเพื่อเลือกไฟล์</span> หรือ ลากมาวางที่นี่</div>
+              <div id="selFile" class="selected-file hidden"></div>
+            </label>
+          </div>
+          <div>
+            <label class="muted" style="font-size:.9rem">เลือกสาขา</label>
+            <div class="quick">
+              <span class="chip" id="selAll">เลือกทั้งหมด</span>
+              <span class="chip" id="selNone">ล้างทั้งหมด</span>
+            </div>
+            <div class="stores" id="storeList" style="margin-top:8px"></div>
+          </div>
+        </div>
+
+        <div class="progress hidden" id="progWrap"><div id="progBar"></div></div>
+        <div style="margin-top:18px; display:flex; gap:10px; justify-content:flex-end; flex-wrap:wrap">
+          <button class="btn ghost" id="resetUpload" style="color:var(--red-700);border-color:var(--line)">รีเซ็ต</button>
+          <button class="btn primary" id="uploadBtn">⬆ อัปโหลด</button>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <footer>© Drive Store · พัฒนาเพื่อจัดส่งไฟล์ภายในองค์กร</footer>
+</section>
+
+<div id="toast" class="toast"></div>
+
+<script>
+/* ===========================
+   CONFIG
+   =========================== */
+const API_URL = 'https://script.google.com/macros/s/REPLACE_WITH_DEPLOYMENT_ID/exec';
+
+const STORES = [
+  ['0730','ซอย เพี้ยนพิณ 2'],
+  ['3100','เฉลิมพระเกียรติ 14 แยก 34'],
+  ['3108','สุภาพงษ์3แยก4'],
+  ['3109','ซอย อ่อนนุช 36'],
+  ['3110','บางนาตราด กม. 6.5 (ปั๊มน้ำมัน)'],
+  ['3118','ซอยเทพารักษ์ 8'],
+  ['3121','บางนา - ตราด กม.8 (ปั๊มน้ำมัน)'],
+  ['5209','ซอย กุศลศิลป์'],
+  ['5219','เฉลิมพระเกียรติ 30 แยก 14'],
+  ['5285','แฟลตทหารเรือบางนา'],
+  ['5291','บ้านเทพารักษ์'],
+  ['6731','ท็อปส์ เดลี่ คาลเท็กซ์ ศรีนครินทร์'],
+  ['6953','ท็อปส์ เดลี่ บางจากบางนาตราด ก.ม.7'],
+];
+
+/* ===========================
+   STATE & DOM
+   =========================== */
+const $ = (id) => document.getElementById(id);
+let session = JSON.parse(localStorage.getItem('ds.session') || 'null');
+let cache = { files: [] };
+let pendingFile = null;
+
+/* ===========================
+   API HELPERS (CORS-safe)
+   =========================== */
+async function apiGet(params) {
+  const qs = new URLSearchParams(params).toString();
+  const res = await fetch(`${API_URL}?${qs}`, { method: 'GET' });
+  return res.json();
+}
+async function apiPost(body) {
+  const res = await fetch(API_URL, {
+    method: 'POST',
+    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+    body: JSON.stringify(body),
+  });
+  return res.json();
+}
+
+/* ===========================
+   UI HELPERS
+   =========================== */
+function toast(msg, kind) {
+  const t = $('toast');
+  t.textContent = msg;
+  t.className = 'toast show ' + (kind || '');
+  clearTimeout(toast._t);
+  toast._t = setTimeout(() => t.className = 'toast', 2400);
+}
+function fmtSize(b) {
+  if (!b) return '';
+  const u = ['B','KB','MB','GB'];
+  let i = 0, n = b;
+  while (n >= 1024 && i < u.length - 1) { n /= 1024; i++; }
+  return `${n.toFixed(n < 10 ? 1 : 0)} ${u[i]}`;
+}
+function fmtDate(s) {
+  if (!s) return '';
+  const d = new Date(s);
+  return d.toLocaleString('th-TH', { dateStyle:'short', timeStyle:'short' });
+}
+function iconFor(mime, name) {
+  const n = (name||'').toLowerCase();
+  if (mime?.includes('pdf') || n.endsWith('.pdf')) return '📄';
+  if (mime?.includes('image')) return '🖼️';
+  if (mime?.includes('video')) return '🎬';
+  if (mime?.includes('audio')) return '🎵';
+  if (mime?.includes('sheet') || /\.(xls|xlsx|csv)$/.test(n)) return '📊';
+  if (mime?.includes('word') || /\.(doc|docx)$/.test(n)) return '📝';
+  if (mime?.includes('zip') || /\.(zip|rar|7z)$/.test(n)) return '🗜️';
+  return '📁';
+}
+
+/* ===========================
+   LOGIN
+   =========================== */
+$('loginForm').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const code = $('codeInput').value.trim();
+  const btn = $('loginBtn');
+  $('loginErr').textContent = '';
+  if (!code) return;
+  btn.disabled = true; btn.textContent = 'กำลังเข้าสู่ระบบ...';
+  try {
+    const r = await apiGet({ action: 'login', code });
+    if (!r.ok) throw new Error(r.error || 'เข้าสู่ระบบไม่สำเร็จ');
+    session = { role: r.role, code, name: r.name };
+    localStorage.setItem('ds.session', JSON.stringify(session));
+    enterApp();
+  } catch (err) {
+    $('loginErr').textContent = err.message;
+  } finally {
+    btn.disabled = false; btn.textContent = 'เข้าสู่ระบบ';
+  }
+});
+
+$('logoutBtn').addEventListener('click', () => {
+  localStorage.removeItem('ds.session');
+  session = null;
+  $('page-app').classList.add('hidden');
+  $('page-login').classList.remove('hidden');
+  $('codeInput').value = '';
+});
+
+/* ===========================
+   APP
+   =========================== */
+function enterApp() {
+  $('page-login').classList.add('hidden');
+  $('page-app').classList.remove('hidden');
+  $('userPill').textContent =
+    session.role === 'admin' ? '👤 Admin' : `🏬 ${session.code} · ${session.name}`;
+  if (session.role === 'admin') {
+    $('view-admin').classList.remove('hidden');
+    $('view-branch').classList.add('hidden');
+    renderStoreList();
+  } else {
+    $('view-branch').classList.remove('hidden');
+    $('view-admin').classList.add('hidden');
+    $('branchTitle').textContent = `สาขา ${session.code}`;
+    $('branchSub').textContent = session.name;
+    loadFiles();
+  }
+}
+
+$('refreshBtn').addEventListener('click', () => {
+  if (session?.role === 'branch') loadFiles();
+});
+
+/* ===========================
+   BRANCH: list & download
+   =========================== */
+async function loadFiles() {
+  $('fileList').innerHTML = '<div class="muted">กำลังโหลด...</div>';
+  try {
+    const r = await apiGet({ action: 'list', code: session.code });
+    if (!r.ok) throw new Error(r.error);
+    cache.files = r.files || [];
+    renderFiles();
+  } catch (err) {
+    $('fileList').innerHTML = '';
+    toast(err.message, 'err');
+  }
+}
+
+function renderFiles() {
+  const q = ($('searchInput').value || '').trim().toLowerCase();
+  const list = cache.files.filter(f => !q || f.name.toLowerCase().includes(q));
+  const el = $('fileList');
+  $('fileEmpty').classList.toggle('hidden', list.length > 0);
+  el.innerHTML = '';
+  list.forEach(f => {
+    const card = document.createElement('div');
+    card.className = 'file' + (f.downloaded ? ' dimmed' : '');
+    card.innerHTML = `
+      ${f.downloaded ? '' : '<span class="badge-new">NEW</span>'}
+      <div class="top">
+        <div class="ficon">${iconFor(f.mimeType, f.name)}</div>
+        <div style="flex:1; min-width:0">
+          <div class="fname">${escapeHtml(f.name)}</div>
+          <div class="meta">
+            <span>${fmtSize(f.size)}</span>
+            <span>· ${fmtDate(f.uploadedAt)}</span>
+          </div>
+        </div>
+      </div>
+      <div class="actions">
+        <a class="btn primary" href="${f.downloadUrl}" target="_blank"
+           rel="noopener" data-id="${f.id}" data-action="dl">⬇ ดาวน์โหลด</a>
+      </div>
+    `;
+    el.appendChild(card);
+  });
+  el.querySelectorAll('[data-action="dl"]').forEach(a => {
+    a.addEventListener('click', () => markDownloaded(a.dataset.id));
+  });
+}
+
+$('searchInput').addEventListener('input', renderFiles);
+
+async function markDownloaded(fileId) {
+  const f = cache.files.find(x => x.id === fileId);
+  if (f) { f.downloaded = true; renderFiles(); }
+  try { await apiGet({ action: 'markDownloaded', code: session.code, fileId }); } catch (e) {}
+}
+
+function escapeHtml(s) {
+  return String(s).replace(/[&<>"']/g, c => ({
+    '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
+  })[c]);
+}
+
+/* ===========================
+   ADMIN: upload
+   =========================== */
+function renderStoreList() {
+  const el = $('storeList');
+  el.innerHTML = STORES.map(([code, name]) => `
+    <label class="store-check">
+      <input type="checkbox" value="${code}" />
+      <span class="code">${code}</span>
+      <span class="nm">${escapeHtml(name)}</span>
+    </label>
+  `).join('');
+}
+
+$('selAll').addEventListener('click', () => {
+  document.querySelectorAll('#storeList input').forEach(i => i.checked = true);
+});
+$('selNone').addEventListener('click', () => {
+  document.querySelectorAll('#storeList input').forEach(i => i.checked = false);
+});
+
+const drop = $('dropZone');
+const fileInput = $('fileInput');
+['dragover','dragenter'].forEach(ev => drop.addEventListener(ev, e => {
+  e.preventDefault(); drop.classList.add('drag');
+}));
+['dragleave','drop'].forEach(ev => drop.addEventListener(ev, e => {
+  e.preventDefault(); drop.classList.remove('drag');
+}));
+drop.addEventListener('drop', e => {
+  const f = e.dataTransfer?.files?.[0];
+  if (f) setPendingFile(f);
+});
+fileInput.addEventListener('change', e => {
+  const f = e.target.files?.[0];
+  if (f) setPendingFile(f);
+});
+function setPendingFile(f) {
+  pendingFile = f;
+  const el = $('selFile');
+  el.classList.remove('hidden');
+  el.textContent = `📎 ${f.name} (${fmtSize(f.size)})`;
+}
+
+$('resetUpload').addEventListener('click', () => {
+  pendingFile = null;
+  fileInput.value = '';
+  $('selFile').classList.add('hidden');
+  $('selFile').textContent = '';
+  document.querySelectorAll('#storeList input').forEach(i => i.checked = false);
+  $('progWrap').classList.add('hidden');
+  $('progBar').style.width = '0%';
+});
+
+$('uploadBtn').addEventListener('click', async () => {
+  if (!pendingFile) return toast('กรุณาเลือกไฟล์', 'err');
+  const branches = Array.from(document.querySelectorAll('#storeList input:checked'))
+    .map(i => i.value);
+  if (!branches.length) return toast('กรุณาเลือกอย่างน้อย 1 สาขา', 'err');
+
+  const btn = $('uploadBtn');
+  btn.disabled = true; btn.textContent = 'กำลังเตรียมไฟล์...';
+  $('progWrap').classList.remove('hidden');
+  $('progBar').style.width = '15%';
+
+  try {
+    const base64 = await fileToBase64(pendingFile);
+    $('progBar').style.width = '55%';
+    btn.textContent = 'กำลังอัปโหลด...';
+    const r = await apiPost({
+      action: 'upload',
+      adminCode: session.code,
+      filename: pendingFile.name,
+      mimeType: pendingFile.type || 'application/octet-stream',
+      base64,
+      branches,
+    });
+    $('progBar').style.width = '100%';
+    if (!r.ok) throw new Error(r.error || 'อัปโหลดล้มเหลว');
+    toast(`อัปโหลดเข้า ${r.created.length} สาขาเรียบร้อย ✓`, 'ok');
+    setTimeout(() => $('resetUpload').click(), 600);
+  } catch (err) {
+    toast(err.message, 'err');
+  } finally {
+    btn.disabled = false; btn.textContent = '⬆ อัปโหลด';
+  }
+});
+
+function fileToBase64(file) {
+  return new Promise((res, rej) => {
+    const r = new FileReader();
+    r.onload = () => {
+      const s = r.result;
+      const b64 = s.substring(s.indexOf(',') + 1);
+      res(b64);
+    };
+    r.onerror = rej;
+    r.readAsDataURL(file);
+  });
+}
+
+/* ===========================
+   BOOTSTRAP
+   =========================== */
+if (session) enterApp();
+</script>
+</body>
+</html>
