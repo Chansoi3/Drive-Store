@@ -140,28 +140,18 @@
   .login .header-area{text-align:center; margin-bottom:24px}
   .login h1{font-size:1.3rem}
 
-  /* Topster mascot (cartoon) */
+  /* Topster mascot (image logo) */
   .topster{display:flex; justify-content:center; margin-bottom:8px}
-  .topster-svg{width:170px; height:auto}
-  .ts-ball-wrap{animation:tsBall 1.2s cubic-bezier(.5,0,.5,1) infinite}
-  .ts-ball{animation:tsSpin 1.2s linear infinite}
-  .ts-body{transform-origin:50px 60px; animation:tsBody 1.2s ease-in-out infinite}
-  .ts-shadow{transform-origin:50px 116px; animation:tsShadow 1.2s ease-in-out infinite}
-  @keyframes tsBall{
-    0%,100%{transform:translateY(-40px)}
-    50%{transform:translateY(0)}
+  .topster-logo{
+    width:180px; height:180px; object-fit:contain;
+    border-radius:50%;
+    background:var(--surface);
+    box-shadow:var(--shadow);
+    animation:tsFloat 2s ease-in-out infinite;
   }
-  @keyframes tsSpin{
-    from{transform:rotate(0deg)}
-    to{transform:rotate(360deg)}
-  }
-  @keyframes tsBody{
-    0%,100%{transform:translateY(0) scaleY(1)}
-    50%{transform:translateY(-2.5px) scaleY(.98)}
-  }
-  @keyframes tsShadow{
-    0%,100%{transform:scaleX(.6); opacity:.18}
-    50%{transform:scaleX(1); opacity:.28}
+  @keyframes tsFloat{
+    0%,100%{transform:translateY(0)}
+    50%{transform:translateY(-6px)}
   }
 
   /* Tabs */
@@ -493,84 +483,7 @@
   <div class="login">
     <div class="header-area">
       <div class="topster">
-        <svg class="topster-svg" viewBox="0 0 100 122" xmlns="http://www.w3.org/2000/svg">
-          <!-- ground shadow -->
-          <ellipse class="ts-shadow" cx="50" cy="116" rx="30" ry="3" fill="#1a1a1f"/>
-
-          <!-- BODY -->
-          <g class="ts-body">
-            <!-- silhouette: peanut shape (head + body) -->
-            <path d="M 50 6
-                     C 73 6 78 19 78 30
-                     C 78 39 73 44 67 46
-                     C 76 49 84 56 84 73
-                     C 84 91 70 102 50 102
-                     C 30 102 16 91 16 73
-                     C 16 56 24 49 33 46
-                     C 27 44 22 39 22 30
-                     C 22 19 27 6 50 6 Z"
-                  fill="#d54040"/>
-            <!-- two feet (rounded blobs at bottom) -->
-            <rect x="30" y="96" width="16" height="16" rx="6" ry="6" fill="#d54040"/>
-            <rect x="54" y="96" width="16" height="16" rx="6" ry="6" fill="#d54040"/>
-
-            <!-- body shading bottom -->
-            <ellipse cx="50" cy="92" rx="32" ry="10" fill="#a83434" opacity=".25"/>
-            <!-- highlight upper-left -->
-            <ellipse cx="38" cy="18" rx="11" ry="6" fill="#ec8484" opacity=".5"/>
-            <ellipse cx="32" cy="64" rx="8" ry="16" fill="#ec8484" opacity=".22"/>
-
-            <!-- LEFT ARM raised -->
-            <path d="M 21 55 Q 24 42 30 36" stroke="#d54040"
-                  stroke-width="10" fill="none" stroke-linecap="round"/>
-            <!-- left hand (mitten + thumb) -->
-            <circle cx="32" cy="36" r="7" fill="#d54040"/>
-            <circle cx="29" cy="29" r="3.2" fill="#d54040"/>
-            <ellipse cx="30" cy="33" rx="2.5" ry="1.6" fill="#ec8484" opacity=".55"/>
-
-            <!-- RIGHT ARM raised -->
-            <path d="M 79 55 Q 76 42 70 36" stroke="#d54040"
-                  stroke-width="10" fill="none" stroke-linecap="round"/>
-            <circle cx="68" cy="36" r="7" fill="#d54040"/>
-            <circle cx="71" cy="29" r="3.2" fill="#d54040"/>
-            <ellipse cx="70" cy="33" rx="2.5" ry="1.6" fill="#ec8484" opacity=".55"/>
-
-            <!-- EYES (white) -->
-            <ellipse cx="42" cy="26" rx="7.2" ry="8" fill="#fff"/>
-            <ellipse cx="58" cy="26" rx="7.2" ry="8" fill="#fff"/>
-            <!-- subtle eye outline -->
-            <ellipse cx="42" cy="26" rx="7.2" ry="8" fill="none" stroke="#1a1a1f" stroke-width=".4" opacity=".4"/>
-            <ellipse cx="58" cy="26" rx="7.2" ry="8" fill="none" stroke="#1a1a1f" stroke-width=".4" opacity=".4"/>
-            <!-- pupils -->
-            <ellipse cx="42" cy="27" rx="4" ry="4.6" fill="#1a1a1f"/>
-            <ellipse cx="58" cy="27" rx="4" ry="4.6" fill="#1a1a1f"/>
-            <!-- pupil highlights -->
-            <circle cx="43.8" cy="25" r="1.5" fill="#fff"/>
-            <circle cx="59.8" cy="25" r="1.5" fill="#fff"/>
-            <circle cx="40.5" cy="29" r=".7" fill="#fff" opacity=".7"/>
-            <circle cx="56.5" cy="29" r=".7" fill="#fff" opacity=".7"/>
-
-            <!-- MOUTH (small smile between hands) -->
-            <path d="M 46 43 Q 50 47.5 54 43" stroke="#1a1a1f"
-                  stroke-width="2" fill="none" stroke-linecap="round"/>
-            <path d="M 47 43.5 Q 50 46 53 43.5" fill="#7a2020"/>
-          </g>
-
-          <!-- BALL (bouncing in front, between feet) -->
-          <g transform="translate(50, 110)">
-            <g class="ts-ball-wrap">
-              <g class="ts-ball">
-                <circle r="6.5" fill="#fff" stroke="#1a1a1f" stroke-width="1"/>
-                <polygon points="0,-3.2 3.04,-0.99 1.88,2.6 -1.88,2.6 -3.04,-0.99" fill="#1a1a1f"/>
-                <line x1="0" y1="-6.5" x2="0" y2="-3.2" stroke="#1a1a1f" stroke-width=".8"/>
-                <line x1="3.04" y1="-0.99" x2="6.17" y2="-2" stroke="#1a1a1f" stroke-width=".8"/>
-                <line x1="-3.04" y1="-0.99" x2="-6.17" y2="-2" stroke="#1a1a1f" stroke-width=".8"/>
-                <line x1="1.88" y1="2.6" x2="3.81" y2="5.27" stroke="#1a1a1f" stroke-width=".8"/>
-                <line x1="-1.88" y1="2.6" x2="-3.81" y2="5.27" stroke="#1a1a1f" stroke-width=".8"/>
-              </g>
-            </g>
-          </g>
-        </svg>
+        <img class="topster-logo" src="topster.png" alt="Topster" />
       </div>
       <h1>AM404 Drive For Store</h1>
       <div class="muted">พื้นที่จัดเก็บไฟล์AM404</div>
