@@ -3,30 +3,28 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+<meta http-equiv="Pragma" content="no-cache" />
+<meta http-equiv="Expires" content="0" />
 <title>Drive Store</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
   :root{
-    --red-900:#7a0d10;
-    --red-800:#9a1115;
-    --red-700:#b71c1c;
-    --red-600:#d32f2f;
-    --red-500:#e53935;
-    --red-50:#ffebee;
-    --ink:#1a0507;
-    --muted:#7a6b6d;
-    --line:#f1d7d8;
-    --bg:#fff7f7;
-    --card:#ffffff;
+    --red-900:#7a0d10; --red-800:#9a1115; --red-700:#b71c1c;
+    --red-600:#d32f2f; --red-500:#e53935; --red-50:#ffebee;
+    --green-600:#2e7d32; --green-50:#e8f5e9;
+    --amber-600:#ef6c00; --amber-50:#fff3e0;
+    --gray-100:#f5f5f5;
+    --ink:#1a0507; --muted:#7a6b6d; --line:#f1d7d8;
+    --bg:#fff7f7; --card:#ffffff;
     --shadow:0 10px 30px rgba(122,13,16,.10), 0 2px 6px rgba(122,13,16,.06);
   }
   *{box-sizing:border-box}
   html,body{margin:0;padding:0}
   body{
-    font-family:'Prompt', -apple-system, system-ui, sans-serif;
-    color:var(--ink);
+    font-family:'Prompt', -apple-system, system-ui, sans-serif; color:var(--ink);
     background:
       radial-gradient(1200px 600px at -10% -20%, #ffe2e2 0%, transparent 60%),
       radial-gradient(900px 500px at 110% 0%, #ffd3d3 0%, transparent 55%),
@@ -41,25 +39,19 @@
   header{
     position:sticky; top:0; z-index:50;
     background:linear-gradient(135deg, var(--red-800), var(--red-600));
-    color:#fff;
-    box-shadow:0 4px 16px rgba(122,13,16,.25);
+    color:#fff; box-shadow:0 4px 16px rgba(122,13,16,.25);
   }
-  .nav{
-    max-width:1200px; margin:0 auto; padding:14px 20px;
-    display:flex; align-items:center; gap:14px; flex-wrap:wrap;
-  }
-  .brand{display:flex; align-items:center; gap:12px; font-weight:700; font-size:1.15rem; letter-spacing:.3px}
+  .nav{max-width:1280px; margin:0 auto; padding:14px 20px; display:flex; align-items:center; gap:14px; flex-wrap:wrap}
+  .brand{display:flex; align-items:center; gap:12px; font-weight:700; font-size:1.15rem}
   .brand .logo{
     width:36px;height:36px;border-radius:10px;
-    background:rgba(255,255,255,.16);
-    display:grid;place-items:center;font-size:18px;
+    background:rgba(255,255,255,.16); display:grid;place-items:center;font-size:18px;
     box-shadow:inset 0 0 0 1px rgba(255,255,255,.25);
   }
   .nav .spacer{flex:1}
   .pill{
     background:rgba(255,255,255,.16); color:#fff; padding:6px 12px;
-    border-radius:999px; font-size:.85rem; backdrop-filter:blur(4px);
-    border:1px solid rgba(255,255,255,.25);
+    border-radius:999px; font-size:.85rem; border:1px solid rgba(255,255,255,.25);
   }
   .btn{
     background:#fff; color:var(--red-700); border:0;
@@ -69,6 +61,8 @@
   .btn:hover{transform:translateY(-1px); box-shadow:0 6px 16px rgba(0,0,0,.12)}
   .btn.ghost{background:transparent; color:#fff; border:1px solid rgba(255,255,255,.6)}
   .btn.ghost:hover{background:rgba(255,255,255,.12)}
+  .btn.ghost.dark{color:var(--red-700); border-color:var(--line); background:#fff}
+  .btn.ghost.dark:hover{background:var(--red-50)}
   .btn.primary{
     background:linear-gradient(135deg,var(--red-700),var(--red-500));
     color:#fff; box-shadow:0 8px 22px rgba(211,47,47,.35);
@@ -78,24 +72,20 @@
   .btn[disabled]{opacity:.55; cursor:not-allowed; transform:none}
 
   /* Layout */
-  main{max-width:1200px; margin:28px auto; padding:0 20px}
+  main{max-width:1280px; margin:24px auto; padding:0 20px}
   .card{
-    background:var(--card); border-radius:18px; padding:24px;
+    background:var(--card); border-radius:18px; padding:22px;
     box-shadow:var(--shadow); border:1px solid var(--line);
   }
   h1,h2,h3{margin:0 0 8px}
   h1{font-size:1.6rem}
   h2{font-size:1.25rem}
+  h3{font-size:1.05rem}
   .muted{color:var(--muted); font-size:.92rem}
 
   /* Login */
-  .login-wrap{
-    min-height:calc(100vh - 80px);
-    display:grid; place-items:center; padding:24px;
-  }
-  .login{
-    width:100%; max-width:420px; text-align:center;
-  }
+  .login-wrap{min-height:calc(100vh - 80px); display:grid; place-items:center; padding:24px}
+  .login{width:100%; max-width:420px; text-align:center}
   .login .logo-xl{
     width:72px;height:72px;margin:0 auto 16px;border-radius:20px;
     background:linear-gradient(135deg,var(--red-700),var(--red-500));
@@ -104,32 +94,101 @@
   }
   .field{margin:14px 0; text-align:left}
   .field label{display:block; font-size:.9rem; color:var(--muted); margin-bottom:6px}
-  .input{
-    width:100%; padding:13px 14px; border:1.5px solid var(--line);
-    border-radius:12px; font-size:1rem; font-family:inherit;
-    transition:border .15s, box-shadow .15s; background:#fff;
+  .input, select.input, textarea.input{
+    width:100%; padding:11px 14px; border:1.5px solid var(--line);
+    border-radius:12px; font-size:1rem; font-family:inherit; background:#fff; color:var(--ink);
+    transition:border .15s, box-shadow .15s;
   }
+  textarea.input{resize:vertical; min-height:64px}
   .input:focus{outline:none; border-color:var(--red-500); box-shadow:0 0 0 4px rgba(229,57,53,.12)}
   .error{color:var(--red-700); font-size:.9rem; margin-top:10px; min-height:1.2em}
 
-  /* Files */
-  .toolbar{
-    display:flex; gap:10px; align-items:center; flex-wrap:wrap;
-    margin-bottom:18px;
+  /* Tabs */
+  .tabs{display:flex; gap:8px; margin-bottom:14px; flex-wrap:wrap; overflow-x:auto}
+  .tab{
+    background:#fff; border:1px solid var(--line); color:var(--muted);
+    padding:10px 16px; border-radius:12px; font-weight:600; font-family:inherit;
+    font-size:.95rem; white-space:nowrap;
   }
+  .tab:hover{color:var(--red-700)}
+  .tab.active{
+    background:linear-gradient(135deg,var(--red-700),var(--red-500));
+    color:#fff; border-color:transparent; box-shadow:0 6px 16px rgba(211,47,47,.28);
+  }
+
+  /* Steps */
+  .step{display:flex; gap:14px; margin-bottom:22px}
+  .step-no{
+    width:34px;height:34px;border-radius:50%; flex-shrink:0;
+    background:linear-gradient(135deg,var(--red-700),var(--red-500));
+    color:#fff; display:grid; place-items:center; font-weight:700;
+    box-shadow:0 4px 10px rgba(211,47,47,.3);
+  }
+  .step-body{flex:1; min-width:0}
+  .step-body h3{margin:4px 0 10px}
+
+  /* Drop zone */
+  .drop{
+    border:2px dashed var(--line); border-radius:14px;
+    padding:26px; text-align:center; background:#fff; display:block;
+    transition:border-color .15s, background .15s; cursor:pointer;
+  }
+  .drop.drag{border-color:var(--red-500); background:var(--red-50)}
+  .drop input[type=file]{display:none}
+  .drop-icon{font-size:34px; line-height:1; margin-bottom:6px}
+  .file-pick{font-weight:600; color:var(--red-700)}
+  .sel-files{display:flex; flex-direction:column; gap:6px; margin-top:10px}
+  .sel-files .item{
+    display:flex; align-items:center; gap:8px;
+    background:var(--red-50); padding:8px 12px; border-radius:10px; font-size:.9rem;
+  }
+  .sel-files .item .name{flex:1; min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap}
+  .sel-files .item .x{background:transparent; border:0; color:var(--red-700); font-size:18px; cursor:pointer; padding:0 6px}
+
+  /* Stores list */
+  .stores{
+    display:grid; gap:8px;
+    grid-template-columns:repeat(auto-fill, minmax(240px,1fr));
+    max-height:340px; overflow:auto; padding:8px;
+    border:1px solid var(--line); border-radius:12px; background:#fff;
+  }
+  .store-check{
+    display:flex; gap:10px; align-items:center;
+    padding:8px 10px; border-radius:10px; cursor:pointer; transition:background .15s;
+  }
+  .store-check:hover{background:var(--red-50)}
+  .store-check input{accent-color:var(--red-600); width:18px; height:18px}
+  .store-check .code{font-weight:700; color:var(--red-700); min-width:46px}
+  .store-check .nm{font-size:.92rem}
+
+  .quick{display:flex; gap:8px; flex-wrap:wrap; margin-top:8px; align-items:center}
+  .chip{
+    background:#fff; border:1px solid var(--line); color:var(--red-700);
+    padding:5px 10px; border-radius:999px; font-size:.82rem; cursor:pointer;
+  }
+  .chip:hover{background:var(--red-50)}
+  .chip.active{background:linear-gradient(135deg,var(--red-700),var(--red-500)); color:#fff; border-color:transparent}
+  .pill-count{
+    background:var(--red-50); color:var(--red-700); margin-left:auto;
+    padding:5px 12px; border-radius:999px; font-size:.82rem; font-weight:600;
+  }
+
+  /* Meta fields grid */
+  .meta-grid{display:grid; gap:12px; grid-template-columns:1fr 1fr}
+  @media(max-width:680px){ .meta-grid{grid-template-columns:1fr} }
+
+  /* Files grid */
+  .toolbar{display:flex; gap:10px; align-items:center; flex-wrap:wrap; margin-bottom:14px}
   .search{flex:1; min-width:200px}
-  .grid{
-    display:grid; gap:14px;
-    grid-template-columns:repeat(auto-fill, minmax(280px, 1fr));
-  }
+  .grid{display:grid; gap:14px; grid-template-columns:repeat(auto-fill, minmax(280px, 1fr))}
   .file{
     background:#fff; border:1px solid var(--line); border-radius:14px;
-    padding:16px; display:flex; flex-direction:column; gap:10px;
+    padding:14px; display:flex; flex-direction:column; gap:8px;
     transition:transform .12s ease, box-shadow .2s ease;
     position:relative; overflow:hidden;
   }
   .file:hover{transform:translateY(-2px); box-shadow:0 10px 24px rgba(122,13,16,.10)}
-  .file.dimmed{opacity:.62}
+  .file.dimmed{opacity:.6}
   .file .top{display:flex; gap:10px; align-items:flex-start}
   .ficon{
     width:42px;height:42px;border-radius:10px; flex-shrink:0;
@@ -138,10 +197,11 @@
     border:1px solid var(--line);
   }
   .fname{font-weight:600; word-break:break-word; line-height:1.3}
-  .meta{font-size:.82rem; color:var(--muted); display:flex; gap:10px; flex-wrap:wrap}
-  .actions{display:flex; gap:8px; margin-top:auto}
+  .meta{font-size:.82rem; color:var(--muted); display:flex; gap:8px; flex-wrap:wrap}
+  .note{font-size:.85rem; color:var(--ink); background:var(--amber-50); padding:6px 10px; border-radius:8px; border-left:3px solid var(--amber-600)}
+  .actions{display:flex; gap:6px; margin-top:auto; flex-wrap:wrap}
   .badge-new{
-    position:absolute; top:10px; right:10px;
+    position:absolute; top:8px; right:8px;
     background:linear-gradient(135deg,var(--red-600),var(--red-500));
     color:#fff; font-size:.7rem; font-weight:700; letter-spacing:.5px;
     padding:4px 10px; border-radius:999px;
@@ -152,50 +212,41 @@
     0%,100%{opacity:1; transform:scale(1)}
     50%{opacity:.55; transform:scale(.94)}
   }
+  .badge-cat{
+    display:inline-block; padding:3px 9px; border-radius:999px;
+    font-size:.72rem; font-weight:600; background:var(--red-50); color:var(--red-700);
+  }
+  .badge-exp{
+    display:inline-block; padding:3px 9px; border-radius:999px;
+    font-size:.72rem; font-weight:600; background:var(--amber-50); color:var(--amber-600);
+  }
   .empty{
     text-align:center; padding:50px 20px; color:var(--muted);
     border:2px dashed var(--line); border-radius:14px;
   }
 
-  /* Admin */
-  .row{display:grid; gap:14px; grid-template-columns:1fr; }
-  @media(min-width:860px){ .row{grid-template-columns:1fr 1fr} }
-  .stores{
-    display:grid; gap:8px;
-    grid-template-columns:repeat(auto-fill, minmax(260px,1fr));
-    max-height:380px; overflow:auto; padding:8px;
-    border:1px solid var(--line); border-radius:12px; background:#fff;
+  .file .select-box{
+    position:absolute; top:8px; left:8px; width:22px; height:22px;
+    background:#fff; border:2px solid var(--line); border-radius:6px;
+    display:grid; place-items:center; cursor:pointer; transition:all .15s;
   }
-  .store-check{
-    display:flex; gap:10px; align-items:center;
-    padding:8px 10px; border-radius:10px; cursor:pointer;
-    transition:background .15s;
+  .file.selected{border-color:var(--red-500); box-shadow:0 0 0 3px rgba(229,57,53,.15)}
+  .file.selected .select-box{background:var(--red-600); border-color:var(--red-600); color:#fff}
+  body.bulk-mode .file{padding-left:38px}
+
+  /* Buttons inside cards */
+  .icon-btn{
+    background:#fff; border:1px solid var(--line); color:var(--red-700);
+    padding:7px 12px; border-radius:9px; font-weight:600; font-family:inherit; font-size:.85rem;
+    cursor:pointer; transition:all .12s;
   }
-  .store-check:hover{background:var(--red-50)}
-  .store-check input{accent-color:var(--red-600); width:18px; height:18px}
-  .store-check .code{font-weight:700; color:var(--red-700); min-width:46px}
-  .store-check .nm{font-size:.92rem}
-  .drop{
-    border:2px dashed var(--line); border-radius:14px;
-    padding:30px; text-align:center; background:#fff;
-    transition:border-color .15s, background .15s;
-  }
-  .drop.drag{border-color:var(--red-500); background:var(--red-50)}
-  .drop input[type=file]{display:none}
-  .file-pick{font-weight:600; color:var(--red-700)}
-  .selected-file{
-    margin-top:10px; font-size:.9rem; color:var(--ink);
-    background:var(--red-50); padding:8px 12px; border-radius:8px; display:inline-block;
-  }
-  .progress{
-    height:6px; background:var(--line); border-radius:999px; overflow:hidden;
-    margin-top:8px;
-  }
-  .progress > div{
-    height:100%; width:0%;
-    background:linear-gradient(90deg, var(--red-600), var(--red-500));
-    transition:width .2s ease;
-  }
+  .icon-btn:hover{background:var(--red-50); transform:translateY(-1px)}
+  .icon-btn.danger{color:#b71c1c}
+  .icon-btn.danger:hover{background:#ffeaea; border-color:#ffbcbc}
+
+  .progress{height:6px; background:var(--line); border-radius:999px; overflow:hidden; margin-top:8px}
+  .progress > div{height:100%; width:0%; background:linear-gradient(90deg, var(--red-600), var(--red-500)); transition:width .2s ease}
+
   .toast{
     position:fixed; bottom:24px; left:50%; transform:translateX(-50%);
     background:#fff; color:var(--ink); padding:12px 18px; border-radius:12px;
@@ -204,76 +255,27 @@
   }
   .toast.show{opacity:1; transform:translateX(-50%) translateY(-4px)}
   .toast.err{border-color:var(--red-500); color:var(--red-800)}
-  .toast.ok{border-color:#2e7d32; color:#1b5e20}
+  .toast.ok{border-color:var(--green-600); color:var(--green-600)}
 
-  .quick{display:flex; gap:8px; flex-wrap:wrap; margin-top:10px; align-items:center}
-  .chip{
-    background:#fff; border:1px solid var(--line); color:var(--red-700);
-    padding:5px 10px; border-radius:999px; font-size:.82rem; cursor:pointer;
-  }
-  .chip:hover{background:var(--red-50)}
-  .pill-count{
-    background:var(--red-50); color:var(--red-700); margin-left:auto;
-    padding:5px 12px; border-radius:999px; font-size:.82rem; font-weight:600;
-  }
-
-  /* Tabs */
-  .tabs{display:flex; gap:8px; margin-bottom:14px; flex-wrap:wrap}
-  .tab{
-    background:#fff; border:1px solid var(--line); color:var(--muted);
-    padding:10px 18px; border-radius:12px; font-weight:600; font-family:inherit;
-    cursor:pointer; transition:all .15s; font-size:.95rem;
-  }
-  .tab:hover{color:var(--red-700)}
-  .tab.active{
-    background:linear-gradient(135deg,var(--red-700),var(--red-500));
-    color:#fff; border-color:transparent;
-    box-shadow:0 6px 16px rgba(211,47,47,.28);
-  }
-
-  /* Steps */
-  .step{display:flex; gap:16px; margin-bottom:22px}
-  .step-no{
-    width:36px;height:36px;border-radius:50%; flex-shrink:0;
-    background:linear-gradient(135deg,var(--red-700),var(--red-500));
-    color:#fff; display:grid; place-items:center; font-weight:700;
-    box-shadow:0 4px 10px rgba(211,47,47,.3);
-  }
-  .step-body{flex:1; min-width:0}
-  .step-body h3{margin:6px 0 12px; font-size:1.05rem}
-  .drop-inner{display:flex; flex-direction:column; gap:6px; align-items:center}
-  .drop-icon{font-size:38px; line-height:1}
-  .sel-files{display:flex; flex-direction:column; gap:6px; margin-top:10px}
-  .sel-files .item{
-    display:flex; align-items:center; gap:8px;
-    background:var(--red-50); padding:8px 12px; border-radius:10px;
-    font-size:.9rem;
-  }
-  .sel-files .item .name{flex:1; min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap}
-  .sel-files .item .x{
-    background:transparent; border:0; color:var(--red-700); font-size:18px;
-    cursor:pointer; padding:0 6px;
-  }
   .row-actions{
     display:flex; gap:10px; justify-content:flex-end; flex-wrap:wrap;
     padding-top:16px; border-top:1px solid var(--line); margin-top:8px;
   }
-  .btn.ghost.dark{color:var(--red-700);border-color:var(--line)}
+  .floating-bar{
+    position:sticky; bottom:14px; z-index:30;
+    margin-top:14px; padding:10px 14px; border-radius:12px;
+    background:#fff; border:1px solid var(--line);
+    box-shadow:0 12px 28px rgba(0,0,0,.12);
+    display:flex; align-items:center; gap:10px; flex-wrap:wrap;
+  }
 
   /* Modal */
-  .modal{
-    position:fixed; inset:0; z-index:100;
-    display:grid; place-items:center; padding:16px;
-  }
-  .modal-bg{
-    position:absolute; inset:0;
-    background:rgba(20,5,7,.55); backdrop-filter:blur(4px);
-  }
+  .modal{position:fixed; inset:0; z-index:100; display:grid; place-items:center; padding:16px}
+  .modal-bg{position:absolute; inset:0; background:rgba(20,5,7,.55); backdrop-filter:blur(4px)}
   .modal-card{
-    position:relative; background:#fff; border-radius:16px;
-    width:100%; max-width:960px; max-height:92vh;
-    display:flex; flex-direction:column; overflow:hidden;
-    box-shadow:0 30px 80px rgba(0,0,0,.4);
+    position:relative; background:#fff; border-radius:16px; width:100%;
+    max-width:960px; max-height:92vh; display:flex; flex-direction:column;
+    overflow:hidden; box-shadow:0 30px 80px rgba(0,0,0,.4);
     animation:pop .15s ease;
   }
   @keyframes pop{from{transform:scale(.96); opacity:0}to{transform:none; opacity:1}}
@@ -284,30 +286,66 @@
   .modal-head .t{flex:1; font-weight:600; word-break:break-word; min-width:0}
   .modal-x{
     background:rgba(255,255,255,.18); color:#fff; border:0;
-    width:34px; height:34px; border-radius:50%; font-size:22px; line-height:1;
+    width:34px; height:34px; border-radius:50%; font-size:22px;
     display:grid; place-items:center; cursor:pointer; flex-shrink:0;
   }
   .modal-x:hover{background:rgba(255,255,255,.3)}
   .modal-body{flex:1; min-height:280px; background:#f4f4f4; overflow:auto}
   .modal-body iframe, .modal-body img{width:100%; height:70vh; border:0; display:block; object-fit:contain; background:#fff}
-  .modal-body .preview-msg{padding:50px 20px; text-align:center; color:var(--muted)}
+  .modal-body .pad{padding:18px}
   .modal-foot{
     padding:12px 18px; display:flex; justify-content:flex-end; gap:10px;
     border-top:1px solid var(--line); background:#fff; flex-wrap:wrap;
   }
 
-  .icon-btn{
-    background:#fff; border:1px solid var(--line); color:var(--red-700);
-    padding:8px 12px; border-radius:10px; font-weight:600; font-family:inherit;
-    cursor:pointer; transition:all .12s;
+  /* Dashboard */
+  .dash-wrap{overflow:auto; border:1px solid var(--line); border-radius:14px; background:#fff}
+  table.dash{border-collapse:separate; border-spacing:0; width:100%; min-width:880px}
+  table.dash th, table.dash td{
+    border-bottom:1px solid var(--line); padding:10px 10px;
+    font-size:.86rem; text-align:center; white-space:nowrap;
   }
-  .icon-btn:hover{background:var(--red-50); transform:translateY(-1px)}
-  .icon-btn.danger{color:#b71c1c}
-  .icon-btn.danger:hover{background:#ffeaea; border-color:#ffbcbc}
+  table.dash thead th{
+    position:sticky; top:0; background:linear-gradient(135deg,var(--red-800),var(--red-600));
+    color:#fff; font-weight:600; z-index:2; padding:12px 10px;
+  }
+  table.dash th.fname-col, table.dash td.fname-col{
+    position:sticky; left:0; background:#fff; z-index:1; text-align:left;
+    border-right:1px solid var(--line); min-width:240px; max-width:340px;
+    white-space:normal; word-break:break-word;
+  }
+  table.dash thead th.fname-col{background:linear-gradient(135deg,var(--red-800),var(--red-600))}
+  .cell-done{background:var(--green-50); color:var(--green-600); font-weight:700}
+  .cell-pending{background:#ffeaea; color:var(--red-700); font-weight:700; animation:blink 1.5s ease-in-out infinite}
+  .cell-na{color:#ccc}
+  .dash-legend{display:flex; gap:14px; flex-wrap:wrap; margin-top:10px; font-size:.85rem; color:var(--muted)}
+  .dash-legend span{display:inline-flex; align-items:center; gap:6px}
+  .dash-dot{width:14px; height:14px; border-radius:4px; display:inline-block}
 
-  footer{
-    text-align:center; color:var(--muted); padding:30px 20px; font-size:.85rem;
+  /* History */
+  .hist-item{
+    background:#fff; border:1px solid var(--line); border-radius:14px;
+    padding:14px; margin-bottom:10px;
   }
+  .hist-head{display:flex; gap:10px; align-items:center; flex-wrap:wrap}
+  .hist-head .title{flex:1; font-weight:600; min-width:0; word-break:break-word}
+  .hist-meta{font-size:.82rem; color:var(--muted); margin-top:4px; display:flex; gap:10px; flex-wrap:wrap}
+  .hist-branches{display:flex; flex-wrap:wrap; gap:4px; margin-top:8px}
+  .hist-branches .b{
+    background:var(--red-50); color:var(--red-700);
+    padding:2px 8px; border-radius:6px; font-size:.78rem; font-weight:600;
+  }
+  .hist-actions{display:flex; gap:6px; flex-wrap:wrap; margin-top:10px}
+
+  /* Stores mgmt */
+  .store-row{
+    display:flex; gap:8px; align-items:center; padding:10px;
+    background:#fff; border:1px solid var(--line); border-radius:10px; margin-bottom:8px;
+  }
+  .store-row .code{font-weight:700; color:var(--red-700); min-width:60px}
+  .store-row .nm{flex:1; min-width:0}
+
+  footer{text-align:center; color:var(--muted); padding:30px 20px; font-size:.85rem}
 </style>
 </head>
 <body>
@@ -321,8 +359,8 @@
     <form id="loginForm">
       <div class="field">
         <label for="codeInput">รหัสเข้าใช้งาน</label>
-        <input id="codeInput" class="input" type="password" inputmode="text"
-               autocomplete="off" placeholder="กรอกรหัสสาขา หรือรหัสแอดมิน" required />
+        <input id="codeInput" class="input" type="password" autocomplete="off"
+               placeholder="กรอกรหัสสาขา หรือรหัสแอดมิน" required />
       </div>
       <button type="submit" class="btn primary block" id="loginBtn">เข้าสู่ระบบ</button>
       <div id="loginErr" class="error"></div>
@@ -334,19 +372,16 @@
 <section id="page-app" class="hidden">
   <header>
     <div class="nav">
-      <div class="brand">
-        <span class="logo">📦</span>
-        <span>Drive Store</span>
-      </div>
+      <div class="brand"><span class="logo">📦</span><span>Drive Store</span></div>
       <span class="pill" id="userPill"></span>
       <div class="spacer"></div>
-      <button class="btn ghost" id="refreshBtn" title="รีเฟรช">⟳ รีเฟรช</button>
+      <button class="btn ghost" id="refreshBtn">⟳ รีเฟรช</button>
       <button class="btn ghost" id="logoutBtn">ออกจากระบบ</button>
     </div>
   </header>
 
   <main>
-    <!-- Branch view -->
+    <!-- ============== BRANCH VIEW ============== -->
     <div id="view-branch" class="hidden">
       <div class="card">
         <div class="toolbar">
@@ -356,17 +391,28 @@
           </div>
           <div class="spacer" style="flex:1"></div>
           <input id="searchInput" class="input search" placeholder="ค้นหาไฟล์..." />
+          <button class="btn ghost dark" id="toggleBulk">☑ เลือกหลายไฟล์</button>
         </div>
-        <div id="fileList" class="grid"></div>
+        <div class="quick" id="catFilter"></div>
+        <div id="fileList" class="grid" style="margin-top:14px"></div>
         <div id="fileEmpty" class="empty hidden">ยังไม่มีไฟล์สำหรับสาขานี้</div>
+        <div id="bulkBar" class="floating-bar hidden">
+          <span id="bulkCount">เลือกแล้ว 0 ไฟล์</span>
+          <div class="spacer" style="flex:1"></div>
+          <button class="btn ghost dark" id="bulkClear">ยกเลิก</button>
+          <button class="btn primary" id="bulkDownload">⬇ ดาวน์โหลด ZIP</button>
+        </div>
       </div>
     </div>
 
-    <!-- Admin view -->
+    <!-- ============== ADMIN VIEW ============== -->
     <div id="view-admin" class="hidden">
       <div class="tabs">
-        <button class="tab active" data-tab="upload">⬆ อัปโหลดไฟล์ใหม่</button>
+        <button class="tab active" data-tab="upload">⬆ อัปโหลดไฟล์</button>
         <button class="tab" data-tab="browse">📂 ดูไฟล์รายสาขา</button>
+        <button class="tab" data-tab="dashboard">📊 Dashboard</button>
+        <button class="tab" data-tab="history">📜 ประวัติ</button>
+        <button class="tab" data-tab="settings">⚙️ จัดการสาขา</button>
       </div>
 
       <!-- TAB: UPLOAD -->
@@ -374,14 +420,12 @@
         <div class="step">
           <div class="step-no">1</div>
           <div class="step-body">
-            <h3>เลือกไฟล์</h3>
+            <h3>เลือกไฟล์ (เลือกได้หลายไฟล์)</h3>
             <label class="drop" id="dropZone">
-              <input type="file" id="fileInput" />
-              <div class="drop-inner">
-                <div class="drop-icon">📁</div>
-                <div><span class="file-pick">คลิกเพื่อเลือกไฟล์</span> หรือลากมาวางที่นี่</div>
-                <div class="muted" style="font-size:.82rem">ขนาดไม่เกิน 50 MB ต่อไฟล์</div>
-              </div>
+              <input type="file" id="fileInput" multiple />
+              <div class="drop-icon">📁</div>
+              <div><span class="file-pick">คลิกเพื่อเลือกไฟล์</span> หรือลากมาวางที่นี่</div>
+              <div class="muted" style="font-size:.82rem">ขนาดไม่เกิน 50 MB ต่อไฟล์</div>
             </label>
             <div id="selFiles" class="sel-files"></div>
           </div>
@@ -390,11 +434,32 @@
         <div class="step">
           <div class="step-no">2</div>
           <div class="step-body">
+            <h3>รายละเอียดไฟล์ (ใช้กับทุกไฟล์ที่อัปครั้งนี้)</h3>
+            <div class="meta-grid">
+              <div class="field" style="margin:0">
+                <label>หมวดหมู่</label>
+                <select id="catSelect" class="input"></select>
+              </div>
+              <div class="field" style="margin:0">
+                <label>วันหมดอายุ (ถ้ามี — จะลบอัตโนมัติ)</label>
+                <input id="expInput" class="input" type="date" />
+              </div>
+            </div>
+            <div class="field">
+              <label>โน้ตประกอบ (เช่น "เริ่มใช้ 1 ก.ค.")</label>
+              <textarea id="noteInput" class="input" placeholder="ข้อความเพิ่มเติม..."></textarea>
+            </div>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-no">3</div>
+          <div class="step-body">
             <h3>เลือกสาขาที่จะส่งไฟล์</h3>
             <div class="quick">
               <span class="chip" id="selAll">✓ เลือกทั้งหมด</span>
               <span class="chip" id="selNone">✕ ล้างทั้งหมด</span>
-              <span class="pill-count" id="selCount">เลือกแล้ว 0 / 13</span>
+              <span class="pill-count" id="selCount">เลือกแล้ว 0</span>
             </div>
             <div class="stores" id="storeList" style="margin-top:10px"></div>
           </div>
@@ -421,8 +486,60 @@
         <div id="adminFiles" class="grid"></div>
         <div id="adminEmpty" class="empty hidden">เลือกสาขาเพื่อดูไฟล์</div>
       </div>
-    </div>
 
+      <!-- TAB: DASHBOARD -->
+      <div class="card hidden" id="tab-dashboard">
+        <div class="toolbar">
+          <h2 style="margin:0">📊 สถานะการดาวน์โหลด</h2>
+          <div class="spacer" style="flex:1"></div>
+          <button class="btn ghost dark" id="dashRefresh">⟳ รีเฟรช</button>
+        </div>
+        <div class="muted" style="margin-bottom:10px">แต่ละช่อง: ✓ ดาวน์โหลดแล้ว, ⏳ ยังไม่โหลด (สีแดงกระพริบ), — ไม่ได้ส่ง</div>
+        <div class="dash-wrap" id="dashWrap">
+          <div class="empty" style="border:0">ยังไม่มีข้อมูล กดรีเฟรช</div>
+        </div>
+        <div class="dash-legend">
+          <span><span class="dash-dot" style="background:var(--green-50);border:1px solid var(--green-600)"></span>ดาวน์โหลดแล้ว</span>
+          <span><span class="dash-dot" style="background:#ffeaea;border:1px solid var(--red-600)"></span>ยังไม่ดาวน์โหลด</span>
+          <span><span class="dash-dot" style="background:#fff;border:1px solid var(--line)"></span>ไม่ได้ส่ง</span>
+        </div>
+      </div>
+
+      <!-- TAB: HISTORY -->
+      <div class="card hidden" id="tab-history">
+        <div class="toolbar">
+          <h2 style="margin:0">📜 ประวัติการอัปโหลด</h2>
+          <div class="spacer" style="flex:1"></div>
+          <input id="histSearch" class="input search" placeholder="ค้นหา..." />
+          <button class="btn ghost dark" id="histRefresh">⟳</button>
+        </div>
+        <div id="histList"></div>
+        <div id="histEmpty" class="empty hidden">ยังไม่มีประวัติ</div>
+      </div>
+
+      <!-- TAB: SETTINGS / STORES -->
+      <div class="card hidden" id="tab-settings">
+        <h2 style="margin-bottom:14px">⚙️ จัดการสาขา</h2>
+        <div class="muted" style="margin-bottom:14px">เพิ่ม / แก้ไข / ลบรหัสและชื่อสาขา</div>
+
+        <div id="storeMgmtList"></div>
+
+        <h3 style="margin-top:16px">เพิ่ม/แก้ไขสาขา</h3>
+        <div class="meta-grid">
+          <div class="field" style="margin:0">
+            <label>รหัสสาขา (4 หลัก)</label>
+            <input id="newStoreCode" class="input" placeholder="เช่น 9999" />
+          </div>
+          <div class="field" style="margin:0">
+            <label>ชื่อสาขา</label>
+            <input id="newStoreName" class="input" placeholder="เช่น สาขาใหม่" />
+          </div>
+        </div>
+        <div class="row-actions">
+          <button class="btn primary" id="storeSaveBtn">บันทึก</button>
+        </div>
+      </div>
+    </div>
   </main>
 
   <footer>© Drive Store · พัฒนาเพื่อจัดส่งไฟล์ภายในองค์กร</footer>
@@ -437,7 +554,7 @@
       <button class="modal-x" data-close>×</button>
     </div>
     <div class="modal-body" id="modalBody"></div>
-    <div class="modal-foot">
+    <div class="modal-foot" id="modalFoot">
       <button class="btn ghost dark" data-close>ปิด</button>
       <a id="modalDl" class="btn primary" target="_blank" rel="noopener">⬇ ดาวน์โหลด</a>
     </div>
@@ -452,32 +569,21 @@
    =========================== */
 const API_URL = 'https://script.google.com/macros/s/AKfycbwDNzpRtyRykPUumiTASwbpo02W723oE_u1xJV3FBBFhLUWaCPgQJLZ2Fnp7gEHgJ3Grw/exec';
 
-const STORES = [
-  ['0730','ซอย เพี้ยนพิณ 2'],
-  ['3100','เฉลิมพระเกียรติ 14 แยก 34'],
-  ['3108','สุภาพงษ์3แยก4'],
-  ['3109','ซอย อ่อนนุช 36'],
-  ['3110','บางนาตราด กม. 6.5 (ปั๊มน้ำมัน)'],
-  ['3118','ซอยเทพารักษ์ 8'],
-  ['3121','บางนา - ตราด กม.8 (ปั๊มน้ำมัน)'],
-  ['5209','ซอย กุศลศิลป์'],
-  ['5219','เฉลิมพระเกียรติ 30 แยก 14'],
-  ['5285','แฟลตทหารเรือบางนา'],
-  ['5291','บ้านเทพารักษ์'],
-  ['6731','ท็อปส์ เดลี่ คาลเท็กซ์ ศรีนครินทร์'],
-  ['6953','ท็อปส์ เดลี่ บางจากบางนาตราด ก.ม.7'],
-];
-
 /* ===========================
-   STATE & DOM
+   STATE
    =========================== */
 const $ = (id) => document.getElementById(id);
 let session = JSON.parse(localStorage.getItem('ds.session') || 'null');
-let cache = { files: [], adminFiles: [], adminBranch: '' };
-let pendingFile = null;
+let cfg = { categories: [], stores: [] };
+let cache = {
+  files: [], adminFiles: [], adminBranch: '',
+  history: [], dash: null,
+  filterCat: '', selected: new Set(),
+};
+let pendingFiles = [];
 
 /* ===========================
-   API HELPERS (CORS-safe)
+   API
    =========================== */
 async function apiGet(params) {
   const qs = new URLSearchParams(params).toString();
@@ -494,7 +600,7 @@ async function apiPost(body) {
 }
 
 /* ===========================
-   UI HELPERS
+   UTIL
    =========================== */
 function toast(msg, kind) {
   const t = $('toast');
@@ -505,15 +611,17 @@ function toast(msg, kind) {
 }
 function fmtSize(b) {
   if (!b) return '';
-  const u = ['B','KB','MB','GB'];
-  let i = 0, n = b;
+  const u = ['B','KB','MB','GB']; let i = 0, n = b;
   while (n >= 1024 && i < u.length - 1) { n /= 1024; i++; }
   return `${n.toFixed(n < 10 ? 1 : 0)} ${u[i]}`;
 }
 function fmtDate(s) {
   if (!s) return '';
-  const d = new Date(s);
-  return d.toLocaleString('th-TH', { dateStyle:'short', timeStyle:'short' });
+  return new Date(s).toLocaleString('th-TH', { dateStyle:'short', timeStyle:'short' });
+}
+function fmtDateOnly(s) {
+  if (!s) return '';
+  return new Date(s).toLocaleDateString('th-TH', { day:'2-digit', month:'short', year:'2-digit' });
 }
 function iconFor(mime, name) {
   const n = (name||'').toLowerCase();
@@ -525,6 +633,19 @@ function iconFor(mime, name) {
   if (mime?.includes('word') || /\.(doc|docx)$/.test(n)) return '📝';
   if (mime?.includes('zip') || /\.(zip|rar|7z)$/.test(n)) return '🗜️';
   return '📁';
+}
+function escapeHtml(s) {
+  return String(s == null ? '' : s).replace(/[&<>"']/g, c => ({
+    '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
+  })[c]);
+}
+function fileToBase64(file) {
+  return new Promise((res, rej) => {
+    const r = new FileReader();
+    r.onload = () => res(r.result.substring(r.result.indexOf(',') + 1));
+    r.onerror = rej;
+    r.readAsDataURL(file);
+  });
 }
 
 /* ===========================
@@ -542,7 +663,7 @@ $('loginForm').addEventListener('submit', async (e) => {
     if (!r.ok) throw new Error(r.error || 'เข้าสู่ระบบไม่สำเร็จ');
     session = { role: r.role, code, name: r.name };
     localStorage.setItem('ds.session', JSON.stringify(session));
-    enterApp();
+    await enterApp();
   } catch (err) {
     $('loginErr').textContent = err.message;
   } finally {
@@ -551,24 +672,34 @@ $('loginForm').addEventListener('submit', async (e) => {
 });
 
 $('logoutBtn').addEventListener('click', () => {
-  localStorage.removeItem('ds.session');
-  session = null;
+  localStorage.removeItem('ds.session'); session = null;
   $('page-app').classList.add('hidden');
   $('page-login').classList.remove('hidden');
   $('codeInput').value = '';
 });
 
 /* ===========================
-   APP
+   APP BOOTSTRAP
    =========================== */
-function enterApp() {
+async function enterApp() {
   $('page-login').classList.add('hidden');
   $('page-app').classList.remove('hidden');
-  $('userPill').textContent =
-    session.role === 'admin' ? '👤 Admin' : `🏬 ${session.code} · ${session.name}`;
+  $('userPill').textContent = session.role === 'admin'
+    ? '👤 Admin' : `🏬 ${session.code} · ${session.name}`;
+  // Load config + stores
+  try {
+    const [c, s] = await Promise.all([
+      apiGet({ action: 'config' }),
+      apiGet({ action: 'stores' }),
+    ]);
+    cfg.categories = c.categories || [];
+    cfg.stores = s.stores || [];
+  } catch (e) { /* ignore */ }
+
   if (session.role === 'admin') {
     $('view-admin').classList.remove('hidden');
     $('view-branch').classList.add('hidden');
+    renderCategoryOptions();
     renderStoreList();
     renderBranchSelect();
     updateSelCount();
@@ -587,19 +718,23 @@ $('refreshBtn').addEventListener('click', () => {
 });
 
 /* ===========================
-   TABS (admin)
+   TABS
    =========================== */
 document.querySelectorAll('.tab').forEach(t => {
   t.addEventListener('click', () => {
     document.querySelectorAll('.tab').forEach(x => x.classList.toggle('active', x === t));
     const id = t.dataset.tab;
-    $('tab-upload').classList.toggle('hidden', id !== 'upload');
-    $('tab-browse').classList.toggle('hidden', id !== 'browse');
+    ['upload','browse','dashboard','history','settings'].forEach(n => {
+      $('tab-' + n).classList.toggle('hidden', n !== id);
+    });
+    if (id === 'dashboard') loadDashboard();
+    if (id === 'history') loadHistory();
+    if (id === 'settings') renderStoreMgmt();
   });
 });
 
 /* ===========================
-   BRANCH: list & download
+   BRANCH VIEW
    =========================== */
 async function loadFiles() {
   $('fileList').innerHTML = '<div class="muted">กำลังโหลด...</div>';
@@ -607,6 +742,7 @@ async function loadFiles() {
     const r = await apiGet({ action: 'list', code: session.code });
     if (!r.ok) throw new Error(r.error);
     cache.files = r.files || [];
+    renderCatFilter();
     renderFiles();
   } catch (err) {
     $('fileList').innerHTML = '';
@@ -614,9 +750,23 @@ async function loadFiles() {
   }
 }
 
+function renderCatFilter() {
+  const cats = Array.from(new Set(cache.files.map(f => f.category).filter(Boolean)));
+  const el = $('catFilter');
+  if (!cats.length) { el.innerHTML = ''; return; }
+  el.innerHTML = `<span class="chip ${cache.filterCat === '' ? 'active' : ''}" data-cat="">ทั้งหมด</span>` +
+    cats.map(c => `<span class="chip ${cache.filterCat === c ? 'active' : ''}" data-cat="${escapeHtml(c)}">${escapeHtml(c)}</span>`).join('');
+  el.querySelectorAll('.chip').forEach(ch => {
+    ch.addEventListener('click', () => { cache.filterCat = ch.dataset.cat; renderCatFilter(); renderFiles(); });
+  });
+}
+
 function renderFiles() {
   const q = ($('searchInput').value || '').trim().toLowerCase();
-  const list = cache.files.filter(f => !q || f.name.toLowerCase().includes(q));
+  const list = cache.files.filter(f =>
+    (!q || f.name.toLowerCase().includes(q)) &&
+    (!cache.filterCat || f.category === cache.filterCat)
+  );
   const el = $('fileList');
   $('fileEmpty').classList.toggle('hidden', list.length > 0);
   el.innerHTML = '';
@@ -624,25 +774,71 @@ function renderFiles() {
   bindCardActions(el);
 }
 
+$('searchInput').addEventListener('input', renderFiles);
+
+/* Bulk select / ZIP */
+$('toggleBulk').addEventListener('click', () => {
+  const on = !document.body.classList.contains('bulk-mode');
+  document.body.classList.toggle('bulk-mode', on);
+  $('bulkBar').classList.toggle('hidden', !on);
+  if (!on) { cache.selected.clear(); renderFiles(); }
+  $('toggleBulk').textContent = on ? '✕ ปิดเลือกหลายไฟล์' : '☑ เลือกหลายไฟล์';
+});
+$('bulkClear').addEventListener('click', () => {
+  cache.selected.clear(); updateBulkBar(); renderFiles();
+});
+$('bulkDownload').addEventListener('click', async () => {
+  if (!cache.selected.size) return toast('ยังไม่ได้เลือกไฟล์', 'err');
+  const btn = $('bulkDownload');
+  btn.disabled = true; btn.textContent = 'กำลังสร้าง ZIP...';
+  try {
+    const r = await apiPost({ action: 'zip', code: session.code, fileIds: Array.from(cache.selected) });
+    if (!r.ok) throw new Error(r.error);
+    // mark all as downloaded
+    for (const id of cache.selected) {
+      apiGet({ action: 'markDownloaded', code: session.code, fileId: id }).catch(()=>{});
+    }
+    window.open(r.url, '_blank');
+    cache.selected.clear(); updateBulkBar();
+    setTimeout(loadFiles, 800);
+  } catch (err) { toast(err.message, 'err'); }
+  finally { btn.disabled = false; btn.textContent = '⬇ ดาวน์โหลด ZIP'; }
+});
+function updateBulkBar() {
+  $('bulkCount').textContent = `เลือกแล้ว ${cache.selected.size} ไฟล์`;
+}
+
+/* ===========================
+   FILE CARD (shared)
+   =========================== */
 function fileCard(f, opts) {
   const card = document.createElement('div');
-  card.className = 'file' + (f.downloaded ? ' dimmed' : '');
+  const isSelected = cache.selected.has(f.id);
+  card.className = 'file' + (f.downloaded ? ' dimmed' : '') + (isSelected ? ' selected' : '');
   const showNew = opts.mode === 'branch' && !f.downloaded;
-  const adminActions = opts.mode === 'admin'
-    ? `<button class="icon-btn danger" data-action="del" data-id="${f.id}" title="ลบไฟล์">🗑</button>` : '';
+  const bulkBox = (opts.mode === 'branch' && document.body.classList.contains('bulk-mode'))
+    ? `<div class="select-box" data-action="sel" data-id="${f.id}">${isSelected ? '✓' : ''}</div>` : '';
+  const adminActions = opts.mode === 'admin' ? `
+    <button class="icon-btn" data-action="rename" data-id="${f.id}" title="เปลี่ยนชื่อ">✎</button>
+    <button class="icon-btn danger" data-action="del" data-id="${f.id}" title="ลบ">🗑</button>
+  ` : '';
+  const exp = f.expiresAt ? `<span class="badge-exp">⏰ ${fmtDateOnly(f.expiresAt)}</span>` : '';
+  const cat = f.category ? `<span class="badge-cat">${escapeHtml(f.category)}</span>` : '';
   card.innerHTML = `
+    ${bulkBox}
     ${showNew ? '<span class="badge-new">NEW</span>' : ''}
     <div class="top">
       <div class="ficon">${iconFor(f.mimeType, f.name)}</div>
       <div style="flex:1; min-width:0">
         <div class="fname">${escapeHtml(f.name)}</div>
         <div class="meta">
+          ${cat}${exp}
           <span>${fmtSize(f.size)}</span>
           <span>· ${fmtDate(f.uploadedAt)}</span>
-          ${opts.mode === 'admin' && f.downloaded ? '<span>· ✓ ดาวน์โหลดแล้ว</span>' : ''}
         </div>
       </div>
     </div>
+    ${f.note ? `<div class="note">${escapeHtml(f.note)}</div>` : ''}
     <div class="actions">
       <button class="icon-btn" data-action="preview"
               data-id="${f.id}" data-name="${escapeHtml(f.name)}"
@@ -667,9 +863,20 @@ function bindCardActions(scope) {
   scope.querySelectorAll('[data-action="del"]').forEach(b => {
     b.addEventListener('click', () => deleteFile(b.dataset.id));
   });
+  scope.querySelectorAll('[data-action="rename"]').forEach(b => {
+    b.addEventListener('click', () => renameFile(b.dataset.id));
+  });
+  scope.querySelectorAll('[data-action="sel"]').forEach(b => {
+    b.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const id = b.dataset.id;
+      if (cache.selected.has(id)) cache.selected.delete(id);
+      else cache.selected.add(id);
+      updateBulkBar();
+      renderFiles();
+    });
+  });
 }
-
-$('searchInput').addEventListener('input', renderFiles);
 
 async function markDownloaded(fileId) {
   const f = cache.files.find(x => x.id === fileId);
@@ -677,47 +884,86 @@ async function markDownloaded(fileId) {
   try { await apiGet({ action: 'markDownloaded', code: session.code, fileId }); } catch (e) {}
 }
 
-function escapeHtml(s) {
-  return String(s).replace(/[&<>"']/g, c => ({
-    '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
-  })[c]);
+/* ===========================
+   PREVIEW MODAL
+   =========================== */
+function openPreview(fileId, name, mime) {
+  $('modalTitle').textContent = name;
+  $('modalDl').href = `https://drive.google.com/uc?export=download&id=${fileId}`;
+  $('modalDl').classList.remove('hidden');
+  const body = $('modalBody');
+  const m = (mime || '').toLowerCase();
+  if (m.startsWith('image/')) {
+    body.innerHTML = `<img src="https://drive.google.com/thumbnail?id=${fileId}&sz=w1600" alt="">`;
+  } else {
+    body.innerHTML = `<iframe src="https://drive.google.com/file/d/${fileId}/preview" allow="autoplay" allowfullscreen></iframe>`;
+  }
+  $('modal').classList.remove('hidden');
 }
+function openCustomModal(title, html, footHtml) {
+  $('modalTitle').textContent = title;
+  $('modalBody').innerHTML = `<div class="pad">${html}</div>`;
+  $('modalFoot').innerHTML = footHtml || `<button class="btn ghost dark" data-close>ปิด</button>`;
+  $('modal').classList.remove('hidden');
+  $('modal').querySelectorAll('[data-close]').forEach(el => el.addEventListener('click', closePreview));
+}
+function closePreview() {
+  $('modal').classList.add('hidden');
+  $('modalBody').innerHTML = '';
+  $('modalFoot').innerHTML = `<button class="btn ghost dark" data-close>ปิด</button><a id="modalDl" class="btn primary" target="_blank" rel="noopener">⬇ ดาวน์โหลด</a>`;
+  $('modalFoot').querySelectorAll('[data-close]').forEach(el => el.addEventListener('click', closePreview));
+}
+document.querySelectorAll('#modal [data-close]').forEach(el => el.addEventListener('click', closePreview));
+document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closePreview(); });
 
 /* ===========================
-   ADMIN: upload
+   ADMIN: STORE LIST (for upload)
    =========================== */
+function renderCategoryOptions() {
+  const el = $('catSelect');
+  el.innerHTML = '<option value="">— ไม่ระบุ —</option>' +
+    cfg.categories.map(c => `<option value="${escapeHtml(c)}">${escapeHtml(c)}</option>`).join('');
+}
 function renderStoreList() {
   const el = $('storeList');
-  el.innerHTML = STORES.map(([code, name]) => `
+  el.innerHTML = cfg.stores.map(s => `
     <label class="store-check">
-      <input type="checkbox" value="${code}" />
-      <span class="code">${code}</span>
-      <span class="nm">${escapeHtml(name)}</span>
+      <input type="checkbox" value="${escapeHtml(s.code)}" />
+      <span class="code">${escapeHtml(s.code)}</span>
+      <span class="nm">${escapeHtml(s.name)}</span>
     </label>
   `).join('');
   el.querySelectorAll('input').forEach(i => i.addEventListener('change', updateSelCount));
 }
-
 function updateSelCount() {
   const n = document.querySelectorAll('#storeList input:checked').length;
   const el = $('selCount');
-  if (el) el.textContent = `เลือกแล้ว ${n} / ${STORES.length}`;
+  if (el) el.textContent = `เลือกแล้ว ${n} / ${cfg.stores.length}`;
 }
+$('selAll').addEventListener('click', () => {
+  document.querySelectorAll('#storeList input').forEach(i => i.checked = true);
+  updateSelCount();
+});
+$('selNone').addEventListener('click', () => {
+  document.querySelectorAll('#storeList input').forEach(i => i.checked = false);
+  updateSelCount();
+});
 
+/* ===========================
+   ADMIN: BROWSE BY BRANCH
+   =========================== */
 function renderBranchSelect() {
   const el = $('branchSelect');
-  if (!el) return;
   el.innerHTML = '<option value="">— เลือกสาขา —</option>' +
-    STORES.map(([code, name]) => `<option value="${code}">${code} · ${escapeHtml(name)}</option>`).join('');
-  el.addEventListener('change', () => {
+    cfg.stores.map(s => `<option value="${escapeHtml(s.code)}">${escapeHtml(s.code)} · ${escapeHtml(s.name)}</option>`).join('');
+  el.onchange = () => {
     cache.adminBranch = el.value;
     if (el.value) loadAdminFiles();
     else { $('adminFiles').innerHTML = ''; $('adminEmpty').classList.remove('hidden'); }
-  });
-  $('adminRefresh').addEventListener('click', () => { if (cache.adminBranch) loadAdminFiles(); });
-  $('adminSearch').addEventListener('input', renderAdminFiles);
+  };
+  $('adminRefresh').onclick = () => { if (cache.adminBranch) loadAdminFiles(); };
+  $('adminSearch').oninput = renderAdminFiles;
 }
-
 async function loadAdminFiles() {
   $('adminFiles').innerHTML = '<div class="muted">กำลังโหลด...</div>';
   $('adminEmpty').classList.add('hidden');
@@ -731,14 +977,12 @@ async function loadAdminFiles() {
     toast(err.message, 'err');
   }
 }
-
 function renderAdminFiles() {
   const q = ($('adminSearch').value || '').trim().toLowerCase();
   const list = cache.adminFiles.filter(f => !q || f.name.toLowerCase().includes(q));
   const el = $('adminFiles');
   $('adminEmpty').classList.toggle('hidden', list.length > 0);
-  if (!list.length && !cache.adminBranch) $('adminEmpty').textContent = 'เลือกสาขาเพื่อดูไฟล์';
-  else if (!list.length) $('adminEmpty').textContent = 'ไม่มีไฟล์ในสาขานี้';
+  if (!list.length) $('adminEmpty').textContent = cache.adminBranch ? 'ไม่มีไฟล์ในสาขานี้' : 'เลือกสาขาเพื่อดูไฟล์';
   el.innerHTML = '';
   list.forEach(f => el.appendChild(fileCard(f, { mode: 'admin' })));
   bindCardActions(el);
@@ -751,41 +995,26 @@ async function deleteFile(fileId) {
     if (!r.ok) throw new Error(r.error || 'ลบไฟล์ไม่สำเร็จ');
     cache.adminFiles = cache.adminFiles.filter(f => f.id !== fileId);
     renderAdminFiles();
-    toast('ลบไฟล์เรียบร้อย ✓', 'ok');
+    toast('ลบเรียบร้อย ✓', 'ok');
+  } catch (err) { toast(err.message, 'err'); }
+}
+
+async function renameFile(fileId) {
+  const f = cache.adminFiles.find(x => x.id === fileId);
+  const newName = prompt('ตั้งชื่อใหม่:', f?.name || '');
+  if (!newName || newName === f?.name) return;
+  try {
+    const r = await apiPost({ action: 'rename', adminCode: session.code, fileId, name: newName });
+    if (!r.ok) throw new Error(r.error);
+    if (f) f.name = newName;
+    renderAdminFiles();
+    toast('เปลี่ยนชื่อแล้ว ✓', 'ok');
   } catch (err) { toast(err.message, 'err'); }
 }
 
 /* ===========================
-   PREVIEW MODAL
+   ADMIN: UPLOAD (multi-file)
    =========================== */
-function openPreview(fileId, name, mime) {
-  $('modalTitle').textContent = name;
-  $('modalDl').href = `https://drive.google.com/uc?export=download&id=${fileId}`;
-  const body = $('modalBody');
-  const m = (mime || '').toLowerCase();
-  if (m.startsWith('image/')) {
-    body.innerHTML = `<img src="https://drive.google.com/thumbnail?id=${fileId}&sz=w1600" alt="">`;
-  } else {
-    body.innerHTML = `<iframe src="https://drive.google.com/file/d/${fileId}/preview" allow="autoplay" allowfullscreen></iframe>`;
-  }
-  $('modal').classList.remove('hidden');
-}
-function closePreview() {
-  $('modal').classList.add('hidden');
-  $('modalBody').innerHTML = '';
-}
-document.querySelectorAll('#modal [data-close]').forEach(el => el.addEventListener('click', closePreview));
-document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closePreview(); });
-
-$('selAll').addEventListener('click', () => {
-  document.querySelectorAll('#storeList input').forEach(i => i.checked = true);
-  updateSelCount();
-});
-$('selNone').addEventListener('click', () => {
-  document.querySelectorAll('#storeList input').forEach(i => i.checked = false);
-  updateSelCount();
-});
-
 const drop = $('dropZone');
 const fileInput = $('fileInput');
 ['dragover','dragenter'].forEach(ev => drop.addEventListener(ev, e => {
@@ -794,33 +1023,31 @@ const fileInput = $('fileInput');
 ['dragleave','drop'].forEach(ev => drop.addEventListener(ev, e => {
   e.preventDefault(); drop.classList.remove('drag');
 }));
-drop.addEventListener('drop', e => {
-  const f = e.dataTransfer?.files?.[0];
-  if (f) setPendingFile(f);
-});
-fileInput.addEventListener('change', e => {
-  const f = e.target.files?.[0];
-  if (f) setPendingFile(f);
-});
-function setPendingFile(f) {
-  pendingFile = f;
-  $('selFiles').innerHTML = `
+drop.addEventListener('drop', e => addFiles(e.dataTransfer?.files));
+fileInput.addEventListener('change', e => addFiles(e.target.files));
+
+function addFiles(fileList) {
+  if (!fileList) return;
+  Array.from(fileList).forEach(f => pendingFiles.push(f));
+  renderSelFiles();
+}
+function renderSelFiles() {
+  const el = $('selFiles');
+  el.innerHTML = pendingFiles.map((f, i) => `
     <div class="item">
       <span>📎</span>
       <span class="name">${escapeHtml(f.name)} <span class="muted">(${fmtSize(f.size)})</span></span>
-      <button class="x" id="clearFile" title="ลบ">✕</button>
-    </div>`;
-  $('clearFile').addEventListener('click', () => {
-    pendingFile = null;
-    fileInput.value = '';
-    $('selFiles').innerHTML = '';
-  });
+      <button class="x" data-i="${i}" title="ลบ">✕</button>
+    </div>
+  `).join('');
+  el.querySelectorAll('.x').forEach(b => b.addEventListener('click', () => {
+    pendingFiles.splice(Number(b.dataset.i), 1); renderSelFiles();
+  }));
 }
 
 $('resetUpload').addEventListener('click', () => {
-  pendingFile = null;
-  fileInput.value = '';
-  $('selFiles').innerHTML = '';
+  pendingFiles = []; fileInput.value = ''; renderSelFiles();
+  $('catSelect').value = ''; $('noteInput').value = ''; $('expInput').value = '';
   document.querySelectorAll('#storeList input').forEach(i => i.checked = false);
   updateSelCount();
   $('progWrap').classList.add('hidden');
@@ -828,31 +1055,36 @@ $('resetUpload').addEventListener('click', () => {
 });
 
 $('uploadBtn').addEventListener('click', async () => {
-  if (!pendingFile) return toast('กรุณาเลือกไฟล์', 'err');
-  const branches = Array.from(document.querySelectorAll('#storeList input:checked'))
-    .map(i => i.value);
+  if (!pendingFiles.length) return toast('กรุณาเลือกไฟล์', 'err');
+  const branches = Array.from(document.querySelectorAll('#storeList input:checked')).map(i => i.value);
   if (!branches.length) return toast('กรุณาเลือกอย่างน้อย 1 สาขา', 'err');
 
-  const btn = $('uploadBtn');
-  btn.disabled = true; btn.textContent = 'กำลังเตรียมไฟล์...';
-  $('progWrap').classList.remove('hidden');
-  $('progBar').style.width = '15%';
+  const category = $('catSelect').value || '';
+  const note = $('noteInput').value || '';
+  const exp = $('expInput').value || null;
+  const expiresAt = exp ? new Date(exp + 'T23:59:59').toISOString() : null;
 
+  const btn = $('uploadBtn');
+  btn.disabled = true;
+  $('progWrap').classList.remove('hidden');
+  let done = 0;
+  const total = pendingFiles.length;
   try {
-    const base64 = await fileToBase64(pendingFile);
-    $('progBar').style.width = '55%';
-    btn.textContent = 'กำลังอัปโหลด...';
-    const r = await apiPost({
-      action: 'upload',
-      adminCode: session.code,
-      filename: pendingFile.name,
-      mimeType: pendingFile.type || 'application/octet-stream',
-      base64,
-      branches,
-    });
-    $('progBar').style.width = '100%';
-    if (!r.ok) throw new Error(r.error || 'อัปโหลดล้มเหลว');
-    toast(`อัปโหลดเข้า ${r.created.length} สาขาเรียบร้อย ✓`, 'ok');
+    for (const file of pendingFiles) {
+      btn.textContent = `กำลังอัปโหลด ${done+1}/${total}...`;
+      const base64 = await fileToBase64(file);
+      const r = await apiPost({
+        action: 'upload',
+        adminCode: session.code,
+        filename: file.name,
+        mimeType: file.type || 'application/octet-stream',
+        base64, branches, category, note, expiresAt,
+      });
+      if (!r.ok) throw new Error(`${file.name}: ${r.error}`);
+      done++;
+      $('progBar').style.width = (done/total*100) + '%';
+    }
+    toast(`อัปโหลด ${done} ไฟล์ → ${branches.length} สาขา ✓`, 'ok');
     setTimeout(() => $('resetUpload').click(), 600);
   } catch (err) {
     toast(err.message, 'err');
@@ -861,17 +1093,194 @@ $('uploadBtn').addEventListener('click', async () => {
   }
 });
 
-function fileToBase64(file) {
-  return new Promise((res, rej) => {
-    const r = new FileReader();
-    r.onload = () => {
-      const s = r.result;
-      const b64 = s.substring(s.indexOf(',') + 1);
-      res(b64);
-    };
-    r.onerror = rej;
-    r.readAsDataURL(file);
+/* ===========================
+   ADMIN: DASHBOARD
+   =========================== */
+$('dashRefresh').addEventListener('click', loadDashboard);
+async function loadDashboard() {
+  const wrap = $('dashWrap');
+  wrap.innerHTML = '<div class="muted" style="padding:20px">กำลังโหลด...</div>';
+  try {
+    const r = await apiPost({ action: 'dashboard', adminCode: session.code });
+    if (!r.ok) throw new Error(r.error);
+    cache.dash = r;
+    renderDashboard();
+  } catch (err) {
+    wrap.innerHTML = `<div class="muted" style="padding:20px">เกิดข้อผิดพลาด: ${escapeHtml(err.message)}</div>`;
+  }
+}
+function renderDashboard() {
+  const d = cache.dash;
+  if (!d || !d.rows.length) {
+    $('dashWrap').innerHTML = '<div class="empty" style="border:0">ยังไม่มีประวัติการอัปโหลด</div>';
+    return;
+  }
+  const headRow = `<tr>
+      <th class="fname-col">ไฟล์</th>
+      ${d.stores.map(s => `<th title="${escapeHtml(s.name)}">${escapeHtml(s.code)}</th>`).join('')}
+    </tr>`;
+  const bodyRows = d.rows.map(row => `
+    <tr>
+      <td class="fname-col">
+        <div style="font-weight:600">${escapeHtml(row.filename)}</div>
+        <div class="muted" style="font-size:.78rem">${escapeHtml(row.category || '')} · ${fmtDate(row.uploadedAt)}</div>
+      </td>
+      ${d.stores.map(s => {
+        const c = row.cells[s.code] || { status: 'na' };
+        if (c.status === 'done') return '<td class="cell-done">✓</td>';
+        if (c.status === 'pending') return '<td class="cell-pending">⏳</td>';
+        return '<td class="cell-na">—</td>';
+      }).join('')}
+    </tr>
+  `).join('');
+  $('dashWrap').innerHTML = `<table class="dash"><thead>${headRow}</thead><tbody>${bodyRows}</tbody></table>`;
+}
+
+/* ===========================
+   ADMIN: HISTORY
+   =========================== */
+$('histRefresh').addEventListener('click', loadHistory);
+$('histSearch').addEventListener('input', renderHistory);
+async function loadHistory() {
+  $('histList').innerHTML = '<div class="muted">กำลังโหลด...</div>';
+  $('histEmpty').classList.add('hidden');
+  try {
+    const r = await apiPost({ action: 'history', adminCode: session.code });
+    if (!r.ok) throw new Error(r.error);
+    cache.history = r.items || [];
+    renderHistory();
+  } catch (err) { toast(err.message, 'err'); }
+}
+function renderHistory() {
+  const q = ($('histSearch').value || '').trim().toLowerCase();
+  const list = cache.history.filter(it => !q || (it.filename || '').toLowerCase().includes(q));
+  $('histEmpty').classList.toggle('hidden', list.length > 0);
+  if (!list.length) { $('histList').innerHTML = ''; return; }
+  $('histList').innerHTML = list.map(it => `
+    <div class="hist-item">
+      <div class="hist-head">
+        <div class="title">${escapeHtml(it.filename)}</div>
+        ${it.category ? `<span class="badge-cat">${escapeHtml(it.category)}</span>` : ''}
+        ${it.expiresAt ? `<span class="badge-exp">⏰ ${fmtDateOnly(it.expiresAt)}</span>` : ''}
+      </div>
+      <div class="hist-meta">
+        <span>${fmtDate(it.uploadedAt)}</span>
+        <span>· ${fmtSize(it.size)}</span>
+        <span>· ส่งถึง ${it.branches.length} สาขา</span>
+      </div>
+      ${it.note ? `<div class="note" style="margin-top:6px">${escapeHtml(it.note)}</div>` : ''}
+      <div class="hist-branches">
+        ${it.branches.map(b => `<span class="b">${escapeHtml(b)}</span>`).join('')}
+      </div>
+      <div class="hist-actions">
+        <button class="icon-btn" data-h="rename" data-id="${it.groupId}">✎ ชื่อ</button>
+        <button class="icon-btn" data-h="meta" data-id="${it.groupId}">🏷 แก้ meta</button>
+        <button class="icon-btn" data-h="resend" data-id="${it.groupId}">➕ ส่งเพิ่ม</button>
+        <button class="icon-btn danger" data-h="delete" data-id="${it.groupId}">🗑 ลบทั้งหมด</button>
+      </div>
+    </div>
+  `).join('');
+  $('histList').querySelectorAll('[data-h]').forEach(b => {
+    const id = b.dataset.id;
+    const item = cache.history.find(x => x.groupId === id);
+    if (b.dataset.h === 'rename') b.onclick = () => histRename(item);
+    if (b.dataset.h === 'meta')   b.onclick = () => histMeta(item);
+    if (b.dataset.h === 'resend') b.onclick = () => histResend(item);
+    if (b.dataset.h === 'delete') b.onclick = () => histDelete(item);
   });
+}
+async function histRename(item) {
+  const name = prompt('ตั้งชื่อใหม่ (มีผลทุกสำเนา):', item.filename);
+  if (!name || name === item.filename) return;
+  const r = await apiPost({ action: 'rename', adminCode: session.code, groupId: item.groupId, name });
+  if (!r.ok) return toast(r.error, 'err');
+  toast('เปลี่ยนชื่อแล้ว ✓', 'ok'); loadHistory();
+}
+async function histMeta(item) {
+  const cat = prompt('หมวดหมู่ (' + cfg.categories.join(' / ') + '):', item.category || '');
+  if (cat === null) return;
+  const note = prompt('โน้ต:', item.note || '');
+  if (note === null) return;
+  const exp = prompt('วันหมดอายุ (YYYY-MM-DD หรือเว้นว่าง):',
+    item.expiresAt ? item.expiresAt.slice(0, 10) : '');
+  if (exp === null) return;
+  const expiresAt = exp ? new Date(exp + 'T23:59:59').toISOString() : null;
+  const r = await apiPost({ action: 'updateMeta', adminCode: session.code, groupId: item.groupId, category: cat, note, expiresAt });
+  if (!r.ok) return toast(r.error, 'err');
+  toast('แก้ไขเรียบร้อย ✓', 'ok'); loadHistory();
+}
+async function histResend(item) {
+  const existing = new Set(item.branches);
+  const checkboxes = cfg.stores
+    .filter(s => !existing.has(s.code))
+    .map(s => `<label class="store-check"><input type="checkbox" value="${escapeHtml(s.code)}"/><span class="code">${escapeHtml(s.code)}</span><span class="nm">${escapeHtml(s.name)}</span></label>`).join('');
+  if (!checkboxes) { toast('ส่งครบทุกสาขาแล้ว', 'ok'); return; }
+  openCustomModal('ส่งเพิ่มไปสาขา', `
+    <div class="muted" style="margin-bottom:8px">${escapeHtml(item.filename)}</div>
+    <div class="stores" id="resendStores">${checkboxes}</div>
+  `, `
+    <button class="btn ghost dark" data-close>ยกเลิก</button>
+    <button class="btn primary" id="resendGo">ส่ง</button>
+  `);
+  $('resendGo').onclick = async () => {
+    const branches = Array.from(document.querySelectorAll('#resendStores input:checked')).map(i => i.value);
+    if (!branches.length) return toast('เลือกสาขา', 'err');
+    const r = await apiPost({ action: 'resend', adminCode: session.code, groupId: item.groupId, branches });
+    if (!r.ok) return toast(r.error, 'err');
+    toast(`ส่งเพิ่ม ${r.added.length} สาขา ✓`, 'ok');
+    closePreview(); loadHistory();
+  };
+}
+async function histDelete(item) {
+  if (!confirm(`ลบไฟล์ "${item.filename}" ในทุกสาขาที่ส่งไป (${item.branches.length} สาขา)?`)) return;
+  const r = await apiPost({ action: 'delete', adminCode: session.code, groupId: item.groupId });
+  if (!r.ok) return toast(r.error, 'err');
+  toast('ลบเรียบร้อย ✓', 'ok'); loadHistory();
+}
+
+/* ===========================
+   ADMIN: STORE MGMT
+   =========================== */
+function renderStoreMgmt() {
+  const el = $('storeMgmtList');
+  el.innerHTML = cfg.stores.map(s => `
+    <div class="store-row">
+      <span class="code">${escapeHtml(s.code)}</span>
+      <span class="nm">${escapeHtml(s.name)}</span>
+      <button class="icon-btn" data-edit="${escapeHtml(s.code)}">✎</button>
+      <button class="icon-btn danger" data-del="${escapeHtml(s.code)}">🗑</button>
+    </div>
+  `).join('');
+  el.querySelectorAll('[data-edit]').forEach(b => {
+    b.onclick = () => {
+      const s = cfg.stores.find(x => x.code === b.dataset.edit);
+      $('newStoreCode').value = s.code;
+      $('newStoreName').value = s.name;
+    };
+  });
+  el.querySelectorAll('[data-del]').forEach(b => {
+    b.onclick = async () => {
+      if (!confirm('ลบสาขานี้?')) return;
+      const r = await apiPost({ action: 'storeDelete', adminCode: session.code, code: b.dataset.del });
+      if (!r.ok) return toast(r.error, 'err');
+      toast('ลบสาขาแล้ว ✓', 'ok'); await reloadStores();
+    };
+  });
+}
+$('storeSaveBtn').addEventListener('click', async () => {
+  const code = $('newStoreCode').value.trim();
+  const name = $('newStoreName').value.trim();
+  if (!code || !name) return toast('กรอกข้อมูลให้ครบ', 'err');
+  const r = await apiPost({ action: 'storeSave', adminCode: session.code, code, name });
+  if (!r.ok) return toast(r.error, 'err');
+  $('newStoreCode').value = ''; $('newStoreName').value = '';
+  toast('บันทึกสาขาแล้ว ✓', 'ok');
+  await reloadStores();
+});
+async function reloadStores() {
+  const s = await apiGet({ action: 'stores' });
+  cfg.stores = s.stores || [];
+  renderStoreMgmt(); renderStoreList(); renderBranchSelect(); updateSelCount();
 }
 
 /* ===========================
