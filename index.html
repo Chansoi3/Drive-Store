@@ -9,362 +9,485 @@
 <title>Drive Store</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Sarabun:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
   :root{
-    --red-900:#7a0d10; --red-800:#9a1115; --red-700:#b71c1c;
-    --red-600:#d32f2f; --red-500:#e53935; --red-50:#ffebee;
-    --green-600:#2e7d32; --green-50:#e8f5e9;
-    --amber-600:#ef6c00; --amber-50:#fff3e0;
-    --gray-100:#f5f5f5;
-    --ink:#1a0507; --muted:#7a6b6d; --line:#f1d7d8;
-    --bg:#fff7f7; --card:#ffffff;
-    --shadow:0 10px 30px rgba(122,13,16,.10), 0 2px 6px rgba(122,13,16,.06);
+    --bg:#f6f6f7;
+    --surface:#ffffff;
+    --surface-2:#fafafa;
+    --border:#e6e6ea;
+    --border-soft:#eeeef1;
+    --ink:#1f2024;
+    --ink-2:#3a3b40;
+    --muted:#83848b;
+    --muted-2:#b8b9bf;
+
+    --accent:#b04848;
+    --accent-soft:#c66565;
+    --accent-tint:#f7ecec;
+    --accent-tint-2:#fdf5f5;
+
+    --green:#5b8a4f;
+    --green-tint:#eef4ec;
+    --amber:#b07a3a;
+    --amber-tint:#faf2e6;
+
+    --radius:10px;
+    --radius-sm:7px;
+    --shadow-sm:0 1px 2px rgba(20,20,30,.04);
+    --shadow:0 2px 8px rgba(20,20,30,.05), 0 1px 2px rgba(20,20,30,.03);
+    --shadow-md:0 4px 16px rgba(20,20,30,.06), 0 2px 4px rgba(20,20,30,.04);
   }
   *{box-sizing:border-box}
   html,body{margin:0;padding:0}
   body{
-    font-family:'Prompt', -apple-system, system-ui, sans-serif; color:var(--ink);
-    background:
-      radial-gradient(1200px 600px at -10% -20%, #ffe2e2 0%, transparent 60%),
-      radial-gradient(900px 500px at 110% 0%, #ffd3d3 0%, transparent 55%),
-      var(--bg);
-    min-height:100vh;
+    font-family:'Sarabun','Inter',-apple-system,system-ui,sans-serif;
+    color:var(--ink); background:var(--bg);
+    min-height:100vh; font-size:14.5px; line-height:1.5;
   }
-  a{color:var(--red-700);text-decoration:none}
-  button{font-family:inherit;cursor:pointer}
+  a{color:var(--accent); text-decoration:none}
+  a:hover{text-decoration:underline}
+  button{font-family:inherit; cursor:pointer}
   .hidden{display:none !important}
 
   /* Header */
   header{
     position:sticky; top:0; z-index:50;
-    background:linear-gradient(135deg, var(--red-800), var(--red-600));
-    color:#fff; box-shadow:0 4px 16px rgba(122,13,16,.25);
+    background:var(--surface);
+    border-bottom:1px solid var(--border);
   }
-  .nav{max-width:1280px; margin:0 auto; padding:14px 20px; display:flex; align-items:center; gap:14px; flex-wrap:wrap}
-  .brand{display:flex; align-items:center; gap:12px; font-weight:700; font-size:1.15rem}
-  .brand .logo{
-    width:36px;height:36px;border-radius:10px;
-    background:rgba(255,255,255,.16); display:grid;place-items:center;font-size:18px;
-    box-shadow:inset 0 0 0 1px rgba(255,255,255,.25);
+  .nav{
+    max-width:1280px; margin:0 auto; padding:14px 20px;
+    display:flex; align-items:center; gap:14px; flex-wrap:wrap;
   }
+  .brand{
+    display:flex; align-items:center; gap:10px;
+    font-weight:600; font-size:1rem; color:var(--ink);
+  }
+  .brand .mark{
+    width:30px; height:30px; border-radius:7px;
+    background:var(--accent); color:#fff;
+    display:grid; place-items:center; font-size:.78rem; font-weight:700;
+    letter-spacing:.05em;
+  }
+  .brand .divider{
+    width:1px; height:18px; background:var(--border); margin:0 4px;
+  }
+  .brand .sub{color:var(--muted); font-weight:400; font-size:.9rem}
   .nav .spacer{flex:1}
-  .pill{
-    background:rgba(255,255,255,.16); color:#fff; padding:6px 12px;
-    border-radius:999px; font-size:.85rem; border:1px solid rgba(255,255,255,.25);
+  .user-tag{
+    display:flex; align-items:center; gap:8px;
+    background:var(--surface-2); border:1px solid var(--border);
+    color:var(--ink-2); padding:6px 12px; border-radius:999px;
+    font-size:.85rem;
   }
+  .user-tag .dot{width:6px;height:6px;border-radius:50%;background:var(--accent)}
+
+  /* Buttons */
   .btn{
-    background:#fff; color:var(--red-700); border:0;
-    padding:9px 16px; border-radius:10px; font-weight:600;
-    transition:transform .08s ease, box-shadow .2s ease, background .2s;
+    background:var(--surface); color:var(--ink-2);
+    border:1px solid var(--border);
+    padding:8px 16px; border-radius:var(--radius-sm);
+    font-weight:500; font-size:.9rem;
+    transition:border-color .12s, background .12s, color .12s;
+    display:inline-flex; align-items:center; gap:6px;
   }
-  .btn:hover{transform:translateY(-1px); box-shadow:0 6px 16px rgba(0,0,0,.12)}
-  .btn.ghost{background:transparent; color:#fff; border:1px solid rgba(255,255,255,.6)}
-  .btn.ghost:hover{background:rgba(255,255,255,.12)}
-  .btn.ghost.dark{color:var(--red-700); border-color:var(--line); background:#fff}
-  .btn.ghost.dark:hover{background:var(--red-50)}
+  .btn:hover{border-color:var(--muted-2); color:var(--ink)}
   .btn.primary{
-    background:linear-gradient(135deg,var(--red-700),var(--red-500));
-    color:#fff; box-shadow:0 8px 22px rgba(211,47,47,.35);
+    background:var(--accent); color:#fff; border-color:var(--accent);
   }
-  .btn.primary:hover{filter:brightness(1.04)}
-  .btn.block{width:100%}
-  .btn[disabled]{opacity:.55; cursor:not-allowed; transform:none}
+  .btn.primary:hover{background:#974040; border-color:#974040}
+  .btn.subtle{
+    background:transparent; border-color:transparent; color:var(--muted);
+  }
+  .btn.subtle:hover{color:var(--ink); background:var(--surface-2)}
+  .btn.danger{color:var(--accent); border-color:var(--border)}
+  .btn.danger:hover{background:var(--accent-tint); border-color:var(--accent-soft); color:var(--accent)}
+  .btn.block{width:100%; justify-content:center}
+  .btn[disabled]{opacity:.5; cursor:not-allowed}
 
   /* Layout */
-  main{max-width:1280px; margin:24px auto; padding:0 20px}
+  main{max-width:1280px; margin:24px auto; padding:0 20px 60px}
   .card{
-    background:var(--card); border-radius:18px; padding:22px;
-    box-shadow:var(--shadow); border:1px solid var(--line);
+    background:var(--surface); border-radius:var(--radius); padding:22px;
+    box-shadow:var(--shadow-sm); border:1px solid var(--border);
   }
-  h1,h2,h3{margin:0 0 8px}
-  h1{font-size:1.6rem}
-  h2{font-size:1.25rem}
-  h3{font-size:1.05rem}
-  .muted{color:var(--muted); font-size:.92rem}
+  h1,h2,h3,h4{margin:0 0 8px; font-weight:600; color:var(--ink); letter-spacing:-.01em}
+  h1{font-size:1.5rem}
+  h2{font-size:1.15rem}
+  h3{font-size:1rem}
+  h4{font-size:.92rem}
+  .muted{color:var(--muted); font-size:.88rem}
+  .divider-line{height:1px; background:var(--border-soft); margin:14px 0}
 
-  /* Login */
-  .login-wrap{min-height:calc(100vh - 80px); display:grid; place-items:center; padding:24px}
-  .login{width:100%; max-width:420px; text-align:center}
-  .login .logo-xl{
-    width:72px;height:72px;margin:0 auto 16px;border-radius:20px;
-    background:linear-gradient(135deg,var(--red-700),var(--red-500));
-    display:grid;place-items:center;color:#fff;font-size:32px;
-    box-shadow:0 14px 30px rgba(211,47,47,.35);
-  }
-  .field{margin:14px 0; text-align:left}
-  .field label{display:block; font-size:.9rem; color:var(--muted); margin-bottom:6px}
+  /* Inputs */
   .input, select.input, textarea.input{
-    width:100%; padding:11px 14px; border:1.5px solid var(--line);
-    border-radius:12px; font-size:1rem; font-family:inherit; background:#fff; color:var(--ink);
-    transition:border .15s, box-shadow .15s;
+    width:100%; padding:9px 12px; border:1px solid var(--border);
+    border-radius:var(--radius-sm); font-size:.92rem; font-family:inherit;
+    background:var(--surface); color:var(--ink);
+    transition:border-color .12s, box-shadow .12s;
   }
   textarea.input{resize:vertical; min-height:64px}
-  .input:focus{outline:none; border-color:var(--red-500); box-shadow:0 0 0 4px rgba(229,57,53,.12)}
-  .error{color:var(--red-700); font-size:.9rem; margin-top:10px; min-height:1.2em}
+  .input:focus{outline:none; border-color:var(--accent); box-shadow:0 0 0 3px var(--accent-tint)}
+  .input::placeholder{color:var(--muted-2)}
+  .field{margin:12px 0}
+  .field label{display:block; font-size:.83rem; color:var(--muted); margin-bottom:5px; font-weight:500}
+  .error{color:var(--accent); font-size:.85rem; margin-top:10px; min-height:1em}
+
+  /* Login */
+  .login-wrap{min-height:calc(100vh - 60px); display:grid; place-items:center; padding:24px}
+  .login{width:100%; max-width:380px}
+  .login .header-area{text-align:center; margin-bottom:24px}
+  .login .logo{
+    width:48px; height:48px; margin:0 auto 14px; border-radius:10px;
+    background:var(--accent); color:#fff;
+    display:grid; place-items:center; font-weight:700; letter-spacing:.05em;
+  }
+  .login h1{font-size:1.3rem}
 
   /* Tabs */
-  .tabs{display:flex; gap:8px; margin-bottom:14px; flex-wrap:wrap; overflow-x:auto}
+  .tabs{
+    display:flex; gap:2px; margin-bottom:18px;
+    border-bottom:1px solid var(--border);
+    overflow-x:auto; padding-bottom:0;
+  }
   .tab{
-    background:#fff; border:1px solid var(--line); color:var(--muted);
-    padding:10px 16px; border-radius:12px; font-weight:600; font-family:inherit;
-    font-size:.95rem; white-space:nowrap;
+    background:transparent; border:0; color:var(--muted);
+    padding:10px 16px; font-weight:500; font-family:inherit;
+    font-size:.9rem; white-space:nowrap;
+    border-bottom:2px solid transparent; margin-bottom:-1px;
+    transition:color .12s, border-color .12s;
   }
-  .tab:hover{color:var(--red-700)}
-  .tab.active{
-    background:linear-gradient(135deg,var(--red-700),var(--red-500));
-    color:#fff; border-color:transparent; box-shadow:0 6px 16px rgba(211,47,47,.28);
-  }
+  .tab:hover{color:var(--ink-2)}
+  .tab.active{color:var(--accent); border-bottom-color:var(--accent)}
 
   /* Steps */
-  .step{display:flex; gap:14px; margin-bottom:22px}
+  .step{display:flex; gap:14px; margin-bottom:20px}
   .step-no{
-    width:34px;height:34px;border-radius:50%; flex-shrink:0;
-    background:linear-gradient(135deg,var(--red-700),var(--red-500));
-    color:#fff; display:grid; place-items:center; font-weight:700;
-    box-shadow:0 4px 10px rgba(211,47,47,.3);
+    width:26px; height:26px; border-radius:50%; flex-shrink:0;
+    background:var(--accent-tint); color:var(--accent);
+    display:grid; place-items:center; font-weight:600; font-size:.8rem;
+    border:1px solid var(--accent-soft);
   }
   .step-body{flex:1; min-width:0}
-  .step-body h3{margin:4px 0 10px}
+  .step-body h3{margin:2px 0 12px; color:var(--ink-2)}
 
   /* Drop zone */
   .drop{
-    border:2px dashed var(--line); border-radius:14px;
-    padding:26px; text-align:center; background:#fff; display:block;
-    transition:border-color .15s, background .15s; cursor:pointer;
+    border:1.5px dashed var(--border); border-radius:var(--radius);
+    padding:24px; text-align:center; background:var(--surface-2);
+    display:block; cursor:pointer;
+    transition:border-color .15s, background .15s;
   }
-  .drop.drag{border-color:var(--red-500); background:var(--red-50)}
+  .drop:hover{border-color:var(--accent-soft); background:var(--accent-tint-2)}
+  .drop.drag{border-color:var(--accent); background:var(--accent-tint)}
   .drop input[type=file]{display:none}
-  .drop-icon{font-size:34px; line-height:1; margin-bottom:6px}
-  .file-pick{font-weight:600; color:var(--red-700)}
+  .drop .upload-icon{
+    width:32px; height:32px; margin:0 auto 6px;
+    border:1.5px solid var(--muted-2); border-radius:6px;
+    display:grid; place-items:center; color:var(--muted);
+    font-size:.78rem; font-weight:600; letter-spacing:.05em;
+  }
+  .drop .file-pick{font-weight:500; color:var(--accent); text-decoration:underline}
+  .drop .sub{font-size:.8rem; color:var(--muted); margin-top:4px}
+
   .sel-files{display:flex; flex-direction:column; gap:6px; margin-top:10px}
   .sel-files .item{
-    display:flex; align-items:center; gap:8px;
-    background:var(--red-50); padding:8px 12px; border-radius:10px; font-size:.9rem;
+    display:flex; align-items:center; gap:10px;
+    background:var(--surface-2); border:1px solid var(--border);
+    padding:8px 12px; border-radius:var(--radius-sm); font-size:.88rem;
   }
   .sel-files .item .name{flex:1; min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap}
-  .sel-files .item .x{background:transparent; border:0; color:var(--red-700); font-size:18px; cursor:pointer; padding:0 6px}
+  .sel-files .item .x{
+    background:transparent; border:0; color:var(--muted); cursor:pointer;
+    padding:0; font-size:1.1rem; line-height:1;
+  }
+  .sel-files .item .x:hover{color:var(--accent)}
 
-  /* Stores list */
+  /* Store checkbox list */
   .stores{
-    display:grid; gap:8px;
-    grid-template-columns:repeat(auto-fill, minmax(240px,1fr));
+    display:grid; gap:4px;
+    grid-template-columns:repeat(auto-fill, minmax(220px,1fr));
     max-height:340px; overflow:auto; padding:8px;
-    border:1px solid var(--line); border-radius:12px; background:#fff;
+    border:1px solid var(--border); border-radius:var(--radius-sm);
+    background:var(--surface-2);
   }
   .store-check{
     display:flex; gap:10px; align-items:center;
-    padding:8px 10px; border-radius:10px; cursor:pointer; transition:background .15s;
+    padding:7px 10px; border-radius:var(--radius-sm);
+    cursor:pointer; transition:background .12s;
+    font-size:.88rem;
   }
-  .store-check:hover{background:var(--red-50)}
-  .store-check input{accent-color:var(--red-600); width:18px; height:18px}
-  .store-check .code{font-weight:700; color:var(--red-700); min-width:46px}
-  .store-check .nm{font-size:.92rem}
+  .store-check:hover{background:var(--accent-tint-2)}
+  .store-check input{accent-color:var(--accent); width:15px; height:15px}
+  .store-check .code{font-weight:600; color:var(--accent); min-width:42px}
+  .store-check .nm{color:var(--ink-2)}
 
-  .quick{display:flex; gap:8px; flex-wrap:wrap; margin-top:8px; align-items:center}
+  .quick{display:flex; gap:6px; flex-wrap:wrap; align-items:center}
   .chip{
-    background:#fff; border:1px solid var(--line); color:var(--red-700);
-    padding:5px 10px; border-radius:999px; font-size:.82rem; cursor:pointer;
+    background:var(--surface); border:1px solid var(--border);
+    color:var(--muted); padding:5px 12px; border-radius:999px;
+    font-size:.8rem; cursor:pointer; font-weight:500;
+    transition:all .12s;
   }
-  .chip:hover{background:var(--red-50)}
-  .chip.active{background:linear-gradient(135deg,var(--red-700),var(--red-500)); color:#fff; border-color:transparent}
+  .chip:hover{color:var(--ink-2); border-color:var(--muted-2)}
+  .chip.active{background:var(--accent); color:#fff; border-color:var(--accent)}
   .pill-count{
-    background:var(--red-50); color:var(--red-700); margin-left:auto;
-    padding:5px 12px; border-radius:999px; font-size:.82rem; font-weight:600;
+    background:var(--surface-2); border:1px solid var(--border);
+    color:var(--muted); margin-left:auto;
+    padding:5px 12px; border-radius:999px; font-size:.78rem; font-weight:500;
   }
 
-  /* Meta fields grid */
+  /* Meta grid */
   .meta-grid{display:grid; gap:12px; grid-template-columns:1fr 1fr}
   @media(max-width:680px){ .meta-grid{grid-template-columns:1fr} }
 
-  /* Files grid */
-  .toolbar{display:flex; gap:10px; align-items:center; flex-wrap:wrap; margin-bottom:14px}
-  .search{flex:1; min-width:200px}
-  .grid{display:grid; gap:14px; grid-template-columns:repeat(auto-fill, minmax(280px, 1fr))}
-  .file{
-    background:#fff; border:1px solid var(--line); border-radius:14px;
-    padding:14px; display:flex; flex-direction:column; gap:8px;
-    transition:transform .12s ease, box-shadow .2s ease;
-    position:relative; overflow:hidden;
+  /* Toolbar */
+  .toolbar{
+    display:flex; gap:10px; align-items:center; flex-wrap:wrap;
+    margin-bottom:14px;
   }
-  .file:hover{transform:translateY(-2px); box-shadow:0 10px 24px rgba(122,13,16,.10)}
-  .file.dimmed{opacity:.6}
+  .toolbar .search{flex:1; min-width:200px}
+
+  /* Files grid */
+  .grid{display:grid; gap:12px; grid-template-columns:repeat(auto-fill, minmax(280px, 1fr))}
+  .file{
+    background:var(--surface); border:1px solid var(--border);
+    border-radius:var(--radius); padding:14px;
+    display:flex; flex-direction:column; gap:8px;
+    transition:border-color .12s, box-shadow .12s;
+    position:relative;
+  }
+  .file:hover{border-color:var(--muted-2); box-shadow:var(--shadow)}
+  .file.dimmed{opacity:.55}
   .file .top{display:flex; gap:10px; align-items:flex-start}
   .ficon{
-    width:42px;height:42px;border-radius:10px; flex-shrink:0;
-    background:linear-gradient(135deg, #ffd9d9, #ffeaea);
-    color:var(--red-700); display:grid; place-items:center; font-size:18px;
-    border:1px solid var(--line);
+    width:36px; height:36px; border-radius:var(--radius-sm); flex-shrink:0;
+    background:var(--surface-2); color:var(--muted);
+    display:grid; place-items:center; font-size:.7rem; font-weight:700;
+    border:1px solid var(--border); letter-spacing:.03em;
   }
-  .fname{font-weight:600; word-break:break-word; line-height:1.3}
-  .meta{font-size:.82rem; color:var(--muted); display:flex; gap:8px; flex-wrap:wrap}
-  .note{font-size:.85rem; color:var(--ink); background:var(--amber-50); padding:6px 10px; border-radius:8px; border-left:3px solid var(--amber-600)}
-  .actions{display:flex; gap:6px; margin-top:auto; flex-wrap:wrap}
+  .ficon.t-pdf{background:var(--accent-tint); color:var(--accent); border-color:var(--accent-soft)}
+  .ficon.t-img{background:#eef4ec; color:var(--green); border-color:#c8d6c4}
+  .ficon.t-doc{background:#e9eef5; color:#4a6584; border-color:#c8d3e0}
+  .ficon.t-xls{background:#eaf2ec; color:#4f7a55; border-color:#c8d8cc}
+  .ficon.t-zip{background:var(--amber-tint); color:var(--amber); border-color:#e0c8a6}
+  .fname{
+    font-weight:500; word-break:break-word; line-height:1.35;
+    font-size:.93rem; color:var(--ink);
+  }
+  .meta{
+    font-size:.78rem; color:var(--muted);
+    display:flex; gap:6px; flex-wrap:wrap; margin-top:3px;
+  }
+  .meta-row{display:flex; flex-wrap:wrap; gap:6px; align-items:center; margin-top:6px}
+  .note{
+    font-size:.83rem; color:var(--ink-2);
+    background:var(--amber-tint); padding:7px 10px;
+    border-radius:var(--radius-sm); border-left:2px solid var(--amber);
+  }
+  .actions{
+    display:flex; gap:6px; margin-top:auto; flex-wrap:wrap;
+    padding-top:8px; border-top:1px solid var(--border-soft);
+  }
+
+  /* Badges */
   .badge-new{
     position:absolute; top:8px; right:8px;
-    background:linear-gradient(135deg,var(--red-600),var(--red-500));
-    color:#fff; font-size:.7rem; font-weight:700; letter-spacing:.5px;
-    padding:4px 10px; border-radius:999px;
-    box-shadow:0 4px 12px rgba(229,57,53,.4);
-    animation:blink 1.1s ease-in-out infinite;
+    background:var(--accent); color:#fff;
+    font-size:.66rem; font-weight:700; letter-spacing:.06em;
+    padding:3px 8px; border-radius:4px;
+    animation:pulse 1.6s ease-in-out infinite;
   }
-  @keyframes blink{
-    0%,100%{opacity:1; transform:scale(1)}
-    50%{opacity:.55; transform:scale(.94)}
+  @keyframes pulse{
+    0%,100%{opacity:1}
+    50%{opacity:.55}
   }
-  .badge-cat{
-    display:inline-block; padding:3px 9px; border-radius:999px;
-    font-size:.72rem; font-weight:600; background:var(--red-50); color:var(--red-700);
+  .badge{
+    display:inline-block; padding:2px 8px; border-radius:4px;
+    font-size:.7rem; font-weight:600; letter-spacing:.02em;
+    border:1px solid transparent;
   }
-  .badge-exp{
-    display:inline-block; padding:3px 9px; border-radius:999px;
-    font-size:.72rem; font-weight:600; background:var(--amber-50); color:var(--amber-600);
-  }
+  .badge.cat{background:var(--accent-tint); color:var(--accent); border-color:var(--accent-soft)}
+  .badge.exp{background:var(--amber-tint); color:var(--amber); border-color:#e0c8a6}
+  .badge.branch{background:var(--surface-2); color:var(--muted); border-color:var(--border)}
+  .badge.done{background:var(--green-tint); color:var(--green); border-color:#c8d6c4}
+
   .empty{
     text-align:center; padding:50px 20px; color:var(--muted);
-    border:2px dashed var(--line); border-radius:14px;
+    border:1px dashed var(--border); border-radius:var(--radius);
+    background:var(--surface-2);
   }
 
+  /* Bulk select */
   .file .select-box{
-    position:absolute; top:8px; left:8px; width:22px; height:22px;
-    background:#fff; border:2px solid var(--line); border-radius:6px;
-    display:grid; place-items:center; cursor:pointer; transition:all .15s;
+    position:absolute; top:8px; left:8px; width:20px; height:20px;
+    background:var(--surface); border:1.5px solid var(--border);
+    border-radius:5px; display:grid; place-items:center; cursor:pointer;
+    transition:all .12s; font-size:.75rem; color:transparent;
   }
-  .file.selected{border-color:var(--red-500); box-shadow:0 0 0 3px rgba(229,57,53,.15)}
-  .file.selected .select-box{background:var(--red-600); border-color:var(--red-600); color:#fff}
+  .file.selected{border-color:var(--accent); box-shadow:0 0 0 2px var(--accent-tint)}
+  .file.selected .select-box{background:var(--accent); border-color:var(--accent); color:#fff}
   body.bulk-mode .file{padding-left:38px}
 
-  /* Buttons inside cards */
+  /* Icon button */
   .icon-btn{
-    background:#fff; border:1px solid var(--line); color:var(--red-700);
-    padding:7px 12px; border-radius:9px; font-weight:600; font-family:inherit; font-size:.85rem;
-    cursor:pointer; transition:all .12s;
+    background:transparent; border:1px solid var(--border); color:var(--muted);
+    padding:6px 10px; border-radius:var(--radius-sm); font-weight:500;
+    font-family:inherit; font-size:.82rem; cursor:pointer;
+    transition:all .12s;
   }
-  .icon-btn:hover{background:var(--red-50); transform:translateY(-1px)}
-  .icon-btn.danger{color:#b71c1c}
-  .icon-btn.danger:hover{background:#ffeaea; border-color:#ffbcbc}
+  .icon-btn:hover{color:var(--ink); border-color:var(--muted-2)}
+  .icon-btn.primary{color:#fff; background:var(--accent); border-color:var(--accent)}
+  .icon-btn.primary:hover{background:#974040; border-color:#974040; color:#fff}
+  .icon-btn.danger{color:var(--accent)}
+  .icon-btn.danger:hover{background:var(--accent-tint); border-color:var(--accent-soft)}
 
-  .progress{height:6px; background:var(--line); border-radius:999px; overflow:hidden; margin-top:8px}
-  .progress > div{height:100%; width:0%; background:linear-gradient(90deg, var(--red-600), var(--red-500)); transition:width .2s ease}
+  /* Progress */
+  .progress{height:4px; background:var(--border-soft); border-radius:999px; overflow:hidden; margin-top:8px}
+  .progress > div{height:100%; width:0%; background:var(--accent); transition:width .2s}
 
+  /* Toast */
   .toast{
-    position:fixed; bottom:24px; left:50%; transform:translateX(-50%);
-    background:#fff; color:var(--ink); padding:12px 18px; border-radius:12px;
-    box-shadow:0 10px 30px rgba(0,0,0,.18); border:1px solid var(--line);
-    z-index:99; opacity:0; pointer-events:none; transition:opacity .2s, transform .2s;
+    position:fixed; bottom:20px; left:50%; transform:translateX(-50%);
+    background:var(--ink); color:#fff;
+    padding:10px 18px; border-radius:var(--radius);
+    box-shadow:var(--shadow-md);
+    font-size:.88rem; z-index:99;
+    opacity:0; pointer-events:none; transition:opacity .2s, transform .2s;
   }
   .toast.show{opacity:1; transform:translateX(-50%) translateY(-4px)}
-  .toast.err{border-color:var(--red-500); color:var(--red-800)}
-  .toast.ok{border-color:var(--green-600); color:var(--green-600)}
+  .toast.err{background:#a03a3a}
+  .toast.ok{background:#4a6e3f}
 
   .row-actions{
     display:flex; gap:10px; justify-content:flex-end; flex-wrap:wrap;
-    padding-top:16px; border-top:1px solid var(--line); margin-top:8px;
+    padding-top:14px; border-top:1px solid var(--border-soft); margin-top:8px;
   }
   .floating-bar{
     position:sticky; bottom:14px; z-index:30;
-    margin-top:14px; padding:10px 14px; border-radius:12px;
-    background:#fff; border:1px solid var(--line);
-    box-shadow:0 12px 28px rgba(0,0,0,.12);
+    margin-top:14px; padding:10px 14px;
+    border-radius:var(--radius); background:var(--surface);
+    border:1px solid var(--border); box-shadow:var(--shadow-md);
     display:flex; align-items:center; gap:10px; flex-wrap:wrap;
   }
 
   /* Modal */
   .modal{position:fixed; inset:0; z-index:100; display:grid; place-items:center; padding:16px}
-  .modal-bg{position:absolute; inset:0; background:rgba(20,5,7,.55); backdrop-filter:blur(4px)}
+  .modal-bg{position:absolute; inset:0; background:rgba(20,20,30,.5); backdrop-filter:blur(3px)}
   .modal-card{
-    position:relative; background:#fff; border-radius:16px; width:100%;
-    max-width:960px; max-height:92vh; display:flex; flex-direction:column;
-    overflow:hidden; box-shadow:0 30px 80px rgba(0,0,0,.4);
-    animation:pop .15s ease;
+    position:relative; background:var(--surface); border-radius:var(--radius);
+    width:100%; max-width:960px; max-height:92vh;
+    display:flex; flex-direction:column; overflow:hidden;
+    box-shadow:var(--shadow-md);
   }
-  @keyframes pop{from{transform:scale(.96); opacity:0}to{transform:none; opacity:1}}
   .modal-head{
     display:flex; align-items:center; gap:10px; padding:14px 18px;
-    background:linear-gradient(135deg,var(--red-800),var(--red-600)); color:#fff;
+    background:var(--surface); color:var(--ink);
+    border-bottom:1px solid var(--border);
   }
   .modal-head .t{flex:1; font-weight:600; word-break:break-word; min-width:0}
   .modal-x{
-    background:rgba(255,255,255,.18); color:#fff; border:0;
-    width:34px; height:34px; border-radius:50%; font-size:22px;
-    display:grid; place-items:center; cursor:pointer; flex-shrink:0;
+    background:transparent; color:var(--muted); border:0;
+    width:28px; height:28px; border-radius:6px; font-size:1.3rem;
+    display:grid; place-items:center; cursor:pointer; flex-shrink:0; line-height:1;
   }
-  .modal-x:hover{background:rgba(255,255,255,.3)}
-  .modal-body{flex:1; min-height:280px; background:#f4f4f4; overflow:auto}
-  .modal-body iframe, .modal-body img{width:100%; height:70vh; border:0; display:block; object-fit:contain; background:#fff}
+  .modal-x:hover{background:var(--surface-2); color:var(--ink)}
+  .modal-body{flex:1; min-height:280px; background:var(--surface-2); overflow:auto}
+  .modal-body iframe, .modal-body img{width:100%; height:70vh; border:0; display:block; object-fit:contain; background:var(--surface)}
   .modal-body .pad{padding:18px}
   .modal-foot{
     padding:12px 18px; display:flex; justify-content:flex-end; gap:10px;
-    border-top:1px solid var(--line); background:#fff; flex-wrap:wrap;
+    border-top:1px solid var(--border); background:var(--surface); flex-wrap:wrap;
   }
 
   /* Dashboard */
-  .dash-wrap{overflow:auto; border:1px solid var(--line); border-radius:14px; background:#fff}
+  .dash-wrap{overflow:auto; border:1px solid var(--border); border-radius:var(--radius); background:var(--surface)}
   table.dash{border-collapse:separate; border-spacing:0; width:100%; min-width:880px}
   table.dash th, table.dash td{
-    border-bottom:1px solid var(--line); padding:10px 10px;
-    font-size:.86rem; text-align:center; white-space:nowrap;
+    border-bottom:1px solid var(--border-soft); padding:10px 10px;
+    font-size:.84rem; text-align:center; white-space:nowrap;
   }
   table.dash thead th{
-    position:sticky; top:0; background:linear-gradient(135deg,var(--red-800),var(--red-600));
-    color:#fff; font-weight:600; z-index:2; padding:12px 10px;
+    position:sticky; top:0; background:var(--surface-2);
+    color:var(--ink-2); font-weight:600; z-index:2;
+    border-bottom:1px solid var(--border);
   }
   table.dash th.fname-col, table.dash td.fname-col{
-    position:sticky; left:0; background:#fff; z-index:1; text-align:left;
-    border-right:1px solid var(--line); min-width:240px; max-width:340px;
+    position:sticky; left:0; background:var(--surface); z-index:1; text-align:left;
+    border-right:1px solid var(--border); min-width:240px; max-width:340px;
     white-space:normal; word-break:break-word;
   }
-  table.dash thead th.fname-col{background:linear-gradient(135deg,var(--red-800),var(--red-600))}
-  .cell-done{background:var(--green-50); color:var(--green-600); font-weight:700}
-  .cell-pending{background:#ffeaea; color:var(--red-700); font-weight:700; animation:blink 1.5s ease-in-out infinite}
-  .cell-na{color:#ccc}
-  .dash-legend{display:flex; gap:14px; flex-wrap:wrap; margin-top:10px; font-size:.85rem; color:var(--muted)}
+  table.dash thead th.fname-col{background:var(--surface-2)}
+  .cell-done{background:var(--green-tint); color:var(--green); font-weight:600}
+  .cell-pending{background:var(--accent-tint); color:var(--accent); font-weight:600; animation:pulse 1.8s ease-in-out infinite}
+  .cell-na{color:var(--muted-2)}
+  .dash-legend{display:flex; gap:14px; flex-wrap:wrap; margin-top:10px; font-size:.82rem; color:var(--muted)}
   .dash-legend span{display:inline-flex; align-items:center; gap:6px}
-  .dash-dot{width:14px; height:14px; border-radius:4px; display:inline-block}
+  .dash-dot{width:12px; height:12px; border-radius:3px; display:inline-block}
 
   /* History */
   .hist-item{
-    background:#fff; border:1px solid var(--line); border-radius:14px;
-    padding:14px; margin-bottom:10px;
+    background:var(--surface); border:1px solid var(--border);
+    border-radius:var(--radius); padding:14px; margin-bottom:10px;
   }
   .hist-head{display:flex; gap:10px; align-items:center; flex-wrap:wrap}
-  .hist-head .title{flex:1; font-weight:600; min-width:0; word-break:break-word}
-  .hist-meta{font-size:.82rem; color:var(--muted); margin-top:4px; display:flex; gap:10px; flex-wrap:wrap}
+  .hist-head .title{flex:1; font-weight:600; min-width:0; word-break:break-word; font-size:.95rem}
+  .hist-meta{font-size:.78rem; color:var(--muted); margin-top:4px; display:flex; gap:10px; flex-wrap:wrap}
   .hist-branches{display:flex; flex-wrap:wrap; gap:4px; margin-top:8px}
   .hist-branches .b{
-    background:var(--red-50); color:var(--red-700);
-    padding:2px 8px; border-radius:6px; font-size:.78rem; font-weight:600;
+    background:var(--surface-2); color:var(--ink-2);
+    border:1px solid var(--border);
+    padding:2px 8px; border-radius:4px; font-size:.75rem; font-weight:500;
   }
   .hist-actions{display:flex; gap:6px; flex-wrap:wrap; margin-top:10px}
 
   /* Stores mgmt */
   .store-row{
-    display:flex; gap:8px; align-items:center; padding:10px;
-    background:#fff; border:1px solid var(--line); border-radius:10px; margin-bottom:8px;
+    display:flex; gap:10px; align-items:center; padding:10px 14px;
+    background:var(--surface); border:1px solid var(--border);
+    border-radius:var(--radius-sm); margin-bottom:6px;
   }
-  .store-row .code{font-weight:700; color:var(--red-700); min-width:60px}
-  .store-row .nm{flex:1; min-width:0}
+  .store-row .code{font-weight:600; color:var(--accent); min-width:55px}
+  .store-row .nm{flex:1; min-width:0; color:var(--ink-2)}
 
-  footer{text-align:center; color:var(--muted); padding:30px 20px; font-size:.85rem}
+  /* Date range */
+  .date-range{display:flex; gap:8px; align-items:center}
+  .date-range input{max-width:160px}
+  .date-range .sep{color:var(--muted); font-size:.85rem}
+
+  footer{text-align:center; color:var(--muted); padding:24px 20px; font-size:.82rem}
+
+  @media(max-width:600px){
+    main{padding:0 14px 40px}
+    .card{padding:18px}
+    .nav{padding:12px 14px}
+    h1{font-size:1.2rem}
+    h2{font-size:1rem}
+  }
 </style>
 </head>
 <body>
 
 <!-- ============== LOGIN ============== -->
 <section id="page-login" class="login-wrap">
-  <div class="login card">
-    <div class="logo-xl">📦</div>
-    <h1>Drive Store</h1>
-    <p class="muted">ระบบดาวน์โหลดไฟล์สำหรับสาขา</p>
-    <form id="loginForm">
-      <div class="field">
-        <label for="codeInput">รหัสเข้าใช้งาน</label>
-        <input id="codeInput" class="input" type="password" autocomplete="off"
-               placeholder="กรอกรหัสสาขา หรือรหัสแอดมิน" required />
-      </div>
-      <button type="submit" class="btn primary block" id="loginBtn">เข้าสู่ระบบ</button>
-      <div id="loginErr" class="error"></div>
-    </form>
+  <div class="login">
+    <div class="header-area">
+      <div class="logo">DS</div>
+      <h1>Drive Store</h1>
+      <div class="muted">ระบบจัดส่งไฟล์ภายในองค์กร</div>
+    </div>
+    <div class="card">
+      <form id="loginForm">
+        <div class="field">
+          <label for="codeInput">รหัสเข้าใช้งาน</label>
+          <input id="codeInput" class="input" type="password" autocomplete="off"
+                 placeholder="รหัสสาขา หรือรหัสแอดมิน" required />
+        </div>
+        <button type="submit" class="btn primary block" id="loginBtn">เข้าสู่ระบบ</button>
+        <div id="loginErr" class="error"></div>
+      </form>
+    </div>
   </div>
 </section>
 
@@ -372,11 +495,16 @@
 <section id="page-app" class="hidden">
   <header>
     <div class="nav">
-      <div class="brand"><span class="logo">📦</span><span>Drive Store</span></div>
-      <span class="pill" id="userPill"></span>
+      <div class="brand">
+        <span class="mark">DS</span>
+        <span>Drive Store</span>
+        <span class="divider"></span>
+        <span class="sub" id="branchSub"></span>
+      </div>
       <div class="spacer"></div>
-      <button class="btn ghost" id="refreshBtn">⟳ รีเฟรช</button>
-      <button class="btn ghost" id="logoutBtn">ออกจากระบบ</button>
+      <span class="user-tag" id="userPill"><span class="dot"></span><span id="userPillText"></span></span>
+      <button class="btn subtle" id="refreshBtn">รีเฟรช</button>
+      <button class="btn subtle" id="logoutBtn">ออกจากระบบ</button>
     </div>
   </header>
 
@@ -384,23 +512,22 @@
     <!-- ============== BRANCH VIEW ============== -->
     <div id="view-branch" class="hidden">
       <div class="card">
+        <div style="margin-bottom:14px">
+          <h2 id="branchTitle"></h2>
+          <div class="muted" id="branchSubInline"></div>
+        </div>
         <div class="toolbar">
-          <div>
-            <h2 id="branchTitle"></h2>
-            <div class="muted" id="branchSub"></div>
-          </div>
-          <div class="spacer" style="flex:1"></div>
           <input id="searchInput" class="input search" placeholder="ค้นหาไฟล์..." />
-          <button class="btn ghost dark" id="toggleBulk">☑ เลือกหลายไฟล์</button>
+          <button class="btn" id="toggleBulk">เลือกหลายไฟล์</button>
         </div>
         <div class="quick" id="catFilter"></div>
         <div id="fileList" class="grid" style="margin-top:14px"></div>
         <div id="fileEmpty" class="empty hidden">ยังไม่มีไฟล์สำหรับสาขานี้</div>
         <div id="bulkBar" class="floating-bar hidden">
-          <span id="bulkCount">เลือกแล้ว 0 ไฟล์</span>
+          <span id="bulkCount" class="muted">เลือกแล้ว 0 ไฟล์</span>
           <div class="spacer" style="flex:1"></div>
-          <button class="btn ghost dark" id="bulkClear">ยกเลิก</button>
-          <button class="btn primary" id="bulkDownload">⬇ ดาวน์โหลด ZIP</button>
+          <button class="btn" id="bulkClear">ยกเลิก</button>
+          <button class="btn primary" id="bulkDownload">ดาวน์โหลด ZIP</button>
         </div>
       </div>
     </div>
@@ -408,11 +535,11 @@
     <!-- ============== ADMIN VIEW ============== -->
     <div id="view-admin" class="hidden">
       <div class="tabs">
-        <button class="tab active" data-tab="upload">⬆ อัปโหลดไฟล์</button>
-        <button class="tab" data-tab="browse">📂 ดูไฟล์รายสาขา</button>
-        <button class="tab" data-tab="dashboard">📊 Dashboard</button>
-        <button class="tab" data-tab="history">📜 ประวัติ</button>
-        <button class="tab" data-tab="settings">⚙️ จัดการสาขา</button>
+        <button class="tab active" data-tab="upload">อัปโหลดไฟล์</button>
+        <button class="tab" data-tab="browse">ดูไฟล์รายสาขา</button>
+        <button class="tab" data-tab="dashboard">Dashboard</button>
+        <button class="tab" data-tab="history">ประวัติ</button>
+        <button class="tab" data-tab="settings">จัดการสาขา</button>
       </div>
 
       <!-- TAB: UPLOAD -->
@@ -420,12 +547,12 @@
         <div class="step">
           <div class="step-no">1</div>
           <div class="step-body">
-            <h3>เลือกไฟล์ (เลือกได้หลายไฟล์)</h3>
+            <h3>เลือกไฟล์</h3>
             <label class="drop" id="dropZone">
               <input type="file" id="fileInput" multiple />
-              <div class="drop-icon">📁</div>
+              <div class="upload-icon">UP</div>
               <div><span class="file-pick">คลิกเพื่อเลือกไฟล์</span> หรือลากมาวางที่นี่</div>
-              <div class="muted" style="font-size:.82rem">ขนาดไม่เกิน 50 MB ต่อไฟล์</div>
+              <div class="sub">รองรับหลายไฟล์ ขนาดไม่เกิน 50 MB ต่อไฟล์</div>
             </label>
             <div id="selFiles" class="sel-files"></div>
           </div>
@@ -434,20 +561,20 @@
         <div class="step">
           <div class="step-no">2</div>
           <div class="step-body">
-            <h3>รายละเอียดไฟล์ (ใช้กับทุกไฟล์ที่อัปครั้งนี้)</h3>
+            <h3>รายละเอียดไฟล์</h3>
             <div class="meta-grid">
               <div class="field" style="margin:0">
                 <label>หมวดหมู่</label>
                 <select id="catSelect" class="input"></select>
               </div>
               <div class="field" style="margin:0">
-                <label>วันหมดอายุ (ถ้ามี — จะลบอัตโนมัติ)</label>
+                <label>วันหมดอายุ (ลบอัตโนมัติ)</label>
                 <input id="expInput" class="input" type="date" />
               </div>
             </div>
             <div class="field">
-              <label>โน้ตประกอบ (เช่น "เริ่มใช้ 1 ก.ค.")</label>
-              <textarea id="noteInput" class="input" placeholder="ข้อความเพิ่มเติม..."></textarea>
+              <label>โน้ตประกอบ</label>
+              <textarea id="noteInput" class="input" placeholder="เช่น เริ่มใช้ 1 ก.ค."></textarea>
             </div>
           </div>
         </div>
@@ -455,10 +582,10 @@
         <div class="step">
           <div class="step-no">3</div>
           <div class="step-body">
-            <h3>เลือกสาขาที่จะส่งไฟล์</h3>
+            <h3>เลือกสาขา</h3>
             <div class="quick">
-              <span class="chip" id="selAll">✓ เลือกทั้งหมด</span>
-              <span class="chip" id="selNone">✕ ล้างทั้งหมด</span>
+              <span class="chip" id="selAll">เลือกทั้งหมด</span>
+              <span class="chip" id="selNone">ล้าง</span>
               <span class="pill-count" id="selCount">เลือกแล้ว 0</span>
             </div>
             <div class="stores" id="storeList" style="margin-top:10px"></div>
@@ -467,8 +594,8 @@
 
         <div class="progress hidden" id="progWrap"><div id="progBar"></div></div>
         <div class="row-actions">
-          <button class="btn ghost dark" id="resetUpload">รีเซ็ต</button>
-          <button class="btn primary" id="uploadBtn">⬆ อัปโหลด</button>
+          <button class="btn" id="resetUpload">รีเซ็ต</button>
+          <button class="btn primary" id="uploadBtn">อัปโหลด</button>
         </div>
       </div>
 
@@ -476,61 +603,72 @@
       <div class="card hidden" id="tab-browse">
         <h2 style="margin-bottom:14px">ดูไฟล์รายสาขา</h2>
         <div class="toolbar">
-          <select id="branchSelect" class="input" style="max-width:380px">
-            <option value="">— เลือกสาขา —</option>
+          <select id="branchSelect" class="input" style="max-width:280px">
+            <option value="__ALL__">ทุกสาขา</option>
           </select>
-          <button class="btn ghost dark" id="adminRefresh" title="รีเฟรช">⟳</button>
+          <button class="btn" id="adminRefresh">รีเฟรช</button>
           <div class="spacer" style="flex:1"></div>
           <input id="adminSearch" class="input search" placeholder="ค้นหาไฟล์..." />
         </div>
-        <div id="adminFiles" class="grid"></div>
+        <div class="toolbar" style="margin-bottom:6px">
+          <span class="muted" style="font-size:.85rem">วันที่อัปโหลด:</span>
+          <div class="date-range">
+            <input id="dateFrom" class="input" type="date" />
+            <span class="sep">ถึง</span>
+            <input id="dateTo" class="input" type="date" />
+            <button class="btn subtle" id="dateClear" style="font-size:.82rem">ล้าง</button>
+          </div>
+          <div class="spacer" style="flex:1"></div>
+          <span class="muted" id="browseCount" style="font-size:.82rem"></span>
+        </div>
+        <div class="quick" id="browseCatFilter"></div>
+        <div id="adminFiles" class="grid" style="margin-top:12px"></div>
         <div id="adminEmpty" class="empty hidden">เลือกสาขาเพื่อดูไฟล์</div>
       </div>
 
       <!-- TAB: DASHBOARD -->
       <div class="card hidden" id="tab-dashboard">
         <div class="toolbar">
-          <h2 style="margin:0">📊 สถานะการดาวน์โหลด</h2>
+          <h2 style="margin:0">สถานะการดาวน์โหลด</h2>
           <div class="spacer" style="flex:1"></div>
-          <button class="btn ghost dark" id="dashRefresh">⟳ รีเฟรช</button>
+          <button class="btn" id="dashRefresh">รีเฟรช</button>
         </div>
-        <div class="muted" style="margin-bottom:10px">แต่ละช่อง: ✓ ดาวน์โหลดแล้ว, ⏳ ยังไม่โหลด (สีแดงกระพริบ), — ไม่ได้ส่ง</div>
+        <div class="muted" style="margin-bottom:10px">แต่ละช่อง: ดาวน์โหลดแล้ว (เขียว) / รอ (แดงกระพริบ) / ไม่ได้ส่ง (—)</div>
         <div class="dash-wrap" id="dashWrap">
           <div class="empty" style="border:0">ยังไม่มีข้อมูล กดรีเฟรช</div>
         </div>
         <div class="dash-legend">
-          <span><span class="dash-dot" style="background:var(--green-50);border:1px solid var(--green-600)"></span>ดาวน์โหลดแล้ว</span>
-          <span><span class="dash-dot" style="background:#ffeaea;border:1px solid var(--red-600)"></span>ยังไม่ดาวน์โหลด</span>
-          <span><span class="dash-dot" style="background:#fff;border:1px solid var(--line)"></span>ไม่ได้ส่ง</span>
+          <span><span class="dash-dot" style="background:var(--green-tint);border:1px solid var(--green)"></span>ดาวน์โหลดแล้ว</span>
+          <span><span class="dash-dot" style="background:var(--accent-tint);border:1px solid var(--accent)"></span>ยังไม่ดาวน์โหลด</span>
+          <span><span class="dash-dot" style="background:var(--surface);border:1px solid var(--border)"></span>ไม่ได้ส่ง</span>
         </div>
       </div>
 
       <!-- TAB: HISTORY -->
       <div class="card hidden" id="tab-history">
         <div class="toolbar">
-          <h2 style="margin:0">📜 ประวัติการอัปโหลด</h2>
+          <h2 style="margin:0">ประวัติการอัปโหลด</h2>
           <div class="spacer" style="flex:1"></div>
-          <input id="histSearch" class="input search" placeholder="ค้นหา..." />
-          <button class="btn ghost dark" id="histRefresh">⟳</button>
+          <input id="histSearch" class="input search" placeholder="ค้นหา..." style="max-width:240px"/>
+          <button class="btn" id="histRefresh">รีเฟรช</button>
         </div>
         <div id="histList"></div>
         <div id="histEmpty" class="empty hidden">ยังไม่มีประวัติ</div>
       </div>
 
-      <!-- TAB: SETTINGS / STORES -->
+      <!-- TAB: SETTINGS -->
       <div class="card hidden" id="tab-settings">
-        <h2 style="margin-bottom:14px">⚙️ จัดการสาขา</h2>
-        <div class="muted" style="margin-bottom:14px">เพิ่ม / แก้ไข / ลบรหัสและชื่อสาขา</div>
-
+        <h2 style="margin-bottom:6px">จัดการสาขา</h2>
+        <div class="muted" style="margin-bottom:14px">เพิ่ม แก้ไข หรือลบรหัสและชื่อสาขา</div>
         <div id="storeMgmtList"></div>
-
-        <h3 style="margin-top:16px">เพิ่ม/แก้ไขสาขา</h3>
+        <div class="divider-line"></div>
+        <h3>เพิ่ม/แก้ไขสาขา</h3>
         <div class="meta-grid">
-          <div class="field" style="margin:0">
-            <label>รหัสสาขา (4 หลัก)</label>
+          <div class="field" style="margin:8px 0 0">
+            <label>รหัสสาขา</label>
             <input id="newStoreCode" class="input" placeholder="เช่น 9999" />
           </div>
-          <div class="field" style="margin:0">
+          <div class="field" style="margin:8px 0 0">
             <label>ชื่อสาขา</label>
             <input id="newStoreName" class="input" placeholder="เช่น สาขาใหม่" />
           </div>
@@ -542,10 +680,10 @@
     </div>
   </main>
 
-  <footer>© Drive Store · พัฒนาเพื่อจัดส่งไฟล์ภายในองค์กร</footer>
+  <footer>Drive Store — Internal File Distribution System</footer>
 </section>
 
-<!-- ============== PREVIEW MODAL ============== -->
+<!-- ============== MODAL ============== -->
 <div id="modal" class="modal hidden">
   <div class="modal-bg" data-close></div>
   <div class="modal-card">
@@ -555,8 +693,8 @@
     </div>
     <div class="modal-body" id="modalBody"></div>
     <div class="modal-foot" id="modalFoot">
-      <button class="btn ghost dark" data-close>ปิด</button>
-      <a id="modalDl" class="btn primary" target="_blank" rel="noopener">⬇ ดาวน์โหลด</a>
+      <button class="btn" data-close>ปิด</button>
+      <a id="modalDl" class="btn primary" target="_blank" rel="noopener">ดาวน์โหลด</a>
     </div>
   </div>
 </div>
@@ -564,27 +702,20 @@
 <div id="toast" class="toast"></div>
 
 <script>
-/* ===========================
-   CONFIG
-   =========================== */
 const API_URL = 'https://script.google.com/macros/s/AKfycbwDNzpRtyRykPUumiTASwbpo02W723oE_u1xJV3FBBFhLUWaCPgQJLZ2Fnp7gEHgJ3Grw/exec';
 
-/* ===========================
-   STATE
-   =========================== */
 const $ = (id) => document.getElementById(id);
 let session = JSON.parse(localStorage.getItem('ds.session') || 'null');
 let cfg = { categories: [], stores: [] };
 let cache = {
-  files: [], adminFiles: [], adminBranch: '',
+  files: [], adminFiles: [], adminBranch: '__ALL__',
   history: [], dash: null,
-  filterCat: '', selected: new Set(),
+  filterCat: '', browseFilterCat: '',
+  dateFrom: '', dateTo: '',
+  selected: new Set(),
 };
 let pendingFiles = [];
 
-/* ===========================
-   API
-   =========================== */
 async function apiGet(params) {
   const qs = new URLSearchParams(params).toString();
   const res = await fetch(`${API_URL}?${qs}`, { method: 'GET' });
@@ -599,9 +730,6 @@ async function apiPost(body) {
   return res.json();
 }
 
-/* ===========================
-   UTIL
-   =========================== */
 function toast(msg, kind) {
   const t = $('toast');
   t.textContent = msg;
@@ -623,16 +751,17 @@ function fmtDateOnly(s) {
   if (!s) return '';
   return new Date(s).toLocaleDateString('th-TH', { day:'2-digit', month:'short', year:'2-digit' });
 }
-function iconFor(mime, name) {
+function fileTypeLabel(mime, name) {
   const n = (name||'').toLowerCase();
-  if (mime?.includes('pdf') || n.endsWith('.pdf')) return '📄';
-  if (mime?.includes('image')) return '🖼️';
-  if (mime?.includes('video')) return '🎬';
-  if (mime?.includes('audio')) return '🎵';
-  if (mime?.includes('sheet') || /\.(xls|xlsx|csv)$/.test(n)) return '📊';
-  if (mime?.includes('word') || /\.(doc|docx)$/.test(n)) return '📝';
-  if (mime?.includes('zip') || /\.(zip|rar|7z)$/.test(n)) return '🗜️';
-  return '📁';
+  if (mime?.includes('pdf') || n.endsWith('.pdf')) return { label:'PDF', cls:'t-pdf' };
+  if (mime?.includes('image') || /\.(jpe?g|png|gif|webp|bmp)$/.test(n)) return { label:'IMG', cls:'t-img' };
+  if (mime?.includes('video') || /\.(mp4|mov|avi|mkv)$/.test(n)) return { label:'VID', cls:'t-img' };
+  if (mime?.includes('audio') || /\.(mp3|wav|ogg)$/.test(n)) return { label:'AUD', cls:'t-img' };
+  if (mime?.includes('sheet') || /\.(xls|xlsx|csv)$/.test(n)) return { label:'XLS', cls:'t-xls' };
+  if (mime?.includes('word') || /\.(doc|docx)$/.test(n)) return { label:'DOC', cls:'t-doc' };
+  if (mime?.includes('zip') || /\.(zip|rar|7z)$/.test(n)) return { label:'ZIP', cls:'t-zip' };
+  if (/\.(txt|md|log)$/.test(n)) return { label:'TXT', cls:'' };
+  return { label:'FILE', cls:'' };
 }
 function escapeHtml(s) {
   return String(s == null ? '' : s).replace(/[&<>"']/g, c => ({
@@ -648,9 +777,7 @@ function fileToBase64(file) {
   });
 }
 
-/* ===========================
-   LOGIN
-   =========================== */
+/* LOGIN */
 $('loginForm').addEventListener('submit', async (e) => {
   e.preventDefault();
   const code = $('codeInput').value.trim();
@@ -678,15 +805,14 @@ $('logoutBtn').addEventListener('click', () => {
   $('codeInput').value = '';
 });
 
-/* ===========================
-   APP BOOTSTRAP
-   =========================== */
+/* APP */
 async function enterApp() {
   $('page-login').classList.add('hidden');
   $('page-app').classList.remove('hidden');
-  $('userPill').textContent = session.role === 'admin'
-    ? '👤 Admin' : `🏬 ${session.code} · ${session.name}`;
-  // Load config + stores
+  $('userPillText').textContent = session.role === 'admin'
+    ? 'Administrator' : `${session.code} · ${session.name}`;
+  $('branchSub').textContent = session.role === 'admin' ? 'Admin Console' : `สาขา ${session.code}`;
+
   try {
     const [c, s] = await Promise.all([
       apiGet({ action: 'config' }),
@@ -694,7 +820,7 @@ async function enterApp() {
     ]);
     cfg.categories = c.categories || [];
     cfg.stores = s.stores || [];
-  } catch (e) { /* ignore */ }
+  } catch (e) {}
 
   if (session.role === 'admin') {
     $('view-admin').classList.remove('hidden');
@@ -707,19 +833,17 @@ async function enterApp() {
     $('view-branch').classList.remove('hidden');
     $('view-admin').classList.add('hidden');
     $('branchTitle').textContent = `สาขา ${session.code}`;
-    $('branchSub').textContent = session.name;
+    $('branchSubInline').textContent = session.name;
     loadFiles();
   }
 }
 
 $('refreshBtn').addEventListener('click', () => {
   if (session?.role === 'branch') loadFiles();
-  else if (cache.adminBranch) loadAdminFiles();
+  else loadAdminFiles();
 });
 
-/* ===========================
-   TABS
-   =========================== */
+/* TABS */
 document.querySelectorAll('.tab').forEach(t => {
   t.addEventListener('click', () => {
     document.querySelectorAll('.tab').forEach(x => x.classList.toggle('active', x === t));
@@ -730,12 +854,11 @@ document.querySelectorAll('.tab').forEach(t => {
     if (id === 'dashboard') loadDashboard();
     if (id === 'history') loadHistory();
     if (id === 'settings') renderStoreMgmt();
+    if (id === 'browse' && !cache.adminFiles.length) loadAdminFiles();
   });
 });
 
-/* ===========================
-   BRANCH VIEW
-   =========================== */
+/* BRANCH VIEW */
 async function loadFiles() {
   $('fileList').innerHTML = '<div class="muted">กำลังโหลด...</div>';
   try {
@@ -754,7 +877,7 @@ function renderCatFilter() {
   const cats = Array.from(new Set(cache.files.map(f => f.category).filter(Boolean)));
   const el = $('catFilter');
   if (!cats.length) { el.innerHTML = ''; return; }
-  el.innerHTML = `<span class="chip ${cache.filterCat === '' ? 'active' : ''}" data-cat="">ทั้งหมด</span>` +
+  el.innerHTML = `<span class="chip ${!cache.filterCat ? 'active' : ''}" data-cat="">ทั้งหมด</span>` +
     cats.map(c => `<span class="chip ${cache.filterCat === c ? 'active' : ''}" data-cat="${escapeHtml(c)}">${escapeHtml(c)}</span>`).join('');
   el.querySelectorAll('.chip').forEach(ch => {
     ch.addEventListener('click', () => { cache.filterCat = ch.dataset.cat; renderCatFilter(); renderFiles(); });
@@ -776,13 +899,12 @@ function renderFiles() {
 
 $('searchInput').addEventListener('input', renderFiles);
 
-/* Bulk select / ZIP */
 $('toggleBulk').addEventListener('click', () => {
   const on = !document.body.classList.contains('bulk-mode');
   document.body.classList.toggle('bulk-mode', on);
   $('bulkBar').classList.toggle('hidden', !on);
   if (!on) { cache.selected.clear(); renderFiles(); }
-  $('toggleBulk').textContent = on ? '✕ ปิดเลือกหลายไฟล์' : '☑ เลือกหลายไฟล์';
+  $('toggleBulk').textContent = on ? 'ยกเลิกเลือกหลายไฟล์' : 'เลือกหลายไฟล์';
 });
 $('bulkClear').addEventListener('click', () => {
   cache.selected.clear(); updateBulkBar(); renderFiles();
@@ -794,7 +916,6 @@ $('bulkDownload').addEventListener('click', async () => {
   try {
     const r = await apiPost({ action: 'zip', code: session.code, fileIds: Array.from(cache.selected) });
     if (!r.ok) throw new Error(r.error);
-    // mark all as downloaded
     for (const id of cache.selected) {
       apiGet({ action: 'markDownloaded', code: session.code, fileId: id }).catch(()=>{});
     }
@@ -802,15 +923,13 @@ $('bulkDownload').addEventListener('click', async () => {
     cache.selected.clear(); updateBulkBar();
     setTimeout(loadFiles, 800);
   } catch (err) { toast(err.message, 'err'); }
-  finally { btn.disabled = false; btn.textContent = '⬇ ดาวน์โหลด ZIP'; }
+  finally { btn.disabled = false; btn.textContent = 'ดาวน์โหลด ZIP'; }
 });
 function updateBulkBar() {
   $('bulkCount').textContent = `เลือกแล้ว ${cache.selected.size} ไฟล์`;
 }
 
-/* ===========================
-   FILE CARD (shared)
-   =========================== */
+/* FILE CARD */
 function fileCard(f, opts) {
   const card = document.createElement('div');
   const isSelected = cache.selected.has(f.id);
@@ -819,32 +938,38 @@ function fileCard(f, opts) {
   const bulkBox = (opts.mode === 'branch' && document.body.classList.contains('bulk-mode'))
     ? `<div class="select-box" data-action="sel" data-id="${f.id}">${isSelected ? '✓' : ''}</div>` : '';
   const adminActions = opts.mode === 'admin' ? `
-    <button class="icon-btn" data-action="rename" data-id="${f.id}" title="เปลี่ยนชื่อ">✎</button>
-    <button class="icon-btn danger" data-action="del" data-id="${f.id}" title="ลบ">🗑</button>
+    <button class="icon-btn" data-action="rename" data-id="${f.id}" title="เปลี่ยนชื่อ">เปลี่ยนชื่อ</button>
+    <button class="icon-btn danger" data-action="del" data-id="${f.id}" title="ลบ">ลบ</button>
   ` : '';
-  const exp = f.expiresAt ? `<span class="badge-exp">⏰ ${fmtDateOnly(f.expiresAt)}</span>` : '';
-  const cat = f.category ? `<span class="badge-cat">${escapeHtml(f.category)}</span>` : '';
+  const exp = f.expiresAt ? `<span class="badge exp">หมดอายุ ${fmtDateOnly(f.expiresAt)}</span>` : '';
+  const cat = f.category ? `<span class="badge cat">${escapeHtml(f.category)}</span>` : '';
+  const br = (opts.mode === 'admin' && f.branch)
+    ? `<span class="badge branch">${escapeHtml(f.branch)}</span>` : '';
+  const done = (opts.mode === 'admin' && f.downloaded)
+    ? `<span class="badge done">ดาวน์โหลดแล้ว</span>` : '';
+  const t = fileTypeLabel(f.mimeType, f.name);
   card.innerHTML = `
     ${bulkBox}
     ${showNew ? '<span class="badge-new">NEW</span>' : ''}
     <div class="top">
-      <div class="ficon">${iconFor(f.mimeType, f.name)}</div>
+      <div class="ficon ${t.cls}">${t.label}</div>
       <div style="flex:1; min-width:0">
         <div class="fname">${escapeHtml(f.name)}</div>
         <div class="meta">
-          ${cat}${exp}
           <span>${fmtSize(f.size)}</span>
-          <span>· ${fmtDate(f.uploadedAt)}</span>
+          <span>·</span>
+          <span>${fmtDate(f.uploadedAt)}</span>
         </div>
+        <div class="meta-row">${br}${cat}${exp}${done}</div>
       </div>
     </div>
     ${f.note ? `<div class="note">${escapeHtml(f.note)}</div>` : ''}
     <div class="actions">
       <button class="icon-btn" data-action="preview"
               data-id="${f.id}" data-name="${escapeHtml(f.name)}"
-              data-mime="${escapeHtml(f.mimeType || '')}">👁 พรีวิว</button>
-      <a class="btn primary" href="${f.downloadUrl}" target="_blank" rel="noopener"
-         style="margin-left:auto" data-id="${f.id}" data-action="dl">⬇</a>
+              data-mime="${escapeHtml(f.mimeType || '')}">พรีวิว</button>
+      <a class="icon-btn primary" href="${f.downloadUrl}" target="_blank" rel="noopener"
+         style="margin-left:auto" data-id="${f.id}" data-action="dl">ดาวน์โหลด</a>
       ${adminActions}
     </div>
   `;
@@ -884,13 +1009,11 @@ async function markDownloaded(fileId) {
   try { await apiGet({ action: 'markDownloaded', code: session.code, fileId }); } catch (e) {}
 }
 
-/* ===========================
-   PREVIEW MODAL
-   =========================== */
+/* MODAL */
 function openPreview(fileId, name, mime) {
   $('modalTitle').textContent = name;
-  $('modalDl').href = `https://drive.google.com/uc?export=download&id=${fileId}`;
-  $('modalDl').classList.remove('hidden');
+  $('modalFoot').innerHTML = `<button class="btn" data-close>ปิด</button><a class="btn primary" target="_blank" rel="noopener" href="https://drive.google.com/uc?export=download&id=${fileId}">ดาวน์โหลด</a>`;
+  $('modalFoot').querySelectorAll('[data-close]').forEach(el => el.addEventListener('click', closeModal));
   const body = $('modalBody');
   const m = (mime || '').toLowerCase();
   if (m.startsWith('image/')) {
@@ -903,22 +1026,18 @@ function openPreview(fileId, name, mime) {
 function openCustomModal(title, html, footHtml) {
   $('modalTitle').textContent = title;
   $('modalBody').innerHTML = `<div class="pad">${html}</div>`;
-  $('modalFoot').innerHTML = footHtml || `<button class="btn ghost dark" data-close>ปิด</button>`;
+  $('modalFoot').innerHTML = footHtml || `<button class="btn" data-close>ปิด</button>`;
+  $('modalFoot').querySelectorAll('[data-close]').forEach(el => el.addEventListener('click', closeModal));
   $('modal').classList.remove('hidden');
-  $('modal').querySelectorAll('[data-close]').forEach(el => el.addEventListener('click', closePreview));
 }
-function closePreview() {
+function closeModal() {
   $('modal').classList.add('hidden');
   $('modalBody').innerHTML = '';
-  $('modalFoot').innerHTML = `<button class="btn ghost dark" data-close>ปิด</button><a id="modalDl" class="btn primary" target="_blank" rel="noopener">⬇ ดาวน์โหลด</a>`;
-  $('modalFoot').querySelectorAll('[data-close]').forEach(el => el.addEventListener('click', closePreview));
 }
-document.querySelectorAll('#modal [data-close]').forEach(el => el.addEventListener('click', closePreview));
-document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closePreview(); });
+document.querySelectorAll('#modal [data-close]').forEach(el => el.addEventListener('click', closeModal));
+document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeModal(); });
 
-/* ===========================
-   ADMIN: STORE LIST (for upload)
-   =========================== */
+/* ADMIN: STORES LIST */
 function renderCategoryOptions() {
   const el = $('catSelect');
   el.innerHTML = '<option value="">— ไม่ระบุ —</option>' +
@@ -949,40 +1068,76 @@ $('selNone').addEventListener('click', () => {
   updateSelCount();
 });
 
-/* ===========================
-   ADMIN: BROWSE BY BRANCH
-   =========================== */
+/* ADMIN: BROWSE */
 function renderBranchSelect() {
   const el = $('branchSelect');
-  el.innerHTML = '<option value="">— เลือกสาขา —</option>' +
+  el.innerHTML = '<option value="__ALL__">ทุกสาขา</option>' +
     cfg.stores.map(s => `<option value="${escapeHtml(s.code)}">${escapeHtml(s.code)} · ${escapeHtml(s.name)}</option>`).join('');
+  el.value = cache.adminBranch || '__ALL__';
   el.onchange = () => {
     cache.adminBranch = el.value;
-    if (el.value) loadAdminFiles();
-    else { $('adminFiles').innerHTML = ''; $('adminEmpty').classList.remove('hidden'); }
+    loadAdminFiles();
   };
-  $('adminRefresh').onclick = () => { if (cache.adminBranch) loadAdminFiles(); };
+  $('adminRefresh').onclick = loadAdminFiles;
   $('adminSearch').oninput = renderAdminFiles;
+  $('dateFrom').onchange = () => { cache.dateFrom = $('dateFrom').value; renderAdminFiles(); };
+  $('dateTo').onchange = () => { cache.dateTo = $('dateTo').value; renderAdminFiles(); };
+  $('dateClear').onclick = () => {
+    cache.dateFrom = ''; cache.dateTo = '';
+    $('dateFrom').value = ''; $('dateTo').value = '';
+    renderAdminFiles();
+  };
 }
+
 async function loadAdminFiles() {
   $('adminFiles').innerHTML = '<div class="muted">กำลังโหลด...</div>';
   $('adminEmpty').classList.add('hidden');
   try {
-    const r = await apiGet({ action: 'list', code: cache.adminBranch });
+    let r;
+    if (cache.adminBranch === '__ALL__') {
+      r = await apiPost({ action: 'listAll', adminCode: session.code });
+    } else if (cache.adminBranch) {
+      r = await apiGet({ action: 'list', code: cache.adminBranch });
+    } else {
+      return;
+    }
     if (!r.ok) throw new Error(r.error);
     cache.adminFiles = r.files || [];
+    renderBrowseCatFilter();
     renderAdminFiles();
   } catch (err) {
     $('adminFiles').innerHTML = '';
     toast(err.message, 'err');
   }
 }
+
+function renderBrowseCatFilter() {
+  const cats = Array.from(new Set(cache.adminFiles.map(f => f.category).filter(Boolean)));
+  const el = $('browseCatFilter');
+  if (!cats.length) { el.innerHTML = ''; return; }
+  el.innerHTML = `<span class="chip ${!cache.browseFilterCat ? 'active' : ''}" data-cat="">ทั้งหมด</span>` +
+    cats.map(c => `<span class="chip ${cache.browseFilterCat === c ? 'active' : ''}" data-cat="${escapeHtml(c)}">${escapeHtml(c)}</span>`).join('');
+  el.querySelectorAll('.chip').forEach(ch => {
+    ch.addEventListener('click', () => { cache.browseFilterCat = ch.dataset.cat; renderBrowseCatFilter(); renderAdminFiles(); });
+  });
+}
+
 function renderAdminFiles() {
   const q = ($('adminSearch').value || '').trim().toLowerCase();
-  const list = cache.adminFiles.filter(f => !q || f.name.toLowerCase().includes(q));
+  const from = cache.dateFrom ? new Date(cache.dateFrom + 'T00:00:00').getTime() : null;
+  const to = cache.dateTo ? new Date(cache.dateTo + 'T23:59:59').getTime() : null;
+  const list = cache.adminFiles.filter(f => {
+    if (q && !f.name.toLowerCase().includes(q)) return false;
+    if (cache.browseFilterCat && f.category !== cache.browseFilterCat) return false;
+    const t = new Date(f.uploadedAt).getTime();
+    if (from && t < from) return false;
+    if (to && t > to) return false;
+    return true;
+  });
   const el = $('adminFiles');
   $('adminEmpty').classList.toggle('hidden', list.length > 0);
-  if (!list.length) $('adminEmpty').textContent = cache.adminBranch ? 'ไม่มีไฟล์ในสาขานี้' : 'เลือกสาขาเพื่อดูไฟล์';
+  if (!list.length) $('adminEmpty').textContent = cache.adminBranch ? 'ไม่พบไฟล์ตามเงื่อนไข' : 'เลือกสาขาเพื่อดูไฟล์';
+  $('browseCount').textContent = `แสดง ${list.length} จาก ${cache.adminFiles.length} ไฟล์`;
   el.innerHTML = '';
   list.forEach(f => el.appendChild(fileCard(f, { mode: 'admin' })));
   bindCardActions(el);
@@ -995,7 +1150,7 @@ async function deleteFile(fileId) {
     if (!r.ok) throw new Error(r.error || 'ลบไฟล์ไม่สำเร็จ');
     cache.adminFiles = cache.adminFiles.filter(f => f.id !== fileId);
     renderAdminFiles();
-    toast('ลบเรียบร้อย ✓', 'ok');
+    toast('ลบเรียบร้อย', 'ok');
   } catch (err) { toast(err.message, 'err'); }
 }
 
@@ -1008,13 +1163,11 @@ async function renameFile(fileId) {
     if (!r.ok) throw new Error(r.error);
     if (f) f.name = newName;
     renderAdminFiles();
-    toast('เปลี่ยนชื่อแล้ว ✓', 'ok');
+    toast('เปลี่ยนชื่อแล้ว', 'ok');
   } catch (err) { toast(err.message, 'err'); }
 }
 
-/* ===========================
-   ADMIN: UPLOAD (multi-file)
-   =========================== */
+/* UPLOAD */
 const drop = $('dropZone');
 const fileInput = $('fileInput');
 ['dragover','dragenter'].forEach(ev => drop.addEventListener(ev, e => {
@@ -1035,9 +1188,8 @@ function renderSelFiles() {
   const el = $('selFiles');
   el.innerHTML = pendingFiles.map((f, i) => `
     <div class="item">
-      <span>📎</span>
       <span class="name">${escapeHtml(f.name)} <span class="muted">(${fmtSize(f.size)})</span></span>
-      <button class="x" data-i="${i}" title="ลบ">✕</button>
+      <button class="x" data-i="${i}" title="ลบ">×</button>
     </div>
   `).join('');
   el.querySelectorAll('.x').forEach(b => b.addEventListener('click', () => {
@@ -1058,12 +1210,10 @@ $('uploadBtn').addEventListener('click', async () => {
   if (!pendingFiles.length) return toast('กรุณาเลือกไฟล์', 'err');
   const branches = Array.from(document.querySelectorAll('#storeList input:checked')).map(i => i.value);
   if (!branches.length) return toast('กรุณาเลือกอย่างน้อย 1 สาขา', 'err');
-
   const category = $('catSelect').value || '';
   const note = $('noteInput').value || '';
   const exp = $('expInput').value || null;
   const expiresAt = exp ? new Date(exp + 'T23:59:59').toISOString() : null;
-
   const btn = $('uploadBtn');
   btn.disabled = true;
   $('progWrap').classList.remove('hidden');
@@ -1074,28 +1224,24 @@ $('uploadBtn').addEventListener('click', async () => {
       btn.textContent = `กำลังอัปโหลด ${done+1}/${total}...`;
       const base64 = await fileToBase64(file);
       const r = await apiPost({
-        action: 'upload',
-        adminCode: session.code,
-        filename: file.name,
-        mimeType: file.type || 'application/octet-stream',
+        action: 'upload', adminCode: session.code,
+        filename: file.name, mimeType: file.type || 'application/octet-stream',
         base64, branches, category, note, expiresAt,
       });
       if (!r.ok) throw new Error(`${file.name}: ${r.error}`);
       done++;
       $('progBar').style.width = (done/total*100) + '%';
     }
-    toast(`อัปโหลด ${done} ไฟล์ → ${branches.length} สาขา ✓`, 'ok');
-    setTimeout(() => $('resetUpload').click(), 600);
+    toast(`อัปโหลด ${done} ไฟล์ ไปยัง ${branches.length} สาขาเรียบร้อย`, 'ok');
+    setTimeout(() => $('resetUpload').click(), 500);
   } catch (err) {
     toast(err.message, 'err');
   } finally {
-    btn.disabled = false; btn.textContent = '⬆ อัปโหลด';
+    btn.disabled = false; btn.textContent = 'อัปโหลด';
   }
 });
 
-/* ===========================
-   ADMIN: DASHBOARD
-   =========================== */
+/* DASHBOARD */
 $('dashRefresh').addEventListener('click', loadDashboard);
 async function loadDashboard() {
   const wrap = $('dashWrap');
@@ -1122,13 +1268,13 @@ function renderDashboard() {
   const bodyRows = d.rows.map(row => `
     <tr>
       <td class="fname-col">
-        <div style="font-weight:600">${escapeHtml(row.filename)}</div>
-        <div class="muted" style="font-size:.78rem">${escapeHtml(row.category || '')} · ${fmtDate(row.uploadedAt)}</div>
+        <div style="font-weight:500">${escapeHtml(row.filename)}</div>
+        <div class="muted" style="font-size:.76rem">${escapeHtml(row.category || '')} · ${fmtDate(row.uploadedAt)}</div>
       </td>
       ${d.stores.map(s => {
         const c = row.cells[s.code] || { status: 'na' };
         if (c.status === 'done') return '<td class="cell-done">✓</td>';
-        if (c.status === 'pending') return '<td class="cell-pending">⏳</td>';
+        if (c.status === 'pending') return '<td class="cell-pending">รอ</td>';
         return '<td class="cell-na">—</td>';
       }).join('')}
     </tr>
@@ -1136,9 +1282,7 @@ function renderDashboard() {
   $('dashWrap').innerHTML = `<table class="dash"><thead>${headRow}</thead><tbody>${bodyRows}</tbody></table>`;
 }
 
-/* ===========================
-   ADMIN: HISTORY
-   =========================== */
+/* HISTORY */
 $('histRefresh').addEventListener('click', loadHistory);
 $('histSearch').addEventListener('input', renderHistory);
 async function loadHistory() {
@@ -1160,23 +1304,25 @@ function renderHistory() {
     <div class="hist-item">
       <div class="hist-head">
         <div class="title">${escapeHtml(it.filename)}</div>
-        ${it.category ? `<span class="badge-cat">${escapeHtml(it.category)}</span>` : ''}
-        ${it.expiresAt ? `<span class="badge-exp">⏰ ${fmtDateOnly(it.expiresAt)}</span>` : ''}
+        ${it.category ? `<span class="badge cat">${escapeHtml(it.category)}</span>` : ''}
+        ${it.expiresAt ? `<span class="badge exp">หมดอายุ ${fmtDateOnly(it.expiresAt)}</span>` : ''}
       </div>
       <div class="hist-meta">
         <span>${fmtDate(it.uploadedAt)}</span>
-        <span>· ${fmtSize(it.size)}</span>
-        <span>· ส่งถึง ${it.branches.length} สาขา</span>
+        <span>·</span>
+        <span>${fmtSize(it.size)}</span>
+        <span>·</span>
+        <span>ส่ง ${it.branches.length} สาขา</span>
       </div>
       ${it.note ? `<div class="note" style="margin-top:6px">${escapeHtml(it.note)}</div>` : ''}
       <div class="hist-branches">
         ${it.branches.map(b => `<span class="b">${escapeHtml(b)}</span>`).join('')}
       </div>
       <div class="hist-actions">
-        <button class="icon-btn" data-h="rename" data-id="${it.groupId}">✎ ชื่อ</button>
-        <button class="icon-btn" data-h="meta" data-id="${it.groupId}">🏷 แก้ meta</button>
-        <button class="icon-btn" data-h="resend" data-id="${it.groupId}">➕ ส่งเพิ่ม</button>
-        <button class="icon-btn danger" data-h="delete" data-id="${it.groupId}">🗑 ลบทั้งหมด</button>
+        <button class="icon-btn" data-h="rename" data-id="${it.groupId}">เปลี่ยนชื่อ</button>
+        <button class="icon-btn" data-h="meta" data-id="${it.groupId}">แก้รายละเอียด</button>
+        <button class="icon-btn" data-h="resend" data-id="${it.groupId}">ส่งเพิ่ม</button>
+        <button class="icon-btn danger" data-h="delete" data-id="${it.groupId}">ลบทั้งหมด</button>
       </div>
     </div>
   `).join('');
@@ -1194,7 +1340,7 @@ async function histRename(item) {
   if (!name || name === item.filename) return;
   const r = await apiPost({ action: 'rename', adminCode: session.code, groupId: item.groupId, name });
   if (!r.ok) return toast(r.error, 'err');
-  toast('เปลี่ยนชื่อแล้ว ✓', 'ok'); loadHistory();
+  toast('เปลี่ยนชื่อแล้ว', 'ok'); loadHistory();
 }
 async function histMeta(item) {
   const cat = prompt('หมวดหมู่ (' + cfg.categories.join(' / ') + '):', item.category || '');
@@ -1207,7 +1353,7 @@ async function histMeta(item) {
   const expiresAt = exp ? new Date(exp + 'T23:59:59').toISOString() : null;
   const r = await apiPost({ action: 'updateMeta', adminCode: session.code, groupId: item.groupId, category: cat, note, expiresAt });
   if (!r.ok) return toast(r.error, 'err');
-  toast('แก้ไขเรียบร้อย ✓', 'ok'); loadHistory();
+  toast('บันทึกเรียบร้อย', 'ok'); loadHistory();
 }
 async function histResend(item) {
   const existing = new Set(item.branches);
@@ -1219,7 +1365,7 @@ async function histResend(item) {
     <div class="muted" style="margin-bottom:8px">${escapeHtml(item.filename)}</div>
     <div class="stores" id="resendStores">${checkboxes}</div>
   `, `
-    <button class="btn ghost dark" data-close>ยกเลิก</button>
+    <button class="btn" data-close>ยกเลิก</button>
     <button class="btn primary" id="resendGo">ส่ง</button>
   `);
   $('resendGo').onclick = async () => {
@@ -1227,28 +1373,26 @@ async function histResend(item) {
     if (!branches.length) return toast('เลือกสาขา', 'err');
     const r = await apiPost({ action: 'resend', adminCode: session.code, groupId: item.groupId, branches });
     if (!r.ok) return toast(r.error, 'err');
-    toast(`ส่งเพิ่ม ${r.added.length} สาขา ✓`, 'ok');
-    closePreview(); loadHistory();
+    toast(`ส่งเพิ่ม ${r.added.length} สาขา`, 'ok');
+    closeModal(); loadHistory();
   };
 }
 async function histDelete(item) {
   if (!confirm(`ลบไฟล์ "${item.filename}" ในทุกสาขาที่ส่งไป (${item.branches.length} สาขา)?`)) return;
   const r = await apiPost({ action: 'delete', adminCode: session.code, groupId: item.groupId });
   if (!r.ok) return toast(r.error, 'err');
-  toast('ลบเรียบร้อย ✓', 'ok'); loadHistory();
+  toast('ลบเรียบร้อย', 'ok'); loadHistory();
 }
 
-/* ===========================
-   ADMIN: STORE MGMT
-   =========================== */
+/* STORES MGMT */
 function renderStoreMgmt() {
   const el = $('storeMgmtList');
   el.innerHTML = cfg.stores.map(s => `
     <div class="store-row">
       <span class="code">${escapeHtml(s.code)}</span>
       <span class="nm">${escapeHtml(s.name)}</span>
-      <button class="icon-btn" data-edit="${escapeHtml(s.code)}">✎</button>
-      <button class="icon-btn danger" data-del="${escapeHtml(s.code)}">🗑</button>
+      <button class="icon-btn" data-edit="${escapeHtml(s.code)}">แก้ไข</button>
+      <button class="icon-btn danger" data-del="${escapeHtml(s.code)}">ลบ</button>
     </div>
   `).join('');
   el.querySelectorAll('[data-edit]').forEach(b => {
@@ -1263,7 +1407,7 @@ function renderStoreMgmt() {
       if (!confirm('ลบสาขานี้?')) return;
       const r = await apiPost({ action: 'storeDelete', adminCode: session.code, code: b.dataset.del });
       if (!r.ok) return toast(r.error, 'err');
-      toast('ลบสาขาแล้ว ✓', 'ok'); await reloadStores();
+      toast('ลบสาขาแล้ว', 'ok'); await reloadStores();
     };
   });
 }
@@ -1274,7 +1418,7 @@ $('storeSaveBtn').addEventListener('click', async () => {
   const r = await apiPost({ action: 'storeSave', adminCode: session.code, code, name });
   if (!r.ok) return toast(r.error, 'err');
   $('newStoreCode').value = ''; $('newStoreName').value = '';
-  toast('บันทึกสาขาแล้ว ✓', 'ok');
+  toast('บันทึกสาขาแล้ว', 'ok');
   await reloadStores();
 });
 async function reloadStores() {
@@ -1283,9 +1427,6 @@ async function reloadStores() {
   renderStoreMgmt(); renderStoreList(); renderBranchSelect(); updateSelCount();
 }
 
-/* ===========================
-   BOOTSTRAP
-   =========================== */
 if (session) enterApp();
 </script>
 </body>
