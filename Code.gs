@@ -11,6 +11,7 @@
  */
 
 var ROOT_FOLDER_ID = '1w5T4wQOzSEIJmSqdWcNexjXmS0S_aUOz';
+var STATUS_SS_ID   = '1YUM50Hltg8fcY30MScA8lBVg-ZgYhCJmn4dzSVMfMKo';
 var ADMIN_CODE     = 'admin2026';
 var STATUS_SHEET_NAME = 'DownloadStatus';
 
@@ -174,20 +175,12 @@ function getOrCreateBranchFolder_(code) {
 /* ---------- Status sheet helpers ---------- */
 
 function getStatusSheet_() {
-  var props = PropertiesService.getScriptProperties();
-  var id = props.getProperty('STATUS_SS_ID');
-  var ss;
-  if (id) {
-    try { ss = SpreadsheetApp.openById(id); } catch (e) { ss = null; }
-  }
-  if (!ss) {
-    ss = SpreadsheetApp.create('Drive-Store Status');
-    props.setProperty('STATUS_SS_ID', ss.getId());
-    try { DriveApp.getFileById(ss.getId()).moveTo(getRoot_()); } catch (e) {}
-  }
+  var ss = SpreadsheetApp.openById(STATUS_SS_ID);
   var sh = ss.getSheetByName(STATUS_SHEET_NAME);
   if (!sh) {
     sh = ss.insertSheet(STATUS_SHEET_NAME);
+    sh.appendRow(['branchCode', 'fileId', 'downloaded', 'downloadedAt']);
+  } else if (sh.getLastRow() === 0) {
     sh.appendRow(['branchCode', 'fileId', 'downloaded', 'downloadedAt']);
   }
   return sh;
