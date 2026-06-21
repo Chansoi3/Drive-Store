@@ -80,6 +80,7 @@ function route_(e) {
       case 'stores':         data = apiStores_();                                                 break;
       case 'login':          data = apiLogin_(p('code'));                                         break;
       case 'list':           data = apiList_(p('code'));                                          break;
+      case 'listAll':        data = apiListAll_(body);                                            break;
       case 'markDownloaded': data = apiMark_(p('code'), p('fileId'));                             break;
       case 'upload':         data = apiUpload_(body);                                             break;
       case 'delete':         data = apiDelete_(body);                                             break;
@@ -159,6 +160,54 @@ function apiList_(code) {
   }
   out.sort(function(a,b){ return b.uploadedAt.localeCompare(a.uploadedAt); });
   return { ok: true, branch: { code: code, name: stores[code] }, files: out };
+}
+
+function apiListAll_(body) {
+  if (body.adminCode !== ADMIN_CODE) return { ok: false, error: 'Unauthorized' };
+  var stores = loadStores_();
+  var meta = loadMeta_();
+  var allStatus = readAllStatus_();
+  var out = [];
+  var now = new Date();
+  Object.keys(stores).forEach(function(code) {
+    var folder = getOrCreateBranchFolder_(code);
+    if (!folder) return;
+    var iter = folder.getFiles();
+    while (iter.hasNext()) {
+      var f = iter.next();
+      var id = f.getId();
+      var m = meta[id] || {};
+      if (m.expiresAt && new Date(m.expiresAt) < now) continue;
+      var st = allStatus[code + '|' + id] || {};
+      out.push({
+        id: id, name: f.getName(), size: f.getSize(),
+        mimeType: f.getMimeType(),
+        uploadedAt: f.getDateCreated().toISOString(),
+        downloadUrl: 'https://drive.google.com/uc?export=download&id=' + id,
+        viewUrl: f.getUrl(),
+        downloaded: !!st.downloaded,
+        downloadedAt: st.downloadedAt || null,
+        category: m.category || '', note: m.note || '',
+        expiresAt: m.expiresAt || null,
+        groupId: m.groupId || '',
+        branch: code, branchName: stores[code]
+      });
+    }
+  });
+  out.sort(function(a,b){ return b.uploadedAt.localeCompare(a.uploadedAt); });
+  return { ok: true, files: out };
+}
+
+function readAllStatus_() {
+  var sh = sheet_(SH_STATUS, ['branchCode','fileId','downloaded','downloadedAt']);
+  var last = sh.getLastRow();
+  if (last < 2) return {};
+  var rows = sh.getRange(2, 1, last-1, 4).getValues();
+  var out = {};
+  for (var i = 0; i < rows.length; i++) {
+    out[rows[i][0] + '|' + rows[i][1]] = { downloaded: !!rows[i][2], downloadedAt: rows[i][3] || null };
+  }
+  return out;
 }
 
 function apiMark_(code, fileId) {
