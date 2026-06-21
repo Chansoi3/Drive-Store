@@ -30,6 +30,23 @@ var STORES = {
   '6953': 'ท็อปส์ เดลี่ บางจากบางนาตราด ก.ม.7'
 };
 
+/* ---------- One-time setup ----------
+ * เปิด Apps Script editor → เลือกฟังก์ชัน setup → กด Run ครั้งเดียว
+ * จะสร้าง Sheet "Drive-Store Status" และโฟลเดอร์ทั้ง 13 สาขาให้ครบ
+ */
+function setup() {
+  var sh = getStatusSheet_();
+  var ss = sh.getParent();
+  var folders = [];
+  Object.keys(STORES).forEach(function (code) {
+    var f = getOrCreateBranchFolder_(code);
+    folders.push(code + ' → ' + f.getName());
+  });
+  Logger.log('Sheet: ' + ss.getUrl());
+  Logger.log('Folders created/verified:\n' + folders.join('\n'));
+  return { sheetUrl: ss.getUrl(), folders: folders };
+}
+
 /* ---------- HTTP ---------- */
 
 function doGet(e) {
