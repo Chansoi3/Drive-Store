@@ -135,40 +135,10 @@
   .error{color:var(--accent); font-size:.85rem; margin-top:10px; min-height:1em}
 
   /* Login */
-  .login-wrap{
-    min-height:100vh;
-    display:flex; flex-direction:column; align-items:center;
-    padding:8px 20px 28px;
-    overflow:hidden;
-  }
-  .login-wrap .topster{
-    width:100%; max-width:360px;
-    margin:0; flex-shrink:0;
-    overflow:hidden;
-    aspect-ratio:1 / 0.55;
-  }
-  .login{
-    width:100%; max-width:380px;
-    flex:1;
-    display:flex; flex-direction:column;
-    justify-content:center;
-    gap:24px;
-  }
-  .login .header-area{text-align:center; margin:0}
-  .login h1{font-size:1.3rem}
-
-  /* Topster mascot (image logo) */
-  .topster{display:flex; justify-content:center; margin-bottom:8px}
-  .topster-logo{
-    width:100%; height:auto; display:block;
-    margin-top:-37%;
-    animation:tsFloat 2s ease-in-out infinite;
-    mix-blend-mode:darken;
-  }
-  @keyframes tsFloat{
-    0%,100%{transform:translateY(0)}
-    50%{transform:translateY(-6px)}
-  }
+  .login-wrap{min-height:100vh; display:grid; place-items:center; padding:24px}
+  .login{width:100%; max-width:380px}
+  .login .header-area{text-align:center; margin-bottom:24px}
+  .login h1{font-size:1.4rem}
 
   /* Tabs */
   .tabs{
@@ -496,9 +466,6 @@
 
 <!-- ============== LOGIN ============== -->
 <section id="page-login" class="login-wrap">
-  <div class="topster">
-    <img class="topster-logo" src="topster.png" alt="Topster" />
-  </div>
   <div class="login">
     <div class="header-area">
       <h1>AM404 Drive For Store</h1>
